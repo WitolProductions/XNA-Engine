@@ -2,5 +2,11 @@
 bin
 obj
 
+#
+
 # mstest test results
 TestResults
+
+[Tt]humbs.db
+*.DS_Store
+*.resharper

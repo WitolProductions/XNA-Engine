@@ -1,15 +1,30 @@
 # Build Folders (you can keep bin if you'd like, to store dlls and pdbs)
 bin
+
 obj
+
+
 
 #
 
-# mstest test results
-TestResults
-
-*.input
+Global
 *.user
 
+
+*.sln.cache
+*.suo
+*.pidb
+*.userprefs
+*.usertasks
+config.log
+config.make
+config.status
+*.app
+
+#OS Stuff
 [Tt]humbs.db
 *.DS_Store
-*.resharper
+
+#resharper
+*_Resharper.*
+*.Resharper

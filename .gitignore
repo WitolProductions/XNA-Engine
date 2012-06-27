@@ -7,6 +7,9 @@ obj
 # mstest test results
 TestResults
 
+*.input
+*.user
+
 [Tt]humbs.db
 *.DS_Store
 *.resharper

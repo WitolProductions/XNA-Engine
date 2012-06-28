@@ -20,7 +20,7 @@ using Microsoft.Xna.Framework;
 using Keys = Microsoft.Xna.Framework.Input.Keys;
 using System.Windows.Forms;
 
-namespace Input.Input
+namespace Input
 {
     public class StringCreator
     {

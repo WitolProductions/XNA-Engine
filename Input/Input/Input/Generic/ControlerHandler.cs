@@ -9,12 +9,12 @@
 //       use it you please mention my website and or name.
 // Document Name: ControlerHandler.cs Version: 1.0 Last Edited: 6/26/2012
 // ------------------------------------------------------------------------
+#if WINDOWS || XBOX
 
-using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
-namespace Input.Input
+namespace Input
 {
     public partial class InputHandler
     {
@@ -103,6 +103,7 @@ namespace Input.Input
         /// <returns></returns>
         public static bool ButtonReleased(Buttons button, PlayerIndex index)
         {
+            if (!ControllerEnabled) return false; //Return false if Controller is disabled
             return GamePadStates[(int)index].IsButtonUp(button) &&
                 LastGamePadStates[(int)index].IsButtonDown(button);
         }
@@ -115,6 +116,7 @@ namespace Input.Input
         /// <returns></returns>
         public static bool ButtonPressed(Buttons button, PlayerIndex index)
         {
+            if (!ControllerEnabled) return false; //Return false if Controller is disabled
             return GamePadStates[(int) index].IsButtonDown(button) &&
                    LastGamePadStates[(int) index].IsButtonUp(button);
         }
@@ -127,7 +129,7 @@ namespace Input.Input
         /// <returns></returns>
         public static bool ButtonDown(Buttons button, PlayerIndex index)
         {
-            return GamePadStates[(int)index].IsButtonDown(button);
+            return ControllerEnabled && GamePadStates[(int)index].IsButtonDown(button);
         }
 
         /// <summary>
@@ -138,7 +140,7 @@ namespace Input.Input
         /// <returns></returns>
         public static bool ButtonUp(Buttons button, PlayerIndex index)
         {
-            return GamePadStates[(int) index].IsButtonUp(button);
+            return ControllerEnabled && GamePadStates[(int) index].IsButtonUp(button);
         }
 
         #endregion
@@ -152,7 +154,7 @@ namespace Input.Input
         /// <returns></returns>
         public static bool IsConnected(PlayerIndex index)
         {
-            return GamePadStates[(int) index].IsConnected;
+            return ControllerEnabled && GamePadStates[(int) index].IsConnected;
         }
 
         #endregion
@@ -193,6 +195,7 @@ namespace Input.Input
         /// <returns></returns>
         public static Vector2 LeftThumb(PlayerIndex index)
         {
+            if (!ControllerEnabled) return Vector2.Zero; ; //Return a Zero vector if not enabled
             return GamePadStates[(int) index].ThumbSticks.Left;
         }
 
@@ -203,6 +206,7 @@ namespace Input.Input
         /// <returns></returns>
         public static Vector2 LastLeftThumb(PlayerIndex index)
         {
+            if (!ControllerEnabled) return Vector2.Zero; ; //Return a Zero vector if not enabled
             return LastGamePadStates[(int)index].ThumbSticks.Left;
         }
 
@@ -213,6 +217,7 @@ namespace Input.Input
         /// <returns></returns>
         public static Vector2 RightThumb(PlayerIndex index)
         {
+            if (!ControllerEnabled) return Vector2.Zero; ; //Return a Zero vector if not enabled
             return GamePadStates[(int) index].ThumbSticks.Right;
         }
 
@@ -223,6 +228,7 @@ namespace Input.Input
         /// <returns></returns>
         public static Vector2 LastRightThumb(PlayerIndex index)
         {
+            if (!ControllerEnabled) return Vector2.Zero; ; //Return a Zero vector if not enabled
             return LastGamePadStates[(int)index].ThumbSticks.Right;
         }
 
@@ -233,7 +239,7 @@ namespace Input.Input
         /// <returns></returns>
         public static GamePadDPad DPad(PlayerIndex index)
         {
-            return GamePadStates[(int) index].DPad;
+            return !ControllerEnabled ? new GamePadDPad(ButtonState.Released, ButtonState.Released, ButtonState.Released, ButtonState.Released) : GamePadStates[(int) index].DPad;
         }
 
         /// <summary>
@@ -243,7 +249,7 @@ namespace Input.Input
         /// <returns></returns>
         public static GamePadDPad LastDPad(PlayerIndex index)
         {
-            return LastGamePadStates[(int)index].DPad;
+            return !ControllerEnabled ? new GamePadDPad(ButtonState.Released, ButtonState.Released, ButtonState.Released, ButtonState.Released) : LastGamePadStates[(int)index].DPad;
         }
 
         #endregion
@@ -257,7 +263,7 @@ namespace Input.Input
         /// <returns></returns>
         public static GamePadTriggers Triggers(PlayerIndex index)
         {
-            return GamePadStates[(int) index].Triggers;
+            return !ControllerEnabled ? new GamePadTriggers(0f, 0f) : GamePadStates[(int) index].Triggers;
         }
 
         /// <summary>
@@ -267,7 +273,7 @@ namespace Input.Input
         /// <returns></returns>
         public static GamePadTriggers LastTriggers(PlayerIndex index)
         {
-            return LastGamePadStates[(int) index].Triggers;
+            return !ControllerEnabled ? new GamePadTriggers(0f, 0f) : LastGamePadStates[(int) index].Triggers;
         }
 
         /// <summary>
@@ -277,7 +283,7 @@ namespace Input.Input
         /// <returns></returns>
         public static float LeftTrigger(PlayerIndex index)
         {
-            return GamePadStates[(int) index].Triggers.Left;
+            return !ControllerEnabled ? 0f : GamePadStates[(int) index].Triggers.Left;
         }
 
         /// <summary>
@@ -287,7 +293,7 @@ namespace Input.Input
         /// <returns></returns>
         public static float LastLeftTrigger(PlayerIndex index)
         {
-            return LastGamePadStates[(int)index].Triggers.Left;
+            return !ControllerEnabled ? 0f : LastGamePadStates[(int)index].Triggers.Left;
         }
 
         /// <summary>
@@ -297,9 +303,9 @@ namespace Input.Input
         /// <returns></returns>
         public static float RightTrigger(PlayerIndex index)
         {
-            return GamePadStates[(int)index].Triggers.Right;
+            return !ControllerEnabled ? 0f : GamePadStates[(int)index].Triggers.Right;
         }
-        
+
         /// <summary>
         /// Gets the last right triggers value
         /// </summary>
@@ -307,7 +313,7 @@ namespace Input.Input
         /// <returns></returns>
         public static float LastRightTrigger(PlayerIndex index)
         {
-            return LastGamePadStates[(int)index].Triggers.Right;
+            return !ControllerEnabled ? 0f : LastGamePadStates[(int)index].Triggers.Right;
         }
 
         #endregion
@@ -327,3 +333,5 @@ namespace Input.Input
         #endregion
     }
 }
+
+#endif

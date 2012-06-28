@@ -56,15 +56,11 @@
     <Compile Include="Input\Actions\ActionHandler.cs" />
     <Compile Include="Input\Actions\Actions.cs" />
     <Compile Include="Input\Actions\CustomKey.cs" />
-    <Compile Include="Input\ControlerHandler.cs" />
-    <Compile Include="Input\InputHandler.cs" />
-    <Compile Include="Input\KeyboardHandler.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Input\MouseHandler.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Input\StringCreator.cs" />
+    <Compile Include="Input\Generic\ControlerHandler.cs" />
+    <Compile Include="Input\Generic\InputHandler.cs" />
+    <Compile Include="Input\Windows\KeyboardHandler.cs" />
+    <Compile Include="Input\Windows\MouseHandler.cs" />
+    <Compile Include="Input\Windows\StringCreator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

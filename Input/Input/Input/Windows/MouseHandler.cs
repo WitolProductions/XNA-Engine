@@ -17,7 +17,7 @@ using Input.Global;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
-namespace Input.Input
+namespace Input
 {
     public partial class InputHandler
     {

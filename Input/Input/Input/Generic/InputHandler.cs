@@ -10,12 +10,11 @@
 // Document Name: InputHandler.cs Version: 1.0 Last Edited: 6/26/2012
 // ------------------------------------------------------------------------
 
-using System;
 using Input.Input.Actions;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
-namespace Input.Input
+namespace Input
 {
     public partial class InputHandler : GameComponent
     {

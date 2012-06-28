@@ -10,13 +10,15 @@
 // Document Name: StringCreator.cs Version: 1.0 Last Edited: 6/26/2012
 // ------------------------------------------------------------------------
 
+#if WINDOWS
+
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Windows.Forms;
 using Input.Global;
 using Microsoft.Xna.Framework;
 using Keys = Microsoft.Xna.Framework.Input.Keys;
+using System.Windows.Forms;
 
 namespace Input.Input
 {
@@ -394,3 +396,5 @@ namespace Input.Input
         #endregion
     }
 }
+
+#endif

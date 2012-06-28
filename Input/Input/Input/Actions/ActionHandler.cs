@@ -13,10 +13,15 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Windows.Forms;
 using System.Xml;
 using Input.Global;
+
+#if WINDOWS
+
+using System.Windows.Forms;
 using Microsoft.Xna.Framework.Content.Pipeline.Serialization.Intermediate;
+
+#endif
 
 namespace Input.Input.Actions
 {
@@ -90,8 +95,12 @@ namespace Input.Input.Actions
         /// </summary>
         public void Save()
         {  
+#if WINDOWS
             using (var writer = XmlWriter.Create(Constant.ControlScheme, new XmlWriterSettings { Indent = true }))
                 IntermediateSerializer.Serialize(writer, this, null);
+#elif XBOX
+#elif WINDOWSPHONE
+#endif
         }
 
         /// <summary>
@@ -99,6 +108,10 @@ namespace Input.Input.Actions
         /// </summary>
         public static void Load()
         {
+
+            #region Windows
+
+#if WINDOWS
             if (!File.Exists(Constant.ControlScheme)) return;
 
             try
@@ -119,6 +132,26 @@ namespace Input.Input.Actions
 
             if (InputHandler.ActionHandler.ControlEnabled)
                 InputHandler.EnableControllers();
+#endif
+            #endregion
+            
+            #region XBOX
+
+#if XBOX
+
+
+#endif
+
+            #endregion
+
+            #region WINDOWS PHONE
+
+#if WINDOWSPHONE
+
+
+#endif
+
+            #endregion
         }
 
         #endregion

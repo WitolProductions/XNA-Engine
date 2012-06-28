@@ -10,21 +10,22 @@
 // Document Name: KeyboardHandler.cs Version: 1.0 Last Edited: 6/26/2012
 // ------------------------------------------------------------------------
 
+#if WINDOWS
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Windows.Forms;
 using Input.Global;
 using Microsoft.Xna.Framework.Input;
 using Keys = Microsoft.Xna.Framework.Input.Keys;
+using System.Windows.Forms;
+
 
 namespace Input.Input
 {
     public partial class InputHandler
     {
         #region Properties
-
-#if WINDOWS
 
         /// <summary>
         /// Current Keyboard State
@@ -35,8 +36,6 @@ namespace Input.Input
         /// Last Keyboard State
         /// </summary>
         public static KeyboardState LastKeyboardState { get; set; }
-
-#endif
 
         #endregion
 
@@ -155,5 +154,7 @@ namespace Input.Input
         }
 
         #endregion
+
     }
 }
+#endif

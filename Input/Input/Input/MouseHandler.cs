@@ -10,6 +10,8 @@
 // Document Name: MouseHandler.cs Version: 1.0 Last Edited: 6/26/2012
 // ------------------------------------------------------------------------
 
+#if WINDOWS
+
 using System;
 using Input.Global;
 using Microsoft.Xna.Framework;
@@ -35,7 +37,6 @@ namespace Input.Input
 
         #region Properties
 
-#if WINDOWS
         /// <summary>
         /// Our Mouse State
         /// </summary>
@@ -45,8 +46,6 @@ namespace Input.Input
         /// Our Last Mouse State
         /// </summary>
         public static MouseState LastMouseState { get; set; }
-
-#endif
         
         #endregion
 
@@ -496,3 +495,5 @@ namespace Input.Input
         #endregion
     }
 }
+
+#endif

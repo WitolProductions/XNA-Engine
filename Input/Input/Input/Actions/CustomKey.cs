@@ -82,6 +82,10 @@ namespace Input.Input.Actions
         /// <returns></returns>
         public bool IsActionRunning()
         {
+            #region Windows Stuff
+
+#if WINDOWS
+
             #region Keyboard Modifier Check
 
             if (KeyboardKeyModifiers.Count != 0)
@@ -140,6 +144,10 @@ namespace Input.Input.Actions
                 if (MouseKey != null)
                     if (!InputHandler.MouseCheck((Enumeration.KeyState) MouseKeyState, (Enumeration.MouseButtons) MouseKey))
                         return false;
+
+            #endregion
+
+#endif
 
             #endregion
 

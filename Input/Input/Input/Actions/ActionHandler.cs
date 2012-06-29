@@ -156,6 +156,5 @@ namespace Input.Input.Actions
 
         #endregion
 
-
     }
 }

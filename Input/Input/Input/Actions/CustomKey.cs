@@ -13,6 +13,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Input.Global;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
 namespace Input.Input.Actions
@@ -20,7 +21,7 @@ namespace Input.Input.Actions
     public class CustomKey
     {
         #region Properties
-
+        
         #region Keyboard Properties
 
         /// <summary>
@@ -58,7 +59,31 @@ namespace Input.Input.Actions
         public Enumeration.KeyState? MouseKeyState { get; set; }
 
         #endregion
+
+        #region Constroller Properties
         
+        /// <summary>
+        /// Controller Key
+        /// </summary>
+        public Buttons? ControllerButton { get; set; }
+
+        /// <summary>
+        /// Modifiers applied to our Controller Key
+        /// </summary>
+        public List<Buttons> ControllerButtonModifiers { get; set; }
+        
+        /// <summary>
+        /// State our Key should be in to perform action
+        /// </summary>
+        public Enumeration.KeyState? ControllerButtonState { get; set; }
+
+        /// <summary>
+        /// Index our Player is at for this Control to work
+        /// </summary>
+        public PlayerIndex ControllerPlayerIndex { get; set; }
+
+        #endregion
+
         #endregion
 
         #region Constructor
@@ -70,6 +95,8 @@ namespace Input.Input.Actions
         {
             KeyboardKeyModifiers = new List<Enumeration.KeyboardModiferKeys>();
             MouseKeyModifiers = new List<Enumeration.MouseButtons>();
+            ControllerButtonModifiers = new List<Buttons>();
+            ControllerPlayerIndex = PlayerIndex.One;
         }
 
         #endregion
@@ -143,6 +170,33 @@ namespace Input.Input.Actions
             if (MouseKeyState != null)
                 if (MouseKey != null)
                     if (!InputHandler.MouseCheck((Enumeration.KeyState) MouseKeyState, (Enumeration.MouseButtons) MouseKey))
+                        return false;
+
+            #endregion
+
+#endif
+
+            #endregion
+
+            #region Xbox and Windows Stuff
+
+#if WINDOWS || XBOX
+
+            #region Controller Modifier Check
+
+            if (ControllerButtonModifiers.Count != 0)
+            {//Check our Modifiers to ensure they are held down, if not return because our action cannot possibly work
+                if (ControllerButtonModifiers.Any(mkm => !InputHandler.ButtonDown(mkm, ControllerPlayerIndex)))
+                            return false;
+            }
+
+            #endregion
+
+            #region Controller Key Check
+
+            if (ControllerButtonState != null)
+                if (ControllerButton != null)
+                    if (!InputHandler.ButtonCheck((Enumeration.KeyState)ControllerButtonState, (Buttons)ControllerButton, ControllerPlayerIndex))
                         return false;
 
             #endregion

@@ -58,14 +58,15 @@
     <Compile Include="Input\Actions\CustomKey.cs" />
     <Compile Include="Input\Generic\ControlerHandler.cs" />
     <Compile Include="Input\Generic\InputHandler.cs" />
+    <Compile Include="Input\WidnowsPhone\Phone.cs" />
     <Compile Include="Input\Windows\KeyboardHandler.cs" />
     <Compile Include="Input\Windows\MouseHandler.cs" />
     <Compile Include="Input\Windows\StringCreator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.Devices.Sensors, Version=7.0.0.0, Culture=neutral, PublicKeyToken=24eec0d8c86cda1e, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.Xna.Framework" />
-    <Reference Include="Microsoft.Xna.Framework.Content.Pipeline" />
     <Reference Include="Microsoft.Xna.Framework.Game" />
     <Reference Include="Microsoft.Xna.Framework.GamerServices" />
     <Reference Include="Microsoft.Xna.Framework.Graphics" />
@@ -73,7 +74,6 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Net" />
-    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>

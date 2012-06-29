@@ -69,6 +69,7 @@
     <Compile Include="Input\Actions\CustomKey.cs" />
     <Compile Include="Input\Generic\ControlerHandler.cs" />
     <Compile Include="Input\Generic\InputHandler.cs" />
+    <Compile Include="Input\WidnowsPhone\Phone.cs" />
     <Compile Include="Input\Windows\KeyboardHandler.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -78,9 +79,7 @@
     <Compile Include="Input\Windows\StringCreator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Input\WidnowsPhone\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\Microsoft.Xna.GameStudio.targets" />
   <!--

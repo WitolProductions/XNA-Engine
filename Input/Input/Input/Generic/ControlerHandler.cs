@@ -11,6 +11,8 @@
 // ------------------------------------------------------------------------
 #if WINDOWS || XBOX
 
+using System;
+using Input.Global;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
@@ -30,13 +32,7 @@ namespace Input
         
         public static event ControllerDisconnectedHandler OnControllerDisconnect;
 
-#if XBOX
-    	const int NumPads = 4;
-#elif WINDOWS
-        const int NumPads = 1;
-#else
-        const int NumPads = 0;
-#endif
+        const int NumPads = 4;
 
         #endregion
         
@@ -51,25 +47,7 @@ namespace Input
 
         #region Methods
 
-        /// <summary>
-        /// Enable the use of Controllers
-        /// </summary>
-        public static void EnableControllers()
-        {
-            GamePadStates = new GamePadState[NumPads];
-            LastGamePadStates = new GamePadState[NumPads];
-            ControllerEnabled = true;
-        }
 
-        /// <summary>
-        /// Disable the use of Controllers
-        /// </summary>
-        public static void DisableControllers()
-        {
-            GamePadStates = null;
-            LastGamePadStates = null;
-            ControllerEnabled = false;
-        }
 
         /// <summary>
         /// Gets a GamePad
@@ -141,6 +119,30 @@ namespace Input
         public static bool ButtonUp(Buttons button, PlayerIndex index)
         {
             return ControllerEnabled && GamePadStates[(int) index].IsButtonUp(button);
+        }
+
+        /// <summary>
+        /// Checks if the passed Button equals the passed State at that player index
+        /// </summary>
+        /// <param name="buttonState"></param>
+        /// <param name="button"></param>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        public static bool ButtonCheck(Enumeration.KeyState buttonState, Buttons button, PlayerIndex index)
+        {
+            switch(buttonState)
+            {
+                case Enumeration.KeyState.KeyUp:
+                    return ButtonUp(button, index);
+                case Enumeration.KeyState.KeyDown:
+                    return ButtonDown(button, index);
+                case Enumeration.KeyState.KeyReleased:
+                    return ButtonReleased(button, index);
+                case Enumeration.KeyState.KeyPressed:
+                    return ButtonPressed(button, index);
+            }
+
+            return false;
         }
 
         #endregion
@@ -331,6 +333,7 @@ namespace Input
         }
 
         #endregion
+
     }
 }
 

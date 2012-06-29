@@ -14,6 +14,10 @@ using Input.Input.Actions;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
+#if WINDOWS_PHONE
+using Microsoft.Devices.Sensors;
+#endif
+
 namespace Input
 {
     public partial class InputHandler : GameComponent
@@ -33,33 +37,11 @@ namespace Input
 
         #region Constructors
 
+        //Constructor for our Input Handler
         public InputHandler(Game game): base(game)
         {
-#if WINDOWS || XBOX
-            #region Xbox and Windows Stuff
-            
-            if (ControllerEnabled)
-                GamePadStates = new GamePadState[NumPads];
-            
-            #endregion
-#endif
-
-
-#if WINDOWS
-            #region Windows Stuff
-
-            StringCreator = new StringCreator();
-
-            #endregion
-#endif
-
-            #region Generic Stuff
-
+            //Setup our ActionHandler
             ActionHandler = new ActionHandler();
-
-            SetStates();
-
-            #endregion
         }
 
         #endregion
@@ -102,17 +84,69 @@ namespace Input
 
             #endregion
 #endif
+        }
 
-            #region Generic Stuff
+        /// <summary>
+        /// Enable the use of Controllers
+        /// </summary>
+        public static void EnableControllers()
+        {
+#if WINDOWS || XBOX
+            GamePadStates = new GamePadState[NumPads];
+            LastGamePadStates = new GamePadState[NumPads];
+            ControllerEnabled = true;
+#endif
+        }
 
-
-
-            #endregion
+        /// <summary>
+        /// Disable the use of Controllers
+        /// </summary>
+        public static void DisableControllers()
+        {
+#if WINDOWS || XBOX
+            GamePadStates = null;
+            LastGamePadStates = null;
+            ControllerEnabled = false;
+#endif
         }
 
         #endregion
 
         #region XNA Methods
+
+        public override void Initialize()
+        {
+#if WINDOWS || XBOX
+            #region Xbox and Windows Stuff
+            
+            if (ControllerEnabled)
+                GamePadStates = new GamePadState[NumPads];
+            
+            #endregion
+#endif
+
+
+#if WINDOWS
+            #region Windows Stuff
+
+            StringCreator = new StringCreator();
+
+            #endregion
+#endif
+
+#if WINDOWS_PHONE
+            #region Windows Phone Stuff
+
+            if (AccelerometerEnabled)
+                EnableAccelerometer();
+
+            #endregion
+#endif
+            
+            SetStates();
+
+            base.Initialize();
+        }
 
         public override void Update(GameTime gameTime)
         {

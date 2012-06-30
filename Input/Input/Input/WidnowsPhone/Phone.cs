@@ -12,6 +12,9 @@
 #if WINDOWS_PHONE
 
 using System;
+using System.Windows;
+using System.Windows.Media;
+using System.Windows.Threading;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.GamerServices;
 
@@ -25,46 +28,75 @@ namespace Input
     {
         #region Fields
 
-        static Accelerometer _accelerometer;
-
         #endregion
-
+        
         #region Properties
 
-        public static bool AccelerometerEnabled;
-        public static Vector3 AccelerometerReading = Vector3.Zero;
+        public static Motion Motion { get; set; }
+        public static bool MotionEnabled { get; set;  }
+
+        public static float Yaw { get; set; }
+        public static float Pitch { get; set; }
+        public static float Roll { get; set; }
+
+        public static Vector3 Acceleration { get; set; }
+
 
         #endregion
 
-        #region Methods
+        #region Sensor Methods
 
         /// <summary>
-        /// Enable the Accelerometer if this device supports it
+        /// Enables our Motion sensor if the device supports it
         /// </summary>
-        public static void EnableAccelerometer()
+        public static void EnableMotion()
         {
-            if (!Accelerometer.IsSupported) return;
-            //Set our objects instance
-            _accelerometer = new Accelerometer();
-            //Setup our Event handler
-            _accelerometer.CurrentValueChanged += AccelerometerCurrentValueChanged;
-            //Start the Accelerometer
-            _accelerometer.Start();
-            //Set that our Accelerometer is enabled
-            AccelerometerEnabled = true;
+            if (!Motion.IsSupported)
+            {
+            }
+            else
+            {
+                Motion = new Motion
+                             {
+                                 TimeBetweenUpdates = TimeSpan.FromMilliseconds(30)
+                             };
+                Motion.CurrentValueChanged += MotionCurrentValueChanged;
+
+                try
+                {
+                    Motion.Start();
+                    MotionEnabled = true;
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message);
+                }
+            }
         }
 
         /// <summary>
-        /// Disable the Accelerometer
+        /// Disable our Motion Sensor
         /// </summary>
-        public static void DisableAccelerometer()
+        public static void DisableMotion()
         {
-            //Null our instance of Accelerometer
-            _accelerometer = null;
-            //Zero our Accelerometer Reading
-            AccelerometerReading = Vector3.Zero;
-            //Set that our Accelerometer is disabled
-            AccelerometerEnabled = false;
+            if (Motion == null) return;
+            Motion.Stop();
+            Motion = null;
+            MotionEnabled = false;
+        }
+
+        /// <summary>
+        /// Used to update our Reading data
+        /// </summary>
+        /// <param name="e"></param>
+        static void CurrentValueChanged(MotionReading e)
+        {
+            //Get Yaw, Pitch, and Roll
+            Yaw = MathHelper.ToDegrees(e.Attitude.Yaw);
+            Pitch = MathHelper.ToDegrees(e.Attitude.Pitch);
+            Roll = MathHelper.ToDegrees(e.Attitude.Roll);
+            //Get the Acceleration on all 3 vectors
+            Acceleration = new Vector3(e.DeviceAcceleration.X, e.DeviceAcceleration.Y, e.DeviceAcceleration.Z);
         }
 
         #endregion
@@ -101,13 +133,13 @@ namespace Input
         #region Events
 
         /// <summary>
-        /// Accelerometer Reading Event
+        /// Event fires when our Motion values change
         /// </summary>
-        /// <param name="sender">Object sending the data</param>
-        /// <param name="e">Event data</param>
-        static void AccelerometerCurrentValueChanged(object sender, SensorReadingEventArgs<AccelerometerReading> e)
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        static void MotionCurrentValueChanged(object sender, SensorReadingEventArgs<MotionReading> e)
         {
-            AccelerometerReading = e.SensorReading.Acceleration;
+            Deployment.Current.Dispatcher.BeginInvoke(() => CurrentValueChanged(e.SensorReading));
         }
 
         #endregion

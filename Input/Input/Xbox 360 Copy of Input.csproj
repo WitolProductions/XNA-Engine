@@ -51,8 +51,8 @@
     <Compile Include="Input\Actions\CustomKey.cs" />
     <Compile Include="Input\Generic\ControlerHandler.cs" />
     <Compile Include="Input\Generic\InputHandler.cs" />
+    <Compile Include="Input\Generic\KeyboardHandler.cs" />
     <Compile Include="Input\WidnowsPhone\Phone.cs" />
-    <Compile Include="Input\Windows\KeyboardHandler.cs" />
     <Compile Include="Input\Windows\MouseHandler.cs" />
     <Compile Include="Input\Windows\StringCreator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

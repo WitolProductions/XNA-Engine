@@ -10,7 +10,7 @@
 // Document Name: KeyboardHandler.cs Version: 1.0 Last Edited: 6/26/2012
 // ------------------------------------------------------------------------
 
-#if WINDOWS
+#if WINDOWS || WINDOWS_PHONE
 
 using System;
 using System.Collections.Generic;
@@ -18,7 +18,10 @@ using System.Linq;
 using Input.Global;
 using Microsoft.Xna.Framework.Input;
 using Keys = Microsoft.Xna.Framework.Input.Keys;
+
+#if WINDOWS
 using System.Windows.Forms;
+#endif
 
 
 namespace Input
@@ -91,7 +94,7 @@ namespace Input
         /// <returns></returns>
         public static List<Keys> GetKeysDown()
         {
-            return (from object k in Enum.GetValues(typeof(Keys)) where KeyDown((Keys)k) select (Keys)k).ToList();
+            return (from object k in (typeof(Keys)).GetFields() where KeyDown((Keys)k) select (Keys)k).ToList();
         }
 
         /// <summary>
@@ -100,7 +103,7 @@ namespace Input
         /// <returns></returns>
         public static Keys[] GetKeysPressed()
         {
-            return (from object k in Enum.GetValues(typeof (Keys)) where KeyPressed((Keys) k) select (Keys) k).ToArray();
+            return (from object k in (typeof (Keys)).GetFields() where KeyPressed((Keys) k) select (Keys) k).ToArray();
         }
 
         /// <summary>
@@ -109,7 +112,11 @@ namespace Input
         /// <returns></returns>
         public static bool IsCapsLock()
         {
+#if WINDOWS
             return Control.IsKeyLocked((System.Windows.Forms.Keys) Keys.CapsLock);
+#elif WINDOWS_PHONE
+            return false;
+#endif
         }
 
         /// <summary>
@@ -118,7 +125,11 @@ namespace Input
         /// <returns></returns>
         public static bool IsNumLock()
         {
+#if WINDOWS
             return Control.IsKeyLocked((System.Windows.Forms.Keys)Keys.NumLock);
+#elif WINDOWS_PHONE
+            return false;
+#endif
         }
 
         /// <summary>
@@ -127,7 +138,11 @@ namespace Input
         /// <returns></returns>
         public static bool IsScrollLock()
         {
+#if WINDOWS
             return Control.IsKeyLocked((System.Windows.Forms.Keys)Keys.Scroll);
+#elif WINDOWS_PHONE
+            return false;
+#endif
         }
 
         /// <summary>

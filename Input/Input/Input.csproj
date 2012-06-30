@@ -44,6 +44,7 @@
     <XnaCompressContent>true</XnaCompressContent>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.JScript" />
     <Reference Include="Microsoft.Xna.Framework, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86" />
     <Reference Include="Microsoft.Xna.Framework.Content.Pipeline, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86" />
     <Reference Include="Microsoft.Xna.Framework.Game, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86" />
@@ -69,10 +70,8 @@
     <Compile Include="Input\Actions\CustomKey.cs" />
     <Compile Include="Input\Generic\ControlerHandler.cs" />
     <Compile Include="Input\Generic\InputHandler.cs" />
+    <Compile Include="Input\Generic\KeyboardHandler.cs" />
     <Compile Include="Input\WidnowsPhone\Phone.cs" />
-    <Compile Include="Input\Windows\KeyboardHandler.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Input\Windows\MouseHandler.cs">
       <SubType>Code</SubType>
     </Compile>

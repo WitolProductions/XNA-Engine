@@ -137,8 +137,8 @@ namespace Input
 #if WINDOWS_PHONE
             #region Windows Phone Stuff
 
-            if (AccelerometerEnabled)
-                EnableAccelerometer();
+            if (MotionEnabled)
+                EnableMotion();
 
             #endregion
 #endif

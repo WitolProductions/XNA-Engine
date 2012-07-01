@@ -109,9 +109,9 @@ namespace Input.Input.Actions
         /// <returns></returns>
         public bool IsActionRunning()
         {
-            #region Windows Stuff
+            #region Windows and Windows Phone Stuff
 
-#if WINDOWS
+#if WINDOWS || WINDOWS_PHONE
 
             #region Keyboard Modifier Check
 
@@ -144,23 +144,31 @@ namespace Input.Input.Actions
 
             #endregion
 
-            #region Mouse Modifier Check
-            
-            if (MouseKeyModifiers.Count != 0)
-            {//Check our Modifiers to ensure they are held down, if not return because our action cannot possibly work
-                if (MouseKeyModifiers.Any(mkm => !InputHandler.MouseButtonDown(mkm)))
-                            return false;
-            }
-
-            #endregion
-
             #region Keyboard Key Check
-            
+
             //If our Keyboard key passed and the state passed are not fired return
             if (KeyboardKeyState != null)
                 if (KeyboardKey != null)
-                    if (!InputHandler.KeyCheck((Enumeration.KeyState) KeyboardKeyState, (Keys) KeyboardKey))
+                    if (!InputHandler.KeyCheck((Enumeration.KeyState)KeyboardKeyState, (Keys)KeyboardKey))
                         return false;
+
+            #endregion
+
+#endif
+
+            #endregion
+
+            #region Windows Stuff
+
+#if WINDOWS
+
+            #region Mouse Modifier Check
+
+            if (MouseKeyModifiers.Count != 0)
+            {//Check our Modifiers to ensure they are held down, if not return because our action cannot possibly work
+                if (MouseKeyModifiers.Any(mkm => !InputHandler.MouseButtonDown(mkm)))
+                    return false;
+            }
 
             #endregion
 
@@ -169,7 +177,7 @@ namespace Input.Input.Actions
             //If our Mouse key passed and the state passed are not fired return
             if (MouseKeyState != null)
                 if (MouseKey != null)
-                    if (!InputHandler.MouseCheck((Enumeration.KeyState) MouseKeyState, (Enumeration.MouseButtons) MouseKey))
+                    if (!InputHandler.MouseCheck((Enumeration.KeyState)MouseKeyState, (Enumeration.MouseButtons)MouseKey))
                         return false;
 
             #endregion

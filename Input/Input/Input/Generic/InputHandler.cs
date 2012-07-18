@@ -7,7 +7,7 @@
 // 
 // You are free to use this code in any way you want. I only ask if you do
 //       use it you please mention my website and or name.
-// Document Name: InputHandler.cs Version: 1.0 Last Edited: 6/26/2012
+// Document Name: InputHandler.cs Version: 1.1 Last Edited: 6/26/2012
 // ------------------------------------------------------------------------
 
 using Input.Input.Actions;
@@ -42,6 +42,16 @@ namespace Input
         {
             //Setup our ActionHandler
             ActionHandler = new ActionHandler();
+
+#if WINDOWS_PHONE
+            ActionHandler.WindowsPhoneEnabled = true;
+#elif WINDOWS
+            ActionHandler.KeyboardEnabled = true;
+            ActionHandler.MouseEnabled = true;
+            ActionHandler.ControllerEnabled = true;
+#elif XBOX
+            ActionHandler.ControllerEnabled = true;
+#endif
         }
 
         #endregion

@@ -7,7 +7,7 @@
 // 
 // You are free to use this code in any way you want. I only ask if you do
 //       use it you please mention my website and or name.
-// Document Name: Actions.cs Version: 1.0 Last Edited: 6/26/2012
+// Document Name: Actions.cs Version: 1.1 Last Edited: 6/26/2012
 // ------------------------------------------------------------------------
 
 using System.Collections.Generic;
@@ -22,7 +22,7 @@ namespace Input.Input.Actions
         /// <summary>
         /// Keyboard Keys
         /// </summary>
-        public List<CustomKey> Keys;
+        public CustomKey Key;
 
         #endregion
         
@@ -33,7 +33,7 @@ namespace Input.Input.Actions
         /// </summary>
         public Action()
         {
-            Keys = new List<CustomKey>();
+            Key = new CustomKey();
         }
 
         #endregion
@@ -46,7 +46,7 @@ namespace Input.Input.Actions
         /// <returns></returns>
         public bool IsActionRunning()
         {
-            return Keys.Count != 0 && Keys.All(k => k.IsActionRunning());
+            return Key.IsActionRunning();
         }
 
         #endregion

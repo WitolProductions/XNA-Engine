@@ -79,9 +79,9 @@ namespace Input
         /// <param name="button">Button to Check</param>
         /// <param name="index">GamePad index to check</param>
         /// <returns></returns>
-        public static bool ButtonReleased(Buttons button, PlayerIndex index)
+        public static bool ButtonReleased(Buttons button, PlayerIndex? index)
         {
-            if (!ControllerEnabled) return false; //Return false if Controller is disabled
+            if (index == null) return false;
             return GamePadStates[(int)index].IsButtonUp(button) &&
                 LastGamePadStates[(int)index].IsButtonDown(button);
         }
@@ -92,9 +92,9 @@ namespace Input
         /// <param name="button">Button to Check</param>
         /// <param name="index">GamePad index to check</param>
         /// <returns></returns>
-        public static bool ButtonPressed(Buttons button, PlayerIndex index)
+        public static bool ButtonPressed(Buttons button, PlayerIndex? index)
         {
-            if (!ControllerEnabled) return false; //Return false if Controller is disabled
+            if (index == null) return false;
             return GamePadStates[(int) index].IsButtonDown(button) &&
                    LastGamePadStates[(int) index].IsButtonUp(button);
         }
@@ -105,8 +105,9 @@ namespace Input
         /// <param name="button">Button to Check</param>
         /// <param name="index">GamePad index to check</param>
         /// <returns></returns>
-        public static bool ButtonDown(Buttons button, PlayerIndex index)
+        public static bool ButtonDown(Buttons button, PlayerIndex? index)
         {
+            if (index == null) return false;
             return ControllerEnabled && GamePadStates[(int)index].IsButtonDown(button);
         }
 
@@ -116,8 +117,9 @@ namespace Input
         /// <param name="button">Button to Check</param>
         /// <param name="index">GamePad index to check</param>
         /// <returns></returns>
-        public static bool ButtonUp(Buttons button, PlayerIndex index)
+        public static bool ButtonUp(Buttons button, PlayerIndex? index)
         {
+            if (index == null) return false;
             return ControllerEnabled && GamePadStates[(int) index].IsButtonUp(button);
         }
 
@@ -128,7 +130,7 @@ namespace Input
         /// <param name="button"></param>
         /// <param name="index"></param>
         /// <returns></returns>
-        public static bool ButtonCheck(Enumeration.KeyState buttonState, Buttons button, PlayerIndex index)
+        public static bool ButtonCheck(Enumeration.KeyState buttonState, Buttons button, PlayerIndex? index)
         {
             switch(buttonState)
             {

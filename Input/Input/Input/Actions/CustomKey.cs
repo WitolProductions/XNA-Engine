@@ -7,7 +7,7 @@
 // 
 // You are free to use this code in any way you want. I only ask if you do
 //       use it you please mention my website and or name.
-// Document Name: CustomKey.cs Version: 1.0 Last Edited: 6/26/2012
+// Document Name: CustomKey.cs Version: 1.1 Last Edited: 6/26/2012
 // ------------------------------------------------------------------------
 
 using System.Collections.Generic;
@@ -80,7 +80,7 @@ namespace Input.Input.Actions
         /// <summary>
         /// Index our Player is at for this Control to work
         /// </summary>
-        public PlayerIndex ControllerPlayerIndex { get; set; }
+        public PlayerIndex? ControllerPlayerIndex { get; set; }
 
         #endregion
 

@@ -7,7 +7,7 @@
 // 
 // You are free to use this code in any way you want. I only ask if you do
 //       use it you please mention my website and or name.
-// Document Name: ActionHandler.cs Version: 1.0 Last Edited: 6/26/2012
+// Document Name: ActionHandler.cs Version: 1.1 Last Edited: 6/26/2012
 // ------------------------------------------------------------------------
 
 using System;
@@ -34,7 +34,10 @@ namespace Input.Input.Actions
         /// </summary>
         public Dictionary<string, Action> Actions = new Dictionary<string, Action>();
 
-        public bool ControlEnabled = false;
+        public bool ControllerEnabled = false;
+        public bool KeyboardEnabled = false;
+        public bool MouseEnabled = false;
+        public bool WindowsPhoneEnabled = false;
 
         #endregion
         
@@ -104,6 +107,20 @@ namespace Input.Input.Actions
         }
 
         /// <summary>
+        /// Save our Control Scheme
+        /// </summary>
+        public void Save(string path)
+        {
+#if WINDOWS
+            using (var writer = XmlWriter.Create(path, new XmlWriterSettings { Indent = true }))
+                IntermediateSerializer.Serialize(writer, this, null);
+#elif XBOX
+#elif WINDOWSPHONE
+#endif
+        }
+
+
+        /// <summary>
         /// Load our Control Scheme
         /// </summary>
         public static void Load()
@@ -116,12 +133,9 @@ namespace Input.Input.Actions
 
             try
             {//Try and load our XML file in
-                using (var file = File.Open(Constant.ControlScheme, FileMode.Open))
-                {
-                    using (var reader = XmlReader.Create(file))
-                        InputHandler.ActionHandler = IntermediateSerializer.Deserialize<ActionHandler>(reader,
-                                                                                                       "InputLibrary.Input.Actions.ActionHandler");
-                }
+                using (var reader = XmlReader.Create(Constant.ControlScheme))
+                    InputHandler.ActionHandler = IntermediateSerializer.Deserialize<ActionHandler>(reader, "InputLibrary.Input.Actions.ActionHandler");
+                
             }
             catch (Exception)
             {
@@ -130,11 +144,59 @@ namespace Input.Input.Actions
                 return;
             }
 
-            if (InputHandler.ActionHandler.ControlEnabled)
+            if (InputHandler.ActionHandler.ControllerEnabled)
                 InputHandler.EnableControllers();
 #endif
             #endregion
             
+            #region XBOX
+
+#if XBOX
+
+
+#endif
+
+            #endregion
+
+            #region WINDOWS PHONE
+
+#if WINDOWSPHONE
+
+
+#endif
+
+            #endregion
+        }
+
+        /// <summary>
+        /// Load our Control Scheme
+        /// </summary>
+        public static void Load(string path)
+        {
+
+            #region Windows
+
+#if WINDOWS
+            if (!File.Exists(path)) return;
+
+            try
+            {//Try and load our XML file in
+                using (var reader = XmlReader.Create(path))
+                    InputHandler.ActionHandler = IntermediateSerializer.Deserialize<ActionHandler>(reader, "InputLibrary.Input.Actions.ActionHandler");
+                
+            }
+            catch (Exception)
+            {
+                //Return if we met with an error
+                MessageBox.Show("Error Loading Control Scheme.");
+                return;
+            }
+
+            if (InputHandler.ActionHandler.ControllerEnabled)
+                InputHandler.EnableControllers();
+#endif
+            #endregion
+
             #region XBOX
 
 #if XBOX

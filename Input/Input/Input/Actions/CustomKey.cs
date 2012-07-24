@@ -7,7 +7,7 @@
 // 
 // You are free to use this code in any way you want. I only ask if you do
 //       use it you please mention my website and or name.
-// Document Name: CustomKey.cs Version: 1.1 Last Edited: 6/26/2012
+// Document Name: CustomKey.cs Version: 1.1 Last Edited: 7/24/2012
 // ------------------------------------------------------------------------
 
 using System.Collections.Generic;
@@ -109,16 +109,44 @@ namespace Input.Input.Actions
         /// <returns></returns>
         public bool IsActionRunning()
         {
-            #region Windows and Windows Phone Stuff
+            var keyboard = false;
+            var mouse = false;
+            var controller = false;
+
 
 #if WINDOWS || WINDOWS_PHONE
+            keyboard = IsKeyboardActionRunning();
+#endif
+            
+#if WINDOWS
+            mouse = IsMouseActionRunning();
+#endif
+            
+#if WINDOWS || XBOX
+            controller = IsControllerActionRunning();
+#endif
+
+            //Return true if any of our input devices are responding to the actions key press
+            return keyboard || mouse || controller;
+        }
+
+        #region Private Methods
+
+#if WINDOWS || WINDOWS_PHONE
+        /// <summary>
+        /// Quick check to see if our Keyboard is performing the action
+        /// </summary>
+        /// <returns></returns>
+        bool IsKeyboardActionRunning()
+        {
+            #region Keyboard Stuff
 
             #region Keyboard Modifier Check
 
-            if (KeyboardKeyModifiers.Count != 0)
+            if (KeyboardKeyModifiers != null && KeyboardKeyModifiers.Count != 0)
             {
                 //Check our Modifiers to ensure they are held down, if not return because our action cannot possibly work
-                foreach(var kkm in KeyboardKeyModifiers)
+                foreach (var kkm in KeyboardKeyModifiers)
                 {
                     switch (kkm)
                     {
@@ -148,23 +176,38 @@ namespace Input.Input.Actions
 
             //If our Keyboard key passed and the state passed are not fired return
             if (KeyboardKeyState != null)
+            {
                 if (KeyboardKey != null)
+                {
                     if (!InputHandler.KeyCheck((Enumeration.KeyState)KeyboardKeyState, (Keys)KeyboardKey))
                         return false;
+                }
+                else
+                    return false;
+            }
+            else
+                return false;
 
             #endregion
 
+            return true;
+
+            #endregion
+        }
 #endif
 
-            #endregion
-
-            #region Windows Stuff
-
 #if WINDOWS
-
+        /// <summary>
+        /// Quick check to see if our Mouse is performing the action
+        /// </summary>
+        /// <returns></returns>
+        bool IsMouseActionRunning()
+        {
+            #region Mouse Stuff
+            
             #region Mouse Modifier Check
 
-            if (MouseKeyModifiers.Count != 0)
+            if (MouseKeyModifiers != null && MouseKeyModifiers.Count != 0)
             {//Check our Modifiers to ensure they are held down, if not return because our action cannot possibly work
                 if (MouseKeyModifiers.Any(mkm => !InputHandler.MouseButtonDown(mkm)))
                     return false;
@@ -176,26 +219,42 @@ namespace Input.Input.Actions
 
             //If our Mouse key passed and the state passed are not fired return
             if (MouseKeyState != null)
+            {
                 if (MouseKey != null)
-                    if (!InputHandler.MouseCheck((Enumeration.KeyState)MouseKeyState, (Enumeration.MouseButtons)MouseKey))
+                {
+                    if (!InputHandler.MouseCheck((Enumeration.KeyState) MouseKeyState, (Enumeration.MouseButtons) MouseKey))
                         return false;
+                }
+                else
+                    return false;
+            }
+            else
+                return false;
 
             #endregion
 
+            return true;
+
+            #endregion
+        }
 #endif
-
-            #endregion
-
-            #region Xbox and Windows Stuff
 
 #if WINDOWS || XBOX
 
+        /// <summary>
+        /// Quick check to see if our Controller is performing the action
+        /// </summary>
+        /// <returns></returns>
+        bool IsControllerActionRunning()
+        {
+            #region Controller Stuff
+
             #region Controller Modifier Check
 
-            if (ControllerButtonModifiers.Count != 0)
+            if (ControllerButtonModifiers != null && ControllerButtonModifiers.Count != 0)
             {//Check our Modifiers to ensure they are held down, if not return because our action cannot possibly work
                 if (ControllerButtonModifiers.Any(mkm => !InputHandler.ButtonDown(mkm, ControllerPlayerIndex)))
-                            return false;
+                    return false;
             }
 
             #endregion
@@ -203,19 +262,27 @@ namespace Input.Input.Actions
             #region Controller Key Check
 
             if (ControllerButtonState != null)
+            {
                 if (ControllerButton != null)
+                {
                     if (!InputHandler.ButtonCheck((Enumeration.KeyState)ControllerButtonState, (Buttons)ControllerButton, ControllerPlayerIndex))
                         return false;
+                }
+                else
+                    return false;
+            }
+            else
+                return false;
 
             #endregion
 
+            return true;
+
+            #endregion
+        }
 #endif
 
-            #endregion
-
-            //Return true if we made it here because all buttons are correct
-            return true;
-        }
+        #endregion
 
         #endregion
     }

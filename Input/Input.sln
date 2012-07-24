@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Windows Phone Copy of Input
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xbox 360 Copy of Input", "Input\Xbox 360 Copy of Input.csproj", "{06658EEF-3C40-4451-BD1A-D9CE9E9C69A3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ControlSchemeCreator", "Control Scheme Creator\Control Scheme Creator\ControlSchemeCreator.csproj", "{136DADC8-3E3D-401F-9AC5-46CC4EB4B551}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Mixed Platforms = Debug|Mixed Platforms
@@ -61,6 +63,18 @@ Global
 		{06658EEF-3C40-4451-BD1A-D9CE9E9C69A3}.Release|x86.ActiveCfg = Release|Xbox 360
 		{06658EEF-3C40-4451-BD1A-D9CE9E9C69A3}.Release|Xbox 360.ActiveCfg = Release|Xbox 360
 		{06658EEF-3C40-4451-BD1A-D9CE9E9C69A3}.Release|Xbox 360.Build.0 = Release|Xbox 360
+		{136DADC8-3E3D-401F-9AC5-46CC4EB4B551}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{136DADC8-3E3D-401F-9AC5-46CC4EB4B551}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{136DADC8-3E3D-401F-9AC5-46CC4EB4B551}.Debug|Windows Phone.ActiveCfg = Debug|x86
+		{136DADC8-3E3D-401F-9AC5-46CC4EB4B551}.Debug|x86.ActiveCfg = Debug|x86
+		{136DADC8-3E3D-401F-9AC5-46CC4EB4B551}.Debug|x86.Build.0 = Debug|x86
+		{136DADC8-3E3D-401F-9AC5-46CC4EB4B551}.Debug|Xbox 360.ActiveCfg = Debug|x86
+		{136DADC8-3E3D-401F-9AC5-46CC4EB4B551}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{136DADC8-3E3D-401F-9AC5-46CC4EB4B551}.Release|Mixed Platforms.Build.0 = Release|x86
+		{136DADC8-3E3D-401F-9AC5-46CC4EB4B551}.Release|Windows Phone.ActiveCfg = Release|x86
+		{136DADC8-3E3D-401F-9AC5-46CC4EB4B551}.Release|x86.ActiveCfg = Release|x86
+		{136DADC8-3E3D-401F-9AC5-46CC4EB4B551}.Release|x86.Build.0 = Release|x86
+		{136DADC8-3E3D-401F-9AC5-46CC4EB4B551}.Release|Xbox 360.ActiveCfg = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Input", "Input\Input.csproj", "{8B671AF9-1AE2-4F53-BC27-B85AC3913E94}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Windows Phone Copy of Input", "Input\Windows Phone Copy of Input.csproj", "{D6EA2EC1-FA1E-4BD4-8026-DB5B80D056FF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Input (WindowsPhone)", "Input\Input (WindowsPhone).csproj", "{D6EA2EC1-FA1E-4BD4-8026-DB5B80D056FF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xbox 360 Copy of Input", "Input\Xbox 360 Copy of Input.csproj", "{06658EEF-3C40-4451-BD1A-D9CE9E9C69A3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Input (Xbox)", "Input\Input (Xbox).csproj", "{06658EEF-3C40-4451-BD1A-D9CE9E9C69A3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ControlSchemeCreator", "Control Scheme Creator\Control Scheme Creator\ControlSchemeCreator.csproj", "{136DADC8-3E3D-401F-9AC5-46CC4EB4B551}"
 EndProject

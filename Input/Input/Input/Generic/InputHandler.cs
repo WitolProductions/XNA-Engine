@@ -12,10 +12,13 @@
 
 using Input.Input.Actions;
 using Microsoft.Xna.Framework;
+
+#if WINDOWS || XBOX
 using Microsoft.Xna.Framework.Input;
+#endif
 
 #if WINDOWS_PHONE
-using Microsoft.Devices.Sensors;
+using Microsoft.Xna.Framework.Input.Touch;
 #endif
 
 namespace Input
@@ -83,14 +86,21 @@ namespace Input
             #endregion
 #endif
 
-#if WINDOWS
+#if WINDOWS 
             #region Windows Stuff
+            
+            LastMouseState = MouseState;
+            MouseState = Mouse.GetState();
+
+            #endregion
+#endif
+
+#if WINDOWS || WIDNOWS_PHONE
+            #region Windows and Windows Phone Stuff
+            
             //Update our Keyboard and mouse states
             LastKeyboardState = KeyboardState;
             KeyboardState = Keyboard.GetState();
-
-            LastMouseState = MouseState;
-            MouseState = Mouse.GetState();
 
             #endregion
 #endif
@@ -149,6 +159,8 @@ namespace Input
 
             if (MotionEnabled)
                 EnableMotion();
+            if (TouchEnabled)
+                EnableTouch();
 
             #endregion
 #endif
@@ -170,6 +182,14 @@ namespace Input
 
             if (StringCreator.Enabled)
                 StringCreator.Update(gameTime, GetKeysPressed(), GetKeysDown());
+
+            #endregion
+#endif
+
+#if WINDOWS_PHONE
+            #region Windows Phone Stuff
+
+            Touch = TouchPanel.GetState();
 
             #endregion
 #endif

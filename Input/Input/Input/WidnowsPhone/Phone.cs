@@ -12,15 +12,12 @@
 #if WINDOWS_PHONE
 
 using System;
+using System.Linq;
 using System.Windows;
-using System.Windows.Media;
-using System.Windows.Threading;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.GamerServices;
-
-#if WINDOWS_PHONE
 using Microsoft.Devices.Sensors;
-#endif
+using Microsoft.Xna.Framework.Input.Touch;
 
 namespace Input
 {
@@ -28,9 +25,15 @@ namespace Input
     {
         #region Fields
 
+        
+
         #endregion
         
         #region Properties
+
+        public static TouchCollection Touch { get; set; }
+        public static int MaxTouchCount { get; set; }
+        public static bool TouchEnabled { get; set; }
 
         public static Motion Motion { get; set; }
         public static bool MotionEnabled { get; set;  }
@@ -44,7 +47,8 @@ namespace Input
 
         #endregion
 
-        #region Sensor Methods
+        #region Motion Sensor Methods
+        
 
         /// <summary>
         /// Enables our Motion sensor if the device supports it
@@ -52,8 +56,7 @@ namespace Input
         public static void EnableMotion()
         {
             if (!Motion.IsSupported)
-            {
-            }
+                Motion.Stop();
             else
             {
                 Motion = new Motion
@@ -97,6 +100,67 @@ namespace Input
             Roll = MathHelper.ToDegrees(e.Attitude.Roll);
             //Get the Acceleration on all 3 vectors
             Acceleration = new Vector3(e.DeviceAcceleration.X, e.DeviceAcceleration.Y, e.DeviceAcceleration.Z);
+        }
+
+        #endregion
+
+        #region Touch Sensor Methods
+        
+        /// <summary>
+        /// Enables all touch capabilities that our device supports
+        /// </summary>
+        public static void EnableTouch()
+        {
+            var capabilities = TouchPanel.GetCapabilities();
+            if (capabilities.IsConnected)
+            {
+                MaxTouchCount = capabilities.MaximumTouchCount;
+                TouchEnabled = true;
+            }
+            else
+            {
+                DisableTouch();
+            }
+        }
+
+        /// <summary>
+        /// Disable all Touch capabilities on our device
+        /// </summary>
+        public static void DisableTouch()
+        {
+            Touch.Clear();
+            MaxTouchCount = 0;
+            TouchEnabled = false;
+        }
+
+        /// <summary>
+        /// Returns a bool determining if an area is being touched
+        /// </summary>
+        /// <param name="area"></param>
+        /// <returns></returns>
+        public static bool AreaTouched(Rectangle area)
+        {
+            return Touch.IsConnected && Touch.Where(tl => (tl.State == TouchLocationState.Pressed) || (tl.State == TouchLocationState.Moved)).Any(tl => area.Contains((int) tl.Position.X, (int) tl.Position.Y));
+        }
+
+        /// <summary>
+        /// Returns a bool determining if an area is pressed
+        /// </summary>
+        /// <param name="area"></param>
+        /// <returns></returns>
+        public static bool AreaPressed(Rectangle area)
+        {
+            return Touch.IsConnected && Touch.Where(tl => tl.State == TouchLocationState.Pressed).Any(tl => area.Contains((int)tl.Position.X, (int)tl.Position.Y));
+        }
+
+        /// <summary>
+        /// Returns a bool determining if an area is moved into while pressing is already done
+        /// </summary>
+        /// <param name="area"></param>
+        /// <returns></returns>
+        public static bool AreaMoved(Rectangle area)
+        {
+            return Touch.IsConnected && Touch.Where(tl => tl.State == TouchLocationState.Moved).Any(tl => area.Contains((int)tl.Position.X, (int)tl.Position.Y));
         }
 
         #endregion

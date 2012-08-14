@@ -50,17 +50,11 @@
     <XnaCompressContent>false</XnaCompressContent>
   </PropertyGroup>
   <ItemGroup>
-    <Folder Include="Content\" />
     <Folder Include="GUI\" />
     <Folder Include="ScreenManager\" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Constants.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SpriteSheetPipeline\SpriteSheet.cs" />
-    <Compile Include="Texture\Content.cs" />
-    <Compile Include="Texture\CustomContentManager.cs" />
-    <Compile Include="Texture\Textures.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Xna.Framework" />

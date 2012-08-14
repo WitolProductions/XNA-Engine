@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using Graphics.SpriteSheetPipeline;
+using Content.Types;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Graphics.Texture
+namespace Content
 {
     public static class Textures
     {
@@ -54,7 +52,7 @@ namespace Graphics.Texture
                 case "Texture2D":
                     {
                         //Dispose of our Texture
-                        GraphicsHandler.Content.DisposeObject(spriteSheet.Path);
+                        ContentHandler.Content.DisposeObject(spriteSheet.Path);
                         spriteSheet.SpriteRectangles = null;
                     } break;
             }

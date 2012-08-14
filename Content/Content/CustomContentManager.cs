@@ -12,10 +12,9 @@
 
 using System;
 using System.Collections.Generic;
-using Graphics.SpriteSheetPipeline;
 using Microsoft.Xna.Framework.Content;
 
-namespace Graphics.Texture
+namespace Content
 {
     public class CustomContentManager : ContentManager
     {

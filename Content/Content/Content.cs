@@ -1,19 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.IO.IsolatedStorage;
-using System.Linq;
-using System.Text;
-using System.Xml;
-using System.Xml.Serialization;
-using Graphics.SpriteSheetPipeline;
+using Content.Types;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.Graphics;
 
-namespace Graphics.Texture
+namespace Content
 {
-    public class GraphicsHandler : DrawableGameComponent
+    public class ContentHandler : DrawableGameComponent
     {
         #region Fields
 
@@ -33,7 +25,7 @@ namespace Graphics.Texture
         /// <summary>
         /// Empty Constructor
         /// </summary>
-        public GraphicsHandler(Game game, IServiceProvider services, string content) : base(game)
+        public ContentHandler(Game game, IServiceProvider services, string content) : base(game)
         {
             //Setup our base variables for this class
             Content = new CustomContentManager(services, content);
@@ -76,7 +68,6 @@ namespace Graphics.Texture
         }
 
         #endregion
-
 
         #region Private Methods
 

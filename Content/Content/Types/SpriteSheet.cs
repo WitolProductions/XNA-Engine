@@ -16,7 +16,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Graphics.SpriteSheetPipeline
+namespace Content.Types
 {
     /// <summary>
     /// A sprite sheet contains many individual sprite images, packed into different

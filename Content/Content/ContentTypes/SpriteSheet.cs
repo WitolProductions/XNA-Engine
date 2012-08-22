@@ -16,7 +16,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Content.Types
+namespace Content.ContentTypes
 {
     /// <summary>
     /// A sprite sheet contains many individual sprite images, packed into different
@@ -25,7 +25,7 @@ namespace Content.Types
     /// more efficient, because they reduce the number of times the graphics hardware
     /// needs to switch from one texture to another.
     /// </summary>
-    public class SpriteSheet
+    public class SpriteSheet : IDisposableObject
     {
         #region Fields
 
@@ -66,18 +66,6 @@ namespace Content.Types
         /// </summary>
         [ContentSerializerIgnore]
         public List<Rectangle> SpriteRectangles { get { return spriteRectangles; } set { spriteRectangles = value; } }
-
-        /// <summary>
-        /// Gets and Sets if the Texture is loaded or not
-        /// </summary>
-        [ContentSerializerIgnore]
-        public bool Loaded { get; set; }
-
-        /// <summary>
-        /// Gets and Sets our Unload Timer which allows this class to automatically unload uneeded data
-        /// </summary>
-        [ContentSerializerIgnore]
-        public int UnloadTimer { get; set; }
 
         /// <summary>
         /// Gets and Sets the path of this Sprite Sheet
@@ -126,6 +114,23 @@ namespace Content.Types
             }
 
             return index;
+        }
+
+        #endregion
+
+        #region Interface
+
+        [ContentSerializerIgnore]
+        public bool Loaded { get; set; }
+
+        [ContentSerializerIgnore]
+        public double UnloadTimer { get; set; }
+
+        public void Dispose()
+        {
+            Loaded = false;
+            UnloadTimer = 0;
+            Texture.Dispose();
         }
 
         #endregion

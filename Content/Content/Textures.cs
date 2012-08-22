@@ -1,6 +1,19 @@
-﻿using System.Collections.Generic;
+﻿// -----------------------------------------------------------------------
+//                       Created By: Justin Witol
+//                       www.WitolProductions.com
+// If you add or alter any code please include your name below if you wish.
+//                             Special Thanks: 
+// 
+// 
+// You are free to use this code in any way you want. I only ask if you do
+//       use it you please mention my website and or name.
+// Document Name: Textures.cs Version: 1.0 Last Edited: 8/21/2012
+// ------------------------------------------------------------------------
+
+using System.Collections.Generic;
 using System.Linq;
-using Content.Types;
+using Content.Content;
+using Content.ContentTypes;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -10,8 +23,15 @@ namespace Content
     {
         #region Fields
 
-        // List of our SpriteSheets
+        /// <summary>
+        /// List of our SpriteSheets
+        /// </summary>
         static List<SpriteSheet> _spriteSheets = null;
+
+        /// <summary>
+        /// List of our Textures
+        /// </summary>
+        static List<GameTexture> _textures = null;
         
         #endregion
 
@@ -20,43 +40,26 @@ namespace Content
         public static void Initialize()
         {
             _spriteSheets = new List<SpriteSheet>();
+            _textures = new List<GameTexture>();
         }
 
         public static void Update(GameTime gameTime)
         {
-            foreach(var spriteSheet in _spriteSheets)
+            foreach (var spriteSheet in _spriteSheets.Where(spriteSheet => spriteSheet.Loaded))
             {
-                if (!spriteSheet.Loaded) continue;
                 spriteSheet.UnloadTimer = (int) (spriteSheet.UnloadTimer - gameTime.ElapsedGameTime.TotalMilliseconds);
 
                 //Continue if we do not need to unload this texture
                 if (spriteSheet.UnloadTimer > 0) continue;
                 spriteSheet.Loaded = false;
-                Unload<SpriteSheet>(spriteSheet);
+                ContentHandler.Unload<SpriteSheet>(spriteSheet);
             }
-        }
-
-        public static void UnloadContent()
-        {
-            
         }
 
         #endregion
 
         #region Methods
-        
-        static void Unload<T>(SpriteSheet spriteSheet)
-        {
-            switch (typeof(T).Name)
-            {
-                case "Texture2D":
-                    {
-                        //Dispose of our Texture
-                        ContentHandler.Content.DisposeObject(spriteSheet.Path);
-                        spriteSheet.SpriteRectangles = null;
-                    } break;
-            }
-        }
+
 
         #endregion
         
@@ -75,25 +78,13 @@ namespace Content
         /// Remove our Sprite Sheet
         /// </summary>
         /// <param name="spriteSheet"></param>
-        public static void Remove(SpriteSheet spriteSheet)
+        static void Remove(SpriteSheet spriteSheet)
         {
             //Remove our sheet if it exists
             if (_spriteSheets.Contains(spriteSheet))
                 _spriteSheets.Remove(spriteSheet);
         }
         
-        /// <summary>
-        /// Get Texture based on name sent
-        /// </summary>
-        /// <param name="spriteName"></param>
-        /// <returns></returns>
-        public static Texture2D Texture(string spriteName)
-        {
-            var sprite = GetSpriteSheet(spriteName);
-            
-            return sprite.Texture;
-        }
-
         /// <summary>
         /// Looks up the location of the specified sprite within the big texture.
         /// </summary>
@@ -109,7 +100,7 @@ namespace Content
         /// Looks up the numeric index of the specified sprite. This is useful when
         /// implementing animation by cycling through a series of related sprites.
         /// </summary>
-        public static int GetIndex(string spriteName)
+        static int GetIndex(string spriteName)
         {
             int index;
             var spriteSheet = GetSpriteSheet(spriteName);
@@ -119,18 +110,34 @@ namespace Content
             
             return index;
         }
+        
+        #endregion
+
+        #region Generic Methods
+
+        public static Texture2D Texture(string textureName)
+        {
+            return (Texture2D) ContentHandler.Load<Texture2D>(textureName);
+        }
 
         /// <summary>
-        /// Looks up our passed texture name in our SpriteSheets
+        /// Get a SpriteSheet based on Texture Name passed
         /// </summary>
-        /// <param name="spriteName"></param>
-        public static SpriteSheet GetSpriteSheet(string spriteName)
+        /// <param name="textureName"></param>
+        /// <returns></returns>
+        public static SpriteSheet GetSpriteSheet(string textureName)
         {
-            //If our Sprite Sheet has the texture in it we found the sprite sheet
-            foreach (var t in _spriteSheets.Where(t => t.SpriteNames.ContainsKey(spriteName)))
-                return t;
-            
-            throw new KeyNotFoundException("SpriteSheet could not be found with texture " + spriteName);
+            return _spriteSheets.Where(t => t.SpriteNames.ContainsKey(textureName)).FirstOrDefault();
+        }
+
+        /// <summary>
+        /// Get a Texture based on Texture Name passed
+        /// </summary>
+        /// <param name="textureName"></param>
+        /// <returns></returns>
+        public static GameTexture GetGameTexture(string textureName)
+        {
+            return _textures.Where(t => t.Path == textureName).Select(t => t).FirstOrDefault();
         }
 
         #endregion

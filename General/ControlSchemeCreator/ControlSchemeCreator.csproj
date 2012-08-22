@@ -125,7 +125,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Input\Input\Input.csproj">
       <Project>{8B671AF9-1AE2-4F53-BC27-B85AC3913E94}</Project>
-      <Name>Input %28Input\Input%29</Name>
+      <Name>Input</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

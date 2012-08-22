@@ -63,7 +63,7 @@ namespace ContentGenerator
             parameters.PresentationInterval = PresentInterval.Immediate;
             parameters.IsFullScreen = false;
 
-            graphicsDevice = new Microsoft.Xna.Framework.Graphics.GraphicsDevice(GraphicsAdapter.DefaultAdapter,
+            _graphicsDevice = new Microsoft.Xna.Framework.Graphics.GraphicsDevice(GraphicsAdapter.DefaultAdapter,
                                                 GraphicsProfile.Reach,
                                                 parameters);
         }
@@ -103,10 +103,10 @@ namespace ContentGenerator
                     if (DeviceDisposing != null)
                         DeviceDisposing(this, EventArgs.Empty);
 
-                    graphicsDevice.Dispose();
+                    _graphicsDevice.Dispose();
                 }
 
-                graphicsDevice = null;
+                _graphicsDevice = null;
             }
         }
 
@@ -124,7 +124,7 @@ namespace ContentGenerator
             parameters.BackBufferWidth = Math.Max(parameters.BackBufferWidth, width);
             parameters.BackBufferHeight = Math.Max(parameters.BackBufferHeight, height);
 
-            graphicsDevice.Reset(parameters);
+            _graphicsDevice.Reset(parameters);
 
             if (DeviceReset != null)
                 DeviceReset(this, EventArgs.Empty);
@@ -136,10 +136,10 @@ namespace ContentGenerator
         /// </summary>
         public Microsoft.Xna.Framework.Graphics.GraphicsDevice GraphicsDevice
         {
-            get { return graphicsDevice; }
+            get { return _graphicsDevice; }
         }
 
-        Microsoft.Xna.Framework.Graphics.GraphicsDevice graphicsDevice;
+        Microsoft.Xna.Framework.Graphics.GraphicsDevice _graphicsDevice;
 
 
         // Store the current device settings.

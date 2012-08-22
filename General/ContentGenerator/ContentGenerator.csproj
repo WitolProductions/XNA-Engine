@@ -21,7 +21,7 @@
     <DebugType>full</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>..\..\bin\Debug\Optional\ContentGenerator\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -61,6 +61,16 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Content\Content\Content.csproj">
+      <Project>{8BC6EA47-7E4F-46C9-A59D-6332B98DE815}</Project>
+      <Name>Content</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ContentPipeline\ContentPipeline.csproj">
+      <Project>{28B98396-C621-48C2-A484-2866BD9C04A5}</Project>
+      <Name>ContentPipeline</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

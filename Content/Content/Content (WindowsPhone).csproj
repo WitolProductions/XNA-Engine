@@ -51,11 +51,14 @@
   <ItemGroup />
   <ItemGroup>
     <Compile Include="Constants.cs" />
-    <Compile Include="Content.cs" />
-    <Compile Include="CustomContentManager.cs" />
+    <Compile Include="ContentTypes\Files.cs" />
+    <Compile Include="ContentTypes\IDisposableObject.cs" />
+    <Compile Include="ContentTypes\SpriteSheet.cs" />
+    <Compile Include="ContentTypes\GameTexture.cs" />
+    <Compile Include="Content\ContentHandler.cs" />
+    <Compile Include="Content\CustomContentManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Textures.cs" />
-    <Compile Include="Types\SpriteSheet.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Xna.Framework" />

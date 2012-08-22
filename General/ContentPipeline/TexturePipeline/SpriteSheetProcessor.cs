@@ -15,7 +15,7 @@ using System.IO;
 using Microsoft.Xna.Framework.Content.Pipeline;
 using Microsoft.Xna.Framework.Content.Pipeline.Graphics;
 
-namespace SpriteSheetPipeline
+namespace ContentPipeline.TexturePipeline
 {
     /// <summary>
     /// Custom content processor takes an array of individual sprite filenames (which

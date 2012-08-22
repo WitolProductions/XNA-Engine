@@ -15,14 +15,14 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Content.Pipeline.Graphics;
 
-namespace SpriteSheetPipeline
+namespace ContentPipeline.TexturePipeline
 {
     /// <summary>
     /// Build-time type used to hold the output data from the SpriteSheetProcessor.
     /// This is serialized into XNB format, then at runtime, the ContentManager
     /// loads the data into a SpriteSheet object.
     /// </summary>
-    [ContentSerializerRuntimeType("Graphics.SpriteSheetPipeline.SpriteSheet, Graphics")]
+    [ContentSerializerRuntimeType("Content.ContentTypes.SpriteSheet, Content")]
     public class SpriteSheetContent
     {
         // Single texture contains many separate sprite images.

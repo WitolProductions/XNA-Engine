@@ -16,7 +16,6 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
-using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Content.Pipeline;
 using Microsoft.Xna.Framework.Content.Pipeline.Serialization.Compiler;
@@ -24,6 +23,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace ContentGenerator
 {
+    [ContentSerializerRuntimeType("Content.ContentTypes.Files, Content")]
     public static class Files
     {
         #region Fields
@@ -31,26 +31,31 @@ namespace ContentGenerator
         /// <summary>
         /// Your Content Folder
         /// </summary>
+        [ContentSerializerIgnore]
         const string Content = "Content";
 
         /// <summary>
         /// Dummy form for creating a graphics device
         /// </summary>
+        [ContentSerializerIgnore]
         static readonly Form Form = new Form();
 
         /// <summary>
         /// Our Graphics Device Service, which holds all the data needed about our screen
         /// </summary>
+        [ContentSerializerIgnore]
         static GraphicsDeviceService _gds = null;
 
         /// <summary>
         /// Our Service Container
         /// </summary>
+        [ContentSerializerIgnore]
         static ServiceContainer _services = null;
 
         /// <summary>
         /// Our Content Manager
         /// </summary>
+        [ContentSerializerIgnore]
         static ContentManager _content;
 
         /// <summary>
@@ -61,11 +66,13 @@ namespace ContentGenerator
         /// <summary>
         /// Percent of files that has loaded in
         /// </summary>
+        [ContentSerializerIgnore]
         static double _percent = 0;
 
         /// <summary>
         /// Amount to jump at each point of change in percent
         /// </summary>
+        [ContentSerializerIgnore]
         static decimal _jump = 0;
 
         #endregion
@@ -95,16 +102,50 @@ namespace ContentGenerator
         {
             if (Directory.Exists(Content))
             {
-                Console.WriteLine(Content + " folder found");
                 Console.Write("\rLoading In Files: {0}%", (int)_percent);
+                
+                //Build Path helps determine if we should search for Debug or Release folders
+                var buildPath = "";
+#if DEBUG
+                buildPath = "Debug";
+#elif !DEBUG
+                buildPath = "Release";
+#endif
+                //Delete Windows Content file so its not loaded into our File List
+                if (File.Exists("..\\..\\x86\\" + buildPath + "\\" + Content + "\\" + Content + ".xnb"))
+                    File.Delete("..\\..\\x86\\" + buildPath + "\\" + Content + "\\" + Content + ".xnb");
 
-                //Load all files inside the folders inside Content, Calculate the jump to make, and test each file
-                LoadFiles(Content + "\\");
+                //Load all files inside the folders inside our Windows Content folder, this code cannot load files built for other platforms only the windows
+                LoadFiles("..\\..\\x86\\" + buildPath + "\\" + Content + "\\", buildPath);
+
+                //Calculate how much we need to jump for each percentage change
                 CalculateJump();
+                //Next test each file by loading it in, checking its type and recording it, than we will unload the file
                 TestFiles();
 
-                //Write out our file
-                Write(_filesList, null, Content + ".xnb", TargetPlatform.Windows);
+                //If windows directory exists build there
+                if (Directory.Exists("..\\..\\x86\\" + buildPath + "\\" + Content + "\\"))
+                {
+                    Console.WriteLine("\r\nWrittting Windows Version: " + new FileInfo("..\\..\\x86\\" + buildPath + "\\" + Content + "\\" + Content + ".xnb").FullName);
+                    Write(_filesList, null, "..\\..\\x86\\" + buildPath + "\\" + Content + "\\", Content, TargetPlatform.Windows);
+                }
+                
+                //If Windows Phone directory exists build there
+                if (Directory.Exists("..\\..\\Windows Phone\\" + buildPath + "\\Content\\"))
+                {
+                    Console.WriteLine("Writting Windows Phone Version: " + new FileInfo("..\\..\\Windows Phone\\" + buildPath + "\\Content\\" + Content + ".xnb").FullName);
+                    Write(_filesList, null, "..\\..\\Windows Phone\\" + buildPath + "\\Content\\", Content, TargetPlatform.WindowsPhone);
+                }
+                
+                //If Xbox directory exists build there
+                if (Directory.Exists("..\\..\\xbox\\" + buildPath + "\\Content\\"))
+                {
+                    Console.WriteLine("Writting Windows Phone Version: " + new FileInfo("..\\..\\xbox\\" + buildPath + "\\Content\\" + Content + ".xnb").FullName);
+                    Write(_filesList, null, "..\\..\\xbox\\" + buildPath + "\\Content\\", Content, TargetPlatform.Xbox360);
+                }
+
+                Console.WriteLine("Press Any Key To Exit");
+                Console.ReadKey();
             }
             else
             {
@@ -118,16 +159,18 @@ namespace ContentGenerator
         /// Load Files based on Directory sent
         /// </summary>
         /// <param name="name"></param>
-        static void LoadFiles(string name)
+        /// <param name="build"></param>
+        static void LoadFiles(string name, string build)
         {
 
             //Only load files that end in .xnb and remove our Content folders name);
             foreach (var file in from f in Directory.GetFiles(name, "*", SearchOption.AllDirectories)
                                  where new FileInfo(f).Extension == ".xnb"
-                                 select f.Replace(Content + "\\", "")
+                                 select f.Replace("..\\..\\x86\\" + build + "\\" + Content + "\\", "")
                                      into file
                                      select file.Replace(".xnb", ""))
             {
+                Console.WriteLine("\rFile added: " + file);
                 _filesList.Add(file, "Unknown");
             }
         }
@@ -160,21 +203,29 @@ namespace ContentGenerator
         /// </summary>
         static void CalculateJump()
         {
-            _jump = 100m / _filesList.Count;
+            //Do not allow the fucntion to devide by zero
+            if (_filesList.Count == 0)
+            {
+                _percent = 100;
+                return;
+            }
+
+            _jump = 100m/_filesList.Count;
         }
 
         #endregion
 
-        #region XML Methods
+        #region Write Methods
 
         /// <summary>
         /// Write our XNB file using the data we have gathered in the previous methods
         /// </summary>
         /// <param name="obj"></param>
         /// <param name="writer"></param>
-        /// <param name="fileName"></param>
+        /// <param name="path"></param>
+        /// <param name="assetName"></param>
         /// <param name="targetPlatform"></param>
-        static void Write(Object obj, ContentTypeWriter writer, string fileName, TargetPlatform targetPlatform)
+        static void Write(Object obj, ContentTypeWriter writer, string path, string assetName, TargetPlatform targetPlatform)
         {
             //Use reflection to get the otherwise internal parameters and methods of the typewriter 
             var constructors = typeof(ContentCompiler).GetConstructors(BindingFlags.NonPublic | BindingFlags.Instance);
@@ -187,39 +238,26 @@ namespace ContentGenerator
             if (writer != null)
                 addWriter.Invoke(compiler, new object[] { writer });
 
-            //Split the .xnb from the filename 
-            var path = fileName.Replace(".xnb", "");
+            //Delete old content file if it exists
+            if (File.Exists(path + assetName + ".xnb"))
+                File.Delete(path + assetName + ".xnb");
 
             //Generate our File
-            using (var stream = new FileStream(fileName, FileMode.Create))
+            using (var stream = new FileStream(path + assetName + ".xnb", FileMode.Create))
             {
                 compileContent.Invoke(compiler,
                     new[] 
                     { 
-                         stream, 
-                         obj, 
-                         targetPlatform,
-                         GraphicsProfile.Reach,
-                         true,
-                         path, 
-                         path, 
+                         stream, //File writting too
+                         obj, //Object being written to file 
+                         targetPlatform, //Target Platform such as Windows, Xbox, or Windows Phone
+                         GraphicsProfile.Reach, //Graphics Profile. I use Reach 
+                         true, //Let me know if anyone knows what this true actually does
+                         path, //Output path
+                         path, //Output path
                     });
             }
 
-            //Test our file
-            Console.WriteLine("");
-            Console.WriteLine("Testing file...");
-
-            //Create our ContentManager
-            var services = new GameServiceContainer();
-            var content = new ContentManager(services, "");
-            //Load our File in
-            var test = content.Load<Dictionary<string, string>>(path);
-            //Write our files contents
-            foreach (var s in test)
-                Console.WriteLine(s);
-            //Wait for user responce
-            Console.ReadKey();
         }
 
         #endregion

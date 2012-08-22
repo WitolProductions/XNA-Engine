@@ -43,9 +43,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ContentPipeline\SpritePacker.cs" />
-    <Compile Include="ContentPipeline\SpriteSheetContent.cs" />
-    <Compile Include="ContentPipeline\SpriteSheetProcessor.cs" />
+    <Compile Include="TexturePipeline\SpritePacker.cs" />
+    <Compile Include="TexturePipeline\SpriteSheetContent.cs" />
+    <Compile Include="TexturePipeline\SpriteSheetProcessor.cs" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

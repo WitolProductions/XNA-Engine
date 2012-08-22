@@ -7,13 +7,17 @@
 // 
 // You are free to use this code in any way you want. I only ask if you do
 //       use it you please mention my website and or name.
-// Document Name: Constants.cs Version: 1.0 Last Edited: 8/21/2012
+// Document Name: Files.cs Version: 1.0 Last Edited: 8/21/2012
 // ------------------------------------------------------------------------
 
-namespace Content
+using System.Collections.Generic;
+using Microsoft.Xna.Framework.Content;
+
+namespace Content.ContentTypes
 {
-    public static class Constants
+    public static class Files
     {
-        public const int UnloadTimer = 15000;
+        [ContentSerializer]
+        public static Dictionary<string, string> FilesList = null;
     }
 }

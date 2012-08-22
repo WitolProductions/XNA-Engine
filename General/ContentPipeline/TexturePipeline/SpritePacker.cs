@@ -17,7 +17,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content.Pipeline;
 using Microsoft.Xna.Framework.Content.Pipeline.Graphics;
 
-namespace SpriteSheetPipeline
+namespace ContentPipeline.TexturePipeline
 {
     /// <summary>
     /// Helper for arranging many small sprites into a single larger sheet.

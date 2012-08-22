@@ -12,10 +12,22 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Xna.Framework.Content;
 
-namespace Content
+
+
+#if WINDOWS
+using System.Windows.Forms;
+#elif WINDOWS_PHONE
+using Microsoft.Xna.Framework.GamerServices;
+#endif
+
+namespace Content.Content
 {
+    /// <summary>
+    /// Class is a modified version of ContentManager to ensure that we can safly dispose of objects and load them back in for increased performance
+    /// </summary>
     public class CustomContentManager : ContentManager
     {
         #region Fields
@@ -59,11 +71,25 @@ namespace Content
                 return (T)_loadedAssets[assetName];
 
             _tempAssetName = assetName;
-            var asset = ReadAsset<T>(assetName, RecordDisposableAsset);
 
-            _loadedAssets.Add(assetName, asset);
+            object asset = null;
 
-            return asset;
+            try
+            {
+                asset = ReadAsset<T>(assetName, RecordDisposableAsset);
+                _loadedAssets.Add(assetName, asset);
+            }
+            catch (Exception e)
+            {
+#if WINDOWS
+                MessageBox.Show(e.Message, "Error");
+#elif WINDOWS_PHONE
+                //TODO: Move this to Input Handler
+                Guide.BeginShowMessageBox("Error", e.Message, new List<string> { "OK"}, 0, MessageBoxIcon.Alert, null, null);
+#endif
+            }
+
+            return (T) asset;
         }
             
         /// <summary>
@@ -87,8 +113,22 @@ namespace Content
         {
             DisposeObject(assetName);
 
-            _tempAssetName = assetName;
-            var asset = ReadAsset<T>(assetName, RecordDisposableAsset);
+            T asset = default(T);
+
+            try
+            {
+                _tempAssetName = assetName;
+                asset = ReadAsset<T>(assetName, RecordDisposableAsset);
+            }
+            catch (Exception e)
+            {
+#if WINDOWS
+                MessageBox.Show(e.Message, "Error");
+#elif WINDOWS_PHONE
+                //TODO: Move this to Input Handler
+                Guide.BeginShowMessageBox("Error", e.Message, new List<string> { "OK"}, 0, MessageBoxIcon.Alert, null, null);
+#endif
+            }
 
             return asset;
         }
@@ -113,6 +153,16 @@ namespace Content
         {
             if (!_disposableAssets.ContainsKey(_tempAssetName))
                 _disposableAssets.Add(_tempAssetName, disposable);
+        }
+
+        /// <summary>
+        /// Returns if the object exists or not as a loaded asset
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public bool Exists(string name)
+        {
+            return _loadedAssets.Any(asset => asset.Key == name);
         }
 
         #endregion

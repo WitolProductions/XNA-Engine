@@ -11,7 +11,7 @@
 // ------------------------------------------------------------------------
 #if WINDOWS || XBOX
 
-using Input.Global;
+using Input.Misc;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 

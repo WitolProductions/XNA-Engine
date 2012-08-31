@@ -51,8 +51,6 @@
   </PropertyGroup>
   <ItemGroup />
   <ItemGroup>
-    <Compile Include="Global\Constant.cs" />
-    <Compile Include="Global\Enumeration.cs" />
     <Compile Include="Input\Actions\ActionHandler.cs" />
     <Compile Include="Input\Actions\Actions.cs" />
     <Compile Include="Input\Actions\CustomKey.cs" />
@@ -64,6 +62,8 @@
     </Compile>
     <Compile Include="Input\Windows\MouseHandler.cs" />
     <Compile Include="Input\Windows\StringCreator.cs" />
+    <Compile Include="Misc\Constant.cs" />
+    <Compile Include="Misc\Enumeration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

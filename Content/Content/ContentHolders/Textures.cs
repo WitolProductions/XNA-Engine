@@ -12,12 +12,11 @@
 
 using System.Collections.Generic;
 using System.Linq;
-using Content.Content;
 using Content.ContentTypes;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Content
+namespace Content.ContentHolders
 {
     public static class Textures
     {
@@ -31,7 +30,7 @@ namespace Content
         /// <summary>
         /// List of our Textures
         /// </summary>
-        static List<GameTexture> _textures = null;
+        static List<GameTexture2D> _textures = null;
         
         #endregion
 
@@ -40,7 +39,7 @@ namespace Content
         public static void Initialize()
         {
             _spriteSheets = new List<SpriteSheet>();
-            _textures = new List<GameTexture>();
+            _textures = new List<GameTexture2D>();
         }
 
         public static void Update(GameTime gameTime)
@@ -62,10 +61,50 @@ namespace Content
 
 
         #endregion
-        
+
+        #region Texture Methods
+
+        /// <summary>
+        /// Add the passed texture
+        /// </summary>
+        /// <param name="gameTexture"></param>
+        public static void Add(GameTexture2D gameTexture)
+        {
+            Remove(gameTexture);
+
+            //Add our Texture
+            _textures.Add(gameTexture);
+        }
+
+        /// <summary>
+        /// Remove our Texture
+        /// </summary>
+        /// <param name="gameTexture"></param>
+        public static void Remove(GameTexture2D gameTexture)
+        {
+            //Only remove if it exists
+            if (_textures.Contains(gameTexture))
+                _textures.Remove(gameTexture);
+        }
+
+        /// <summary>
+        /// Get a Texture based on Texture Name passed
+        /// </summary>
+        /// <param name="textureName"></param>
+        /// <returns></returns>
+        public static GameTexture2D GetGameTexture(string textureName)
+        {
+            return _textures.Where(t => t.Path == textureName).Select(t => t).FirstOrDefault();
+        }
+
+        #endregion
+
         #region Sprite Sheet Methods
 
-        //Add the passed sprite sheet
+        /// <summary>
+        /// Add the passed sprite sheet
+        /// </summary>
+        /// <param name="spriteSheet"></param>
         public static void Add(SpriteSheet spriteSheet)
         {
             Remove(spriteSheet);
@@ -85,16 +124,6 @@ namespace Content
                 _spriteSheets.Remove(spriteSheet);
         }
         
-        /// <summary>
-        /// Looks up the location of the specified sprite within the big texture.
-        /// </summary>
-        public static Rectangle SourceRectangle(string spriteName)
-        {
-            var spriteIndex = GetIndex(spriteName);
-            var spriteSheet = GetSpriteSheet(spriteName);
-
-            return spriteSheet.SpriteRectangles[spriteIndex];
-        }
 
         /// <summary>
         /// Looks up the numeric index of the specified sprite. This is useful when
@@ -110,15 +139,6 @@ namespace Content
             
             return index;
         }
-        
-        #endregion
-
-        #region Generic Methods
-
-        public static Texture2D Texture(string textureName)
-        {
-            return (Texture2D) ContentHandler.Load<Texture2D>(textureName);
-        }
 
         /// <summary>
         /// Get a SpriteSheet based on Texture Name passed
@@ -130,16 +150,40 @@ namespace Content
             return _spriteSheets.Where(t => t.SpriteNames.ContainsKey(textureName)).FirstOrDefault();
         }
 
+        #endregion
+
+        #region Generic Methods
+
         /// <summary>
-        /// Get a Texture based on Texture Name passed
+        /// Looks up the location of the specified sprite within the big texture.
         /// </summary>
-        /// <param name="textureName"></param>
-        /// <returns></returns>
-        public static GameTexture GetGameTexture(string textureName)
+        public static Rectangle SourceRectangle<T>(string textureName)
         {
-            return _textures.Where(t => t.Path == textureName).Select(t => t).FirstOrDefault();
+            switch (typeof(T).Name)
+            {
+                case "Texture2D":
+                    {
+                        ContentHandler.Load<Texture2D>(textureName);
+
+                        return GetGameTexture(textureName).Texture.Bounds;
+                    }
+                case "SpriteSheet":
+                    {
+                        var spriteIndex = GetIndex(textureName);
+                        var spriteSheet = GetSpriteSheet(textureName);
+
+                        return spriteSheet.SpriteRectangles[spriteIndex];
+                    }
+            }
+
+            return new Rectangle();
         }
 
+        public static Texture2D Texture<T>(string textureName)
+        {
+            return ContentHandler.Load<T>(textureName) as Texture2D;
+        }
+        
         #endregion
 
     }

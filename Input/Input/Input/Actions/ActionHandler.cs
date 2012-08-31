@@ -14,11 +14,11 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Xml;
-using Input.Global;
 
 #if WINDOWS
 
 using System.Windows.Forms;
+using Input.Misc;
 using Microsoft.Xna.Framework.Content.Pipeline.Serialization.Intermediate;
 
 #endif

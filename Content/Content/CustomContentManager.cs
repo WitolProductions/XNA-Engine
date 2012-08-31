@@ -10,12 +10,11 @@
 // Document Name: CustomContentManager.cs Version: 1.0 Last Edited: 8/4/2012
 // ------------------------------------------------------------------------
 
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework.Content;
-
-
 
 #if WINDOWS
 using System.Windows.Forms;
@@ -23,7 +22,7 @@ using System.Windows.Forms;
 using Microsoft.Xna.Framework.GamerServices;
 #endif
 
-namespace Content.Content
+namespace Content
 {
     /// <summary>
     /// Class is a modified version of ContentManager to ensure that we can safly dispose of objects and load them back in for increased performance

@@ -15,7 +15,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Input.Global;
+using Input.Misc;
 using Microsoft.Xna.Framework;
 using Keys = Microsoft.Xna.Framework.Input.Keys;
 using System.Windows.Forms;

@@ -10,7 +10,7 @@
 // Document Name: Constant.cs Version: 1.0 Last Edited: 6/26/2012
 // ------------------------------------------------------------------------
 
-namespace Input.Global
+namespace Input.Misc
 {
     static class Constant
     {       

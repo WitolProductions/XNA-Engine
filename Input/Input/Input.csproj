@@ -63,8 +63,6 @@
     <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Global\Constant.cs" />
-    <Compile Include="Global\Enumeration.cs" />
     <Compile Include="Input\Actions\ActionHandler.cs" />
     <Compile Include="Input\Actions\Actions.cs" />
     <Compile Include="Input\Actions\CustomKey.cs" />
@@ -76,6 +74,8 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Input\Windows\StringCreator.cs" />
+    <Compile Include="Misc\Constant.cs" />
+    <Compile Include="Misc\Enumeration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

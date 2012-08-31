@@ -13,7 +13,7 @@
 #if WINDOWS
 
 using System;
-using Input.Global;
+using Input.Misc;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 

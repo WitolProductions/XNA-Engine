@@ -12,7 +12,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
-using Input.Global;
+using Input.Misc;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 

@@ -12,11 +12,13 @@
 
 using System;
 using System.Collections.Generic;
+using Content.ContentHolders;
 using Content.ContentTypes;
+using Content.Misc;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Content.Content
+namespace Content
 {
     public class ContentHandler : DrawableGameComponent
     {
@@ -63,7 +65,9 @@ namespace Content.Content
                 {
                     case "Texture2D":
                         {
-                            
+                            var content = new GameTexture2D {Loaded = false, Path = f.Key};
+                            Textures.Add(content);
+                            Unload<Texture2D>(content);
                         }
                         break;
                     case "SpriteSheet":
@@ -97,7 +101,7 @@ namespace Content.Content
         {
             base.Update(gameTime);
 
-           // Textures.Update(gameTime);
+            Textures.Update(gameTime);
         }
 
         #endregion
@@ -126,7 +130,7 @@ namespace Content.Content
                             if (texture.Loaded)
                             {
                                 texture.UnloadTimer = Constants.UnloadTimer;
-                                return texture;
+                                return texture.Texture;
                             }
 
                             //Else reload our object and setup its dispose timer and return the texture
@@ -139,6 +143,11 @@ namespace Content.Content
 
                         #endregion
 
+
+                        return null;
+                    }
+                case "SpriteSheet":
+                    {
                         #region Sprite Sheet Check
 
                         //Get our Sprite Sheet
@@ -177,7 +186,7 @@ namespace Content.Content
             {
                 case "Texture2D":
                     {
-                        ((GameTexture) content).Dispose();
+                        ((GameTexture2D) content).Dispose();
                     }
                     break;
                 case "SpriteSheet":

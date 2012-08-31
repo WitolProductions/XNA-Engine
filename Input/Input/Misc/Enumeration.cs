@@ -12,7 +12,7 @@
 
 using Microsoft.Xna.Framework.Input;
 
-namespace Input.Global
+namespace Input.Misc
 {
     public class Enumeration
     {     

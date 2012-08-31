@@ -13,7 +13,7 @@
 using System;
 using System.Linq;
 using System.Windows.Forms;
-using Input.Global;
+using Input.Misc;
 using Microsoft.Xna.Framework.Input;
 
 namespace ControlSchemeCreator

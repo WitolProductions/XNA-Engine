@@ -44,8 +44,8 @@
   </PropertyGroup>
   <ItemGroup />
   <ItemGroup>
-    <Compile Include="Global\Constant.cs" />
-    <Compile Include="Global\Enumeration.cs" />
+    <Compile Include="Misc\Constant.cs" />
+    <Compile Include="Misc\Enumeration.cs" />
     <Compile Include="Input\Actions\ActionHandler.cs" />
     <Compile Include="Input\Actions\Actions.cs" />
     <Compile Include="Input\Actions\CustomKey.cs" />

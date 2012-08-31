@@ -10,7 +10,7 @@
 // Document Name: Constants.cs Version: 1.0 Last Edited: 8/21/2012
 // ------------------------------------------------------------------------
 
-namespace Content
+namespace Content.Misc
 {
     public static class Constants
     {

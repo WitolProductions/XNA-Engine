@@ -50,15 +50,16 @@
   </PropertyGroup>
   <ItemGroup />
   <ItemGroup>
-    <Compile Include="Constants.cs" />
+    <Compile Include="ContentHandler.cs" />
+    <Compile Include="ContentHolders\Textures.cs" />
     <Compile Include="ContentTypes\Files.cs" />
+    <Compile Include="ContentTypes\GameTexture2D.cs" />
+    <Compile Include="ContentTypes\GameTexture3D.cs" />
     <Compile Include="ContentTypes\IDisposableObject.cs" />
     <Compile Include="ContentTypes\SpriteSheet.cs" />
-    <Compile Include="ContentTypes\GameTexture.cs" />
-    <Compile Include="Content\ContentHandler.cs" />
-    <Compile Include="Content\CustomContentManager.cs" />
+    <Compile Include="CustomContentManager.cs" />
+    <Compile Include="Misc\Constants.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Textures.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Xna.Framework" />

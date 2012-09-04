@@ -45,9 +45,10 @@
   <ItemGroup>
     <Compile Include="ContentHandler.cs" />
     <Compile Include="ContentHolders\Textures.cs" />
-    <Compile Include="ContentTypes\Files.cs" />
+    <Compile Include="ContentTypes\Files.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="ContentTypes\GameTexture2D.cs" />
-    <Compile Include="ContentTypes\GameTexture3D.cs" />
     <Compile Include="ContentTypes\IDisposableObject.cs" />
     <Compile Include="ContentTypes\SpriteSheet.cs" />
     <Compile Include="CustomContentManager.cs" />

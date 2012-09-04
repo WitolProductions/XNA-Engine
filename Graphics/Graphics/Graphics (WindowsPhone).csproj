@@ -54,6 +54,7 @@
     <Folder Include="ScreenManager\" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Graphics.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -73,6 +74,12 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Game\Game\Engine %28WindowsPhone%29.csproj">
+      <Project>{98CE9D0F-65F0-4D3B-BC10-A8398356CFE6}</Project>
+      <Name>Engine %28WindowsPhone%29</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\Microsoft.Xna.GameStudio.targets" />

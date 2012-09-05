@@ -1,5 +1,4 @@
-﻿// -----------------------------------------------------------------------
-//                       Created By: Justin Witol
+﻿//                       Created By: Justin Witol
 //                       www.WitolProductions.com
 // If you add or alter any code please include your name below if you wish.
 //                             Special Thanks: 
@@ -94,6 +93,7 @@ namespace Content
 
         protected override void UnloadContent()
         {
+            Textures.Unload();
             base.UnloadContent();
         }
 
@@ -198,6 +198,5 @@ namespace Content
         }
 
         #endregion
-
     }
 }

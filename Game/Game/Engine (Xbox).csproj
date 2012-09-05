@@ -47,6 +47,10 @@
       <Project>{41A0BBA9-AF89-48DD-A6BC-8EF9536A0429}</Project>
       <Name>Content %28Xbox%29</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Graphics\Graphics\Graphics %28Xbox%29.csproj">
+      <Project>{7A424D1F-EF59-494E-9E22-9817425F153D}</Project>
+      <Name>Graphics %28Xbox%29</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Input\Input\Input %28Xbox%29.csproj">
       <Project>{06658EEF-3C40-4451-BD1A-D9CE9E9C69A3}</Project>
       <Name>Input %28Xbox%29</Name>

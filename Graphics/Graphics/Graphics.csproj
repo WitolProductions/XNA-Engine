@@ -61,20 +61,22 @@
     <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Graphics.cs" />
+    <Compile Include="GraphicsHandler.cs" />
+    <Compile Include="Misc\Constants.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ScreenManager\ScreenBase.cs" />
+    <Compile Include="ScreenManager\ScreenHandler.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="GUI\" />
-    <Folder Include="ScreenManager\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Game\Game\Engine.csproj">
-      <Project>{7B2A9909-20B9-4B0F-BFC2-7A11A53756D7}</Project>
-      <Name>Engine</Name>
+    <ProjectReference Include="..\..\Content\Content\Content.csproj">
+      <Project>{8BC6EA47-7E4F-46C9-A59D-6332B98DE815}</Project>
+      <Name>Content</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

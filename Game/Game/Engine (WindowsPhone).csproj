@@ -54,6 +54,10 @@
       <Project>{3804CD73-E802-4189-AFA8-694F66A3385E}</Project>
       <Name>Content %28WindowsPhone%29</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Graphics\Graphics\Graphics %28WindowsPhone%29.csproj">
+      <Project>{9E73D2CE-347F-4AFB-B75A-A7CBFA33416B}</Project>
+      <Name>Graphics %28WindowsPhone%29</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Input\Input\Input %28WindowsPhone%29.csproj">
       <Project>{D6EA2EC1-FA1E-4BD4-8026-DB5B80D056FF}</Project>
       <Name>Input %28WindowsPhone%29</Name>

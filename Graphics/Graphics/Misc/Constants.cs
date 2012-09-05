@@ -1,4 +1,4 @@
-﻿// -----------------------------------------------------------------------
+// -----------------------------------------------------------------------
 //                       Created By: Justin Witol
 //                       www.WitolProductions.com
 // If you add or alter any code please include your name below if you wish.
@@ -7,18 +7,14 @@
 // 
 // You are free to use this code in any way you want. I only ask if you do
 //       use it you please mention my website and or name.
-// Document Name: Graphics.cs Version: 1.0 Last Edited: 9/4/2012
+// Document Name: Constants.cs Version: 1.0 Last Edited: 8/21/2012
 // ------------------------------------------------------------------------
 
-using Microsoft.Xna.Framework;
-
-namespace Graphics
+namespace Graphics.Misc
 {
-    public class Graphics
+    public static class Constants
     {
-        public static void Clear(Color color)
-        {
-            Engine.Engine.Game.GraphicsDevice.Clear(color);
-        }
+        public const int StartDrawOrder = 0;
+        public const int DrawOrderInc = 100;
     }
 }

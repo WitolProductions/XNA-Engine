@@ -11,29 +11,31 @@
 // ------------------------------------------------------------------------
 
 using Content;
+using Graphics;
 using Input;
 using Input.Input.Actions;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace Engine
 {
     public abstract class TheGame : Game
     {
         #region Fields
-
+        
         /// <summary>
         /// Grants access to the Graphics Device Manager
         /// </summary>
         public static GraphicsDeviceManager GraphicsDeviceManager;
 
         /// <summary>
-        /// Grants access to the Sprite Batch
+        /// Shortcut to our Content Manager
         /// </summary>
-        public SpriteBatch SpriteBatch;
+        public new static CustomContentManager Content = null;
 
-        public new static CustomContentManager Content = ContentHandler.Content;
-        
+        /// <summary>
+        /// Shortcut to our Graphics Handler
+        /// </summary>
+        public static GraphicsHandler Graphics = null;
 
         #endregion
 
@@ -44,6 +46,7 @@ namespace Engine
         /// </summary>
         protected TheGame()
         {
+            //Setup our games form  
             GraphicsDeviceManager = new GraphicsDeviceManager(this)
             {
                 PreferredBackBufferWidth = 1024,
@@ -51,8 +54,10 @@ namespace Engine
                 IsFullScreen = false,
                 PreferMultiSampling = true
             };
-
+            //Ensure mouse shows up
             IsMouseVisible = true;
+
+ 
         }
 
         #endregion
@@ -66,9 +71,9 @@ namespace Engine
         {
             Components.Add(new InputHandler(this));
             Components.Add(new ContentHandler(this, Services, "Content"));
-
+            
             Content = ContentHandler.Content;
-            SpriteBatch = new SpriteBatch(GraphicsDevice);
+            GraphicsHandler.Initialize(this);
 
             ActionHandler.Load();
 

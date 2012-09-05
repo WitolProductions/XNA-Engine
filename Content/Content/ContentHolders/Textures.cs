@@ -10,6 +10,7 @@
 // Document Name: Textures.cs Version: 1.0 Last Edited: 8/21/2012
 // ------------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Content.ContentTypes;
@@ -135,7 +136,7 @@ namespace Content.ContentHolders
             var spriteSheet = GetSpriteSheet(spriteName);
             
             if (!spriteSheet.SpriteNames.TryGetValue(spriteName, out index))
-                throw new KeyNotFoundException("SpriteSheet does not contain a sprite named" + spriteName);
+                throw new KeyNotFoundException("SpriteSheet does not contain a sprite named " + spriteName);
             
             return index;
         }
@@ -163,9 +164,10 @@ namespace Content.ContentHolders
             {
                 case "Texture2D":
                     {
-                        ContentHandler.Load<Texture2D>(textureName);
+                        if (ContentHandler.Load<Texture2D>(textureName) != null)
+                            return GetGameTexture(textureName).Texture.Bounds;
 
-                        return GetGameTexture(textureName).Texture.Bounds;
+                        throw new Exception("Cannot find source: " + textureName + " of type " + typeof(T).Name); 
                     }
                 case "SpriteSheet":
                     {
@@ -179,9 +181,27 @@ namespace Content.ContentHolders
             return new Rectangle();
         }
 
+        /// <summary>
+        /// Returns a texture based on name sent
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="textureName"></param>
+        /// <returns></returns>
         public static Texture2D Texture<T>(string textureName)
         {
             return ContentHandler.Load<T>(textureName) as Texture2D;
+        }
+
+        public static void Unload()
+        {
+            foreach(var t in _textures)
+                t.Dispose();
+
+            foreach(var ss in _spriteSheets)
+                ss.Dispose();
+            
+            _textures.Clear();
+            _spriteSheets.Clear();
         }
         
         #endregion

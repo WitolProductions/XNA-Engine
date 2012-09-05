@@ -44,11 +44,13 @@
   </PropertyGroup>
   <ItemGroup>
     <Folder Include="GUI\" />
-    <Folder Include="ScreenManager\" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Graphics.cs" />
+    <Compile Include="GraphicsHandler.cs" />
+    <Compile Include="Misc\Constants.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ScreenManager\ScreenBase.cs" />
+    <Compile Include="ScreenManager\ScreenHandler.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Xna.Framework" />
@@ -66,9 +68,9 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Game\Game\Engine %28Xbox%29.csproj">
-      <Project>{B2813C50-E965-4312-826E-E3B94DE32340}</Project>
-      <Name>Engine %28Xbox%29</Name>
+    <ProjectReference Include="..\..\Content\Content\Content %28Xbox%29.csproj">
+      <Project>{41A0BBA9-AF89-48DD-A6BC-8EF9536A0429}</Project>
+      <Name>Content %28Xbox%29</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

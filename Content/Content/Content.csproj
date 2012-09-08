@@ -61,6 +61,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ContentTypes\Files.cs" />
+    <Compile Include="ContentTypes\Font.cs" />
     <Compile Include="Misc\Constants.cs" />
     <Compile Include="ContentTypes\GameTexture2D.cs" />
     <Compile Include="ContentTypes\IDisposableObject.cs" />

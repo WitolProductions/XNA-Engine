@@ -32,6 +32,11 @@ namespace Content.ContentHolders
         /// List of our Textures
         /// </summary>
         static List<GameTexture2D> _textures = null;
+
+        /// <summary>
+        /// List of our Fonts
+        /// </summary>
+        static List<Font> _fonts = null;
         
         #endregion
 
@@ -41,6 +46,7 @@ namespace Content.ContentHolders
         {
             _spriteSheets = new List<SpriteSheet>();
             _textures = new List<GameTexture2D>();
+            _fonts = new List<Font>();
         }
 
         public static void Update(GameTime gameTime)
@@ -58,12 +64,7 @@ namespace Content.ContentHolders
 
         #endregion
 
-        #region Methods
-
-
-        #endregion
-
-        #region Texture Methods
+        #region Game Texture Methods
 
         /// <summary>
         /// Add the passed texture
@@ -125,7 +126,6 @@ namespace Content.ContentHolders
                 _spriteSheets.Remove(spriteSheet);
         }
         
-
         /// <summary>
         /// Looks up the numeric index of the specified sprite. This is useful when
         /// implementing animation by cycling through a series of related sprites.
@@ -149,6 +149,37 @@ namespace Content.ContentHolders
         public static SpriteSheet GetSpriteSheet(string textureName)
         {
             return _spriteSheets.Where(t => t.SpriteNames.ContainsKey(textureName)).FirstOrDefault();
+        }
+
+        #endregion
+
+        #region Font 
+
+        
+        /// <summary>
+        /// Add the passed font
+        /// </summary>
+        /// <param name="font"></param>
+        public static void Add(Font font)
+        {
+            Remove(font);
+
+            _fonts.Add(font);
+        }
+        /// <summary>
+        /// Remove our Font
+        /// </summary>
+        /// <param name="font"></param>
+        static void Remove(Font font)
+        {
+            //Remove our font if it exists
+            if (_fonts.Contains(font))
+                _fonts.Remove(font);
+        }
+
+        public static Font GetFont(string name)
+        {
+            return _fonts.Where(t => t.Path == name).FirstOrDefault();
         }
 
         #endregion
@@ -192,6 +223,11 @@ namespace Content.ContentHolders
             return ContentHandler.Load<T>(textureName) as Texture2D;
         }
 
+        public static SpriteFont SpriteFont(string name)
+        {
+            return ContentHandler.Load<SpriteFont>(name) as SpriteFont;
+        }
+
         public static void Unload()
         {
             foreach(var t in _textures)
@@ -203,8 +239,9 @@ namespace Content.ContentHolders
             _textures.Clear();
             _spriteSheets.Clear();
         }
-        
+
         #endregion
+
 
     }
 }

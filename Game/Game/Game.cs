@@ -12,6 +12,7 @@
 
 using Content;
 using Graphics;
+using Graphics.ScreenManager;
 using Input;
 using Input.Input.Actions;
 using Microsoft.Xna.Framework;
@@ -37,6 +38,11 @@ namespace Engine
         /// </summary>
         public static GraphicsHandler Graphics = null;
 
+        /// <summary>
+        /// Shortcut to our Screen Handler
+        /// </summary>
+        public static ScreenHandler Screen = null;
+
         #endregion
 
         #region Constructor
@@ -56,8 +62,6 @@ namespace Engine
             };
             //Ensure mouse shows up
             IsMouseVisible = true;
-
- 
         }
 
         #endregion
@@ -71,7 +75,8 @@ namespace Engine
         {
             Components.Add(new InputHandler(this));
             Components.Add(new ContentHandler(this, Services, "Content"));
-            
+            Components.Add(new ScreenHandler(this));
+
             Content = ContentHandler.Content;
             GraphicsHandler.Initialize(this);
 

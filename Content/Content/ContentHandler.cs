@@ -67,8 +67,7 @@ namespace Content
                             var content = new GameTexture2D {Loaded = false, Path = f.Key};
                             Textures.Add(content);
                             Unload<Texture2D>(content);
-                        }
-                        break;
+                        } break;
                     case "SpriteSheet":
                         {
                             var content = Content.Load<SpriteSheet>(f.Key);
@@ -79,6 +78,17 @@ namespace Content
                                 content.UnloadTimer = Constants.UnloadTimer;
                                 Textures.Add(content);
                                 Unload<SpriteSheet>(content);
+                            }
+                        } break;
+                    case "SpriteFont":
+                        {
+                            var font = new Font {Loaded = false, Path = f.Key};
+                            Textures.Add(font);
+                            var loadedFont = Load<SpriteFont>(font.Path) as SpriteFont;
+                            if (loadedFont != null)
+                            {
+                                font.Loaded = true;
+                                font.SpriteFont = loadedFont;
                             }
                         } break;
                 }
@@ -174,6 +184,29 @@ namespace Content
 
                         return null;
                     }
+                case "SpriteFont":
+                    {
+                        #region SpriteFont Check
+
+                        //Get our Font
+                        var font = Textures.GetFont(objectName);
+
+                        if (font != null)
+                        {
+                            //If font is already loaded in than simplu return it
+                            if (font.Loaded)
+                                return font.SpriteFont;
+                            
+
+                            //Else load our font in
+                            font.SpriteFont = Content.Load<SpriteFont>(font.Path);
+                            return font.SpriteFont;
+                        }
+                        
+                        #endregion
+
+                        return null;
+                    }
             }
 
 
@@ -187,16 +220,19 @@ namespace Content
                 case "Texture2D":
                     {
                         ((GameTexture2D) content).Dispose();
-                    }
-                    break;
+                    } break;
                 case "SpriteSheet":
                     {
                         ((SpriteSheet) content).Dispose();
-                    }
-                    break;
+                    } break;
+                case "SpriteFont":
+                    {
+                        //No need to dispose this, not even sure if its possible
+                    } break;
             }
         }
 
         #endregion
     }
 }
+

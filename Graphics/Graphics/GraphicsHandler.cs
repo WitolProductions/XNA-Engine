@@ -12,6 +12,7 @@
 
 using System;
 using System.Reflection;
+using System.Text;
 using Content.ContentHolders;
 using Content.ContentTypes;
 using Microsoft.Xna.Framework;
@@ -85,7 +86,7 @@ namespace Graphics
         /// <param name="scalev">Scale value listed as a Vector2</param>
         /// <param name="spriteEffects">Sprite Effects</param>
         /// <param name="layerDepth">Layer Depth</param>
-        public static void RealDraw(Texture2D texture, Rectangle destination, Rectangle? source, Color color, float? rotation, Vector2? origin, float? scalef, Vector2? scalev, SpriteEffects? spriteEffects, float? layerDepth)
+        static void RealDraw(Texture2D texture, Rectangle destination, Rectangle? source, Color color, float? rotation, Vector2? origin, float? scalef, Vector2? scalev, SpriteEffects? spriteEffects, float? layerDepth)
         {
             if (!_spriteBatchActive) return;
             if (texture == null) return; //If texture is null return
@@ -122,6 +123,35 @@ namespace Graphics
                         _spriteBatch.Draw(texture, destination, source, color);
                 }
             }
+        }
+
+        /// <summary>
+        /// Major method that is used for every single draw call drawing text
+        /// </summary>
+        /// <param name="font">Font texture used</param>
+        /// <param name="text">Text to be displayed</param>
+        /// <param name="position">Position of text placment</param>
+        /// <param name="color">Color of text</param>
+        /// <param name="rotation">Rotation used on text</param>
+        /// <param name="origin">Origin of text</param>
+        /// <param name="scalef">Scale value listed as a Float</param>
+        /// <param name="scalev">Scale value listed as a Vector2</param>
+        /// <param name="spriteEffects">Sprite Effects</param>
+        /// <param name="layerDepth">Layer Depth</param>
+        static void RealSpriteFontDraw(SpriteFont font, StringBuilder text, Vector2 position, Color color, float? rotation, Vector2? origin, float? scalef, Vector2? scalev, SpriteEffects? spriteEffects, float? layerDepth)
+        {
+            if (!_spriteBatchActive) return;
+            if (font == null) return; //If font is null return
+
+            if (rotation.HasValue && origin.HasValue && (scalef.HasValue || scalev.HasValue) && spriteEffects.HasValue && layerDepth.HasValue)
+            {//If all our nullable values are present then check which scale was passed to see which method to use
+                if (scalef.HasValue)
+                    _spriteBatch.DrawString(font, text, position, color, (float)rotation, (Vector2)origin, (float)scalef, (SpriteEffects)spriteEffects, (float)layerDepth);
+                else
+                    _spriteBatch.DrawString(font, text, position, color, (float)rotation, (Vector2)origin, (Vector2)scalev, (SpriteEffects)spriteEffects, (float)layerDepth);
+            }
+            else
+                _spriteBatch.DrawString(font, text, position, color);
         }
 
         /// <summary>
@@ -175,6 +205,22 @@ namespace Graphics
             throw new Exception("Cannot find source: " + name + " of type " + type.Name); 
         }
 
+        /// <summary>
+        /// Get a font based on the name passed
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        static SpriteFont GetFont(string name)
+        {
+            SpriteFont font;
+            
+            if ((font = Textures.SpriteFont(name)) != null)
+                return font;
+            
+            //Error was met
+            throw new Exception("Cannot find Font: " + name);
+        }
+
         #endregion
 
         #region Draw Methods With Source
@@ -220,6 +266,21 @@ namespace Graphics
 
         #endregion
 
+        #region Sprite Font Draw Calls
+
+        /// <summary>
+        /// Draw String
+        /// </summary>
+        /// <param name="name">Sprite Font name</param>
+        /// <param name="text">Text to draw</param>
+        /// <param name="position">Destination</param>
+        /// <param name="color">Color</param>
+        public static void DrawString(string name, string text, Vector2 position, Color color)
+        {
+            RealSpriteFontDraw(GetFont(name), new StringBuilder(text), position, color, null, null, null, null, null, null);
+        }
+
+        #endregion
     }
 }
 

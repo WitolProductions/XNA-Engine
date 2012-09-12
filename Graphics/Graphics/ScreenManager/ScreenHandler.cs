@@ -42,6 +42,11 @@ namespace Graphics.ScreenManager
         static ScreenHandler Instance { get; set; }
 
         /// <summary>
+        /// The level that this game component draws too
+        /// </summary>
+        public static int DrawLevel { get { return Instance.DrawOrder; } }
+
+        /// <summary>
         /// When you try to get this Property you recieve the top level screen
         /// </summary>
         public static ScreenBase CurrentScreen

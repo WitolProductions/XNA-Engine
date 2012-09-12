@@ -62,14 +62,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GraphicsHandler.cs" />
+    <Compile Include="GUI\Controls\ControlBase.cs" />
+    <Compile Include="GUI\Controls\GuiForm.cs" />
+    <Compile Include="GUI\Controls\Label.cs" />
+    <Compile Include="GUI\GuiRenderer.cs" />
+    <Compile Include="GUI\Interfaces\IFont.cs" />
+    <Compile Include="GUI\Interfaces\IString.cs" />
     <Compile Include="Misc\Constants.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScreenManager\ScreenBase.cs" />
     <Compile Include="ScreenManager\ScreenHandler.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="GUI\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>

@@ -142,7 +142,8 @@ namespace Graphics
         {
             if (!_spriteBatchActive) return;
             if (font == null) return; //If font is null return
-
+            if (String.IsNullOrEmpty(text.ToString())) return; //Dont try drawing null text
+            
             if (rotation.HasValue && origin.HasValue && (scalef.HasValue || scalev.HasValue) && spriteEffects.HasValue && layerDepth.HasValue)
             {//If all our nullable values are present then check which scale was passed to see which method to use
                 if (scalef.HasValue)

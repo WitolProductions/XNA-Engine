@@ -14,7 +14,6 @@ namespace Content.ContentTypes
 {
     public interface IDisposableObject
     {
-
         #region Fields
 
         /// <summary>

@@ -55,10 +55,14 @@
     <Compile Include="GUI\Controls\ControlBase.cs" />
     <Compile Include="GUI\Controls\GuiForm.cs" />
     <Compile Include="GUI\Controls\Label.cs" />
-    <Compile Include="GUI\GuiRenderer.cs" />
+    <Compile Include="GUI\GuiHandler.cs" />
+    <Compile Include="GUI\Interfaces\IBackground.cs" />
+    <Compile Include="GUI\Interfaces\IBorder.cs" />
+    <Compile Include="GUI\Interfaces\IEvents.cs" />
     <Compile Include="GUI\Interfaces\IFont.cs" />
     <Compile Include="GUI\Interfaces\IString.cs" />
     <Compile Include="Misc\Constants.cs" />
+    <Compile Include="Misc\Enumerationcs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScreenManager\ScreenBase.cs" />
     <Compile Include="ScreenManager\ScreenHandler.cs" />
@@ -88,6 +92,10 @@
     <ProjectReference Include="..\..\Content\Content\Content %28WindowsPhone%29.csproj">
       <Project>{3804CD73-E802-4189-AFA8-694F66A3385E}</Project>
       <Name>Content %28WindowsPhone%29</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Input\Input\Input %28WindowsPhone%29.csproj">
+      <Project>{D6EA2EC1-FA1E-4BD4-8026-DB5B80D056FF}</Project>
+      <Name>Input %28WindowsPhone%29</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

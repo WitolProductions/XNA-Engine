@@ -1,11 +1,11 @@
 namespace Graphics.GUI.Interfaces
 {
     /// <summary>
-    /// IString implements an Interface that allows writting text onto a Control, requires IFont in order to work
+    /// IString implements an Interface that allows writting a single line of text onto a Control, requires a valid IFont in order to work
     /// </summary>
-    interface IString : IFont
+    interface IString : IFont, IEvents
     {
-        #region Fields
+        #region Properties
 
         /// <summary>
         /// Text to be Written 

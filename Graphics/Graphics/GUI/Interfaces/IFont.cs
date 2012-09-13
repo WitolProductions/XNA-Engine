@@ -2,9 +2,12 @@
 
 namespace Graphics.GUI.Interfaces
 {
+    /// <summary>
+    /// Provides font for support for controls
+    /// </summary>
     public interface IFont
     {
-        #region Fields
+        #region Properties
 
         /// <summary>
         /// Font's Name

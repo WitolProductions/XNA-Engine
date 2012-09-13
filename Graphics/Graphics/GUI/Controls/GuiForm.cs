@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework;
 
 namespace Graphics.GUI.Controls
 {
-    public class GuiForm : ControlBase, IFont
+    public class GuiForm : ControlBase
     {
         #region Fields
 

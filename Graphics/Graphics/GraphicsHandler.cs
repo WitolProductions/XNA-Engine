@@ -34,7 +34,15 @@ namespace Graphics
         /// </summary>
         static SpriteBatch _spriteBatch = null;
 
+        /// <summary>
+        /// Helps determine if our Sprite Batch is Currently inbetween Begin and End
+        /// </summary>
         static bool _spriteBatchActive = false;
+
+        /// <summary>
+        /// Texture used in many places inside our graphics engine
+        /// </summary>
+        static Texture2D _whiteTexture;
 
         #endregion
         
@@ -44,18 +52,29 @@ namespace Graphics
         {
             _graphicsDevice = game.GraphicsDevice;
             _spriteBatch = new SpriteBatch(_graphicsDevice);
+
+            //Create a single pixel white texture that can be used over and over
+            _whiteTexture = new Texture2D(_graphicsDevice, 1, 1);
+            _whiteTexture.SetData(new[] { Color.White });
         }
 
         #endregion
 
         #region Special Methods
 
+        /// <summary>
+        /// Clear the screen to the color passed
+        /// </summary>
+        /// <param name="color"></param>
         public static void Clear(Color color)
         {
             if (_graphicsDevice == null) throw new Exception("Graphics Device cannot be null - Clear(Color)");
             _graphicsDevice.Clear(color);
         }
 
+        /// <summary>
+        /// Begins our Sprite Batch 
+        /// </summary>
         public static void Begin()
         {
             if (_spriteBatchActive) return; //Do not allow attempts at running Begin multiple times
@@ -281,7 +300,71 @@ namespace Graphics
             RealSpriteFontDraw(GetFont(name), new StringBuilder(text), position, color, null, null, null, null, null, null);
         }
 
+        /// <summary>
+        /// Messures the Width and Height of a string passed
+        /// </summary>
+        /// <param name="font">Font to messure against</param>
+        /// <param name="text">String to messure</param>
+        /// <returns></returns>
+        public static Vector2 MesureString(string font, string text)
+        {
+            return string.IsNullOrEmpty(text) ? Vector2.Zero : GetFont(font).MeasureString(text);
+        }
+
         #endregion
+
+        #region Other Draw methods
+
+        /// <summary>
+        /// Draws a Horizontal line.
+        /// </summary>
+        /// <param name="start">Start Point</param>
+        /// <param name="end">End Point</param>
+        /// <param name="border">Border Width</param>
+        /// <param name="alpha">Alpha</param>
+        public static void DrawHLine(Point start, int end, int border, float alpha)
+        {
+            _spriteBatch.Draw(_whiteTexture, new Rectangle(start.X, start.Y, end, border), Color.White * alpha);
+        }
+
+        /// <summary>
+        /// Draws a Verticle line.
+        /// </summary>
+        /// <param name="start">Start Point</param>
+        /// <param name="end">End Point</param>
+        /// <param name="border">Border Width</param>
+        /// <param name="alpha">Alpha</param>
+        public static void DrawVLine(Point start, int end, int border, float alpha)
+        {
+            _spriteBatch.Draw(_whiteTexture, new Rectangle(start.X, start.Y, border, end), Color.White * alpha);
+        }
+
+        /// <summary>
+        /// Draw a rectangle.
+        /// </summary>
+        /// <param name="rectangle">The rectangle to draw.</param>
+        /// <param name="color">The draw color.</param>
+        /// <param name="borderWidth">Width of Rectangle Border</param>
+        public static void DrawRectangle(Rectangle rectangle, Color color, int borderWidth)
+        {
+            _spriteBatch.Draw(_whiteTexture, new Rectangle(rectangle.Left, rectangle.Top, rectangle.Width, borderWidth), color);
+            _spriteBatch.Draw(_whiteTexture, new Rectangle(rectangle.Left, rectangle.Bottom, rectangle.Width, borderWidth), color);
+            _spriteBatch.Draw(_whiteTexture, new Rectangle(rectangle.Left, rectangle.Top, borderWidth, rectangle.Height), color);
+            _spriteBatch.Draw(_whiteTexture, new Rectangle(rectangle.Right, rectangle.Top, borderWidth, rectangle.Height + borderWidth), color);
+        }
+
+        /// <summary>
+        /// Fill a rectangle
+        /// </summary>
+        /// <param name="rectangle">The rectangle to fill</param>
+        /// <param name="color">Color</param>
+        public static void DrawFillRectangle(Rectangle rectangle, Color color)
+        {
+            _spriteBatch.Draw(_whiteTexture, rectangle, color);
+        }
+
+        #endregion
+
     }
 }
 

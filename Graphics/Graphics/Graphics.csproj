@@ -65,10 +65,14 @@
     <Compile Include="GUI\Controls\ControlBase.cs" />
     <Compile Include="GUI\Controls\GuiForm.cs" />
     <Compile Include="GUI\Controls\Label.cs" />
-    <Compile Include="GUI\GuiRenderer.cs" />
+    <Compile Include="GUI\GuiHandler.cs" />
+    <Compile Include="GUI\Interfaces\IBackground.cs" />
+    <Compile Include="GUI\Interfaces\IBorder.cs" />
+    <Compile Include="GUI\Interfaces\IEvents.cs" />
     <Compile Include="GUI\Interfaces\IFont.cs" />
     <Compile Include="GUI\Interfaces\IString.cs" />
     <Compile Include="Misc\Constants.cs" />
+    <Compile Include="Misc\Enumerationcs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScreenManager\ScreenBase.cs" />
     <Compile Include="ScreenManager\ScreenHandler.cs" />
@@ -81,6 +85,10 @@
     <ProjectReference Include="..\..\Content\Content\Content.csproj">
       <Project>{8BC6EA47-7E4F-46C9-A59D-6332B98DE815}</Project>
       <Name>Content</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Input\Input\Input.csproj">
+      <Project>{8B671AF9-1AE2-4F53-BC27-B85AC3913E94}</Project>
+      <Name>Input</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

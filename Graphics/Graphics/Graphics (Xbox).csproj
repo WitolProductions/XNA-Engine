@@ -48,10 +48,14 @@
     <Compile Include="GUI\Controls\ControlBase.cs" />
     <Compile Include="GUI\Controls\GuiForm.cs" />
     <Compile Include="GUI\Controls\Label.cs" />
-    <Compile Include="GUI\GuiRenderer.cs" />
+    <Compile Include="GUI\GuiHandler.cs" />
+    <Compile Include="GUI\Interfaces\IBackground.cs" />
+    <Compile Include="GUI\Interfaces\IBorder.cs" />
+    <Compile Include="GUI\Interfaces\IEvents.cs" />
     <Compile Include="GUI\Interfaces\IFont.cs" />
     <Compile Include="GUI\Interfaces\IString.cs" />
     <Compile Include="Misc\Constants.cs" />
+    <Compile Include="Misc\Enumerationcs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScreenManager\ScreenBase.cs" />
     <Compile Include="ScreenManager\ScreenHandler.cs" />
@@ -75,6 +79,10 @@
     <ProjectReference Include="..\..\Content\Content\Content %28Xbox%29.csproj">
       <Project>{41A0BBA9-AF89-48DD-A6BC-8EF9536A0429}</Project>
       <Name>Content %28Xbox%29</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Input\Input\Input %28Xbox%29.csproj">
+      <Project>{06658EEF-3C40-4451-BD1A-D9CE9E9C69A3}</Project>
+      <Name>Input %28Xbox%29</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

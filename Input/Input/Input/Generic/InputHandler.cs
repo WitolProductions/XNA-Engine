@@ -18,6 +18,7 @@ using Microsoft.Xna.Framework.Input;
 #endif
 
 #if WINDOWS_PHONE
+using System.Linq;
 using Microsoft.Xna.Framework.Input.Touch;
 #endif
 
@@ -98,9 +99,19 @@ namespace Input
 #if WINDOWS || WIDNOWS_PHONE
             #region Windows and Windows Phone Stuff
             
-            //Update our Keyboard and mouse states
+            //Update our Keyboard/hardware keyboards
             LastKeyboardState = KeyboardState;
             KeyboardState = Keyboard.GetState();
+
+            #endregion
+#endif
+
+#if WINDOWS_PHONE
+            #region Windows Phone Stuff
+            
+            //Update our Tourch screen information if its enabled
+            if (TouchEnabled)
+                Touch = TouchPanel.GetState();
 
             #endregion
 #endif
@@ -185,18 +196,48 @@ namespace Input
 
             #endregion
 #endif
-
-#if WINDOWS_PHONE
-            #region Windows Phone Stuff
-
-            Touch = TouchPanel.GetState();
-
-            #endregion
-#endif
             base.Update(gameTime);
         }
-
         
+        #endregion
+
+        #region Generic Methods
+
+        /// <summary>
+        /// Returns if the area passed is currently being hovered over by the mouse
+        /// </summary>
+        /// <param name="area"></param>
+        /// <returns></returns>
+        public static bool Hover(Rectangle area)
+        {
+#if WINDOWS || XBOX
+            return MousePresent(area);
+#elif WINDOWS_PHONE
+            return Touch.IsConnected && Touch.Where(tl => tl.State == TouchLocationState.Moved).Any(tl => area.Contains((int)tl.Position.X, (int)tl.Position.Y));
+#endif
+        }
+
+        /// <summary>
+        /// Returns a bool determing if an area was just clicked
+        /// </summary>
+        /// <param name="area"></param>
+        /// <returns></returns>
+        public static bool Clicked(Rectangle area)
+        {
+#if WINDOWS_PHONE
+            if (TouchPanel.IsGestureAvailable)
+            {
+                var gesture = TouchPanel.ReadGesture();
+
+                return area.Contains((int)gesture.Position.X, (int)gesture.Position.Y) && gesture.GestureType == GestureType.Tap;
+            }
+
+            return false;
+#elif WINDOWS || XBOX
+            return MousePresent(area) && GetMouseButtonsPressed().Length > 0;
+#endif
+        }
+
         #endregion
     }
 }

@@ -1,6 +1,6 @@
 ﻿using Graphics.GUI.Controls;
+using Graphics.GUI.Interfaces;
 using Graphics.Misc;
-using Input;
 using Microsoft.Xna.Framework;
 
 namespace Graphics.GUI
@@ -16,42 +16,13 @@ namespace Graphics.GUI
         /// <param name="gameTime"></param>
         public static void Update(ControlBase control, GameTime gameTime)
         {
-            var controlBase = control;
             foreach (var i in control.GetType().GetInterfaces())
             {
                 switch (i.Name)
                 {
                     case "IEvents":
                         {
-                            if (controlBase.Disabled)
-                            {//Set to Disabled if needed
-                                if (controlBase.State != Enumerationcs.ControlState.Disabled)
-                                {
-                                    controlBase.State = Enumerationcs.ControlState.Disabled;
-                                    FireEvent(control, "OnInputChanged");
-                                }
-                            }
-#if WINDOWS || XBOX
-                            
-
-#elif WINDOWS_PHONE
-                            else if (InputHandler.AreaTouched(controlBase.Bounds))
-                            {
-                                if (controlBase.State != Enumerationcs.ControlState.Clicked)
-                                {
-                                    controlBase.State = Enumerationcs.ControlState.Clicked;
-                                    FireEvent(control, "OnInputChanged");
-                                }
-                            }
-#endif
-                            else
-                            {
-                                if (controlBase.State != Enumerationcs.ControlState.Normal)
-                                {
-                                    controlBase.State = Enumerationcs.ControlState.Normal;
-                                    FireEvent(control, "OnInputChanged");
-                                }
-                            }
+                            Events.Update(control, gameTime);
                         }
                         break;
                     default: //If anything else simply break because its not needed
@@ -109,7 +80,7 @@ namespace Graphics.GUI
         /// <param name="control">Control</param>
         /// <param name="name">Name of Property</param>
         /// <returns>Object</returns>
-        static object GetPropertyValue(object control, string name)
+        public static object GetPropertyValue(object control, string name)
         {
             return control.GetType().GetProperty(name).GetValue(control, null);
         }
@@ -119,9 +90,10 @@ namespace Graphics.GUI
         /// </summary>
         /// <param name="control">Control</param>
         /// <param name="name">Name of Event to fire</param>
-        static void FireEvent(object control, string name)
+        /// <param name="eventArgs">Event args to pass to event, usually can be null</param>
+        public static void FireEvent(object control, string name, object eventArgs)
         {
-            control.GetType().GetEvent(name).AddEventHandler(control, null);
+            control.GetType().GetMethod(name).Invoke(control, new[] { control, eventArgs });
         }
 
         #endregion

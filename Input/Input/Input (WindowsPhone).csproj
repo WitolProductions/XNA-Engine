@@ -57,9 +57,7 @@
     <Compile Include="Input\Generic\ControlerHandler.cs" />
     <Compile Include="Input\Generic\InputHandler.cs" />
     <Compile Include="Input\Generic\KeyboardHandler.cs" />
-    <Compile Include="Input\WidnowsPhone\Phone.cs">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="Input\WidnowsPhone\PhoneHandler.cs" />
     <Compile Include="Input\Windows\MouseHandler.cs" />
     <Compile Include="Input\Windows\StringCreator.cs" />
     <Compile Include="Misc\Constant.cs" />

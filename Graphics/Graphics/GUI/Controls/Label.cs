@@ -10,6 +10,7 @@
 // Document Name: Label.cs Version: 1.0 Last Edited: 9/13/2012
 // ------------------------------------------------------------------------
 
+using System;
 using Graphics.GUI.Interfaces;
 using Microsoft.Xna.Framework;
 
@@ -41,10 +42,12 @@ namespace Graphics.GUI.Controls
         #endregion
 
         #region Implementation of IEvents
-
-        public event ControlEvent OnInputChanged;
-
-        public event ControlEvent OnTextChanged;
+        
+        public event ControlEvent Clicked;
+        public event ControlEvent Enter;
+        public event ControlEvent Leave;
+        public event ControlEvent Disabled;
+        public event ControlEvent TextChanged;
 
         #endregion
 
@@ -110,7 +113,10 @@ namespace Graphics.GUI.Controls
 
         public Label(Game game) : base(game)
         {
-            OnTextChanged += TextChanged;
+            TextChanged += OnTextChanged;
+            Enter += OnEnter;
+            Leave += OnLeave;
+            Clicked += OnClicked;
         }
 
         #endregion
@@ -139,9 +145,28 @@ namespace Graphics.GUI.Controls
 
         #region Events
 
-        void TextChanged(object sender, ControlEvent eventArgs)
+        public void OnTextChanged(object sender, object eventArgs)
         {
-            base.Size = GraphicsHandler.MesureString(Font, Text);
+            Size = GraphicsHandler.MesureString(Font, Text);
+        }
+
+        public void OnEnter(object sender, object eventArgs)
+        {
+            Text = "Entered!";
+        }
+
+        public void OnDisabled(object sender, object eventArgs)
+        {
+        }
+
+        public void OnLeave(object sender, object eventArgs)
+        {
+            Text = "Left!";
+        }
+
+        public void OnClicked(object sender, object eventArgs)
+        {
+            Text = "Clicked!";
         }
 
         #endregion

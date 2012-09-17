@@ -10,8 +10,6 @@
 // Document Name: MouseHandler.cs Version: 1.0 Last Edited: 6/26/2012
 // ------------------------------------------------------------------------
 
-#if WINDOWS
-
 using System;
 using Input.Misc;
 using Microsoft.Xna.Framework;
@@ -23,10 +21,12 @@ namespace Input
     {
         #region Fields
 
+#if WINDOWS
         /// <summary>
         /// List of Mouse buttons currently pressed and how many times they have been pressed
         /// </summary>
         static readonly byte[] MouseButtonsCurrentlyDown = new byte[Enum.GetValues(typeof(Enumeration.MouseButtons)).Length];
+#endif
         
         /// <summary>
         /// Timer to reset our Mouse Clicks
@@ -97,6 +97,7 @@ namespace Input
 
         #region Clicking Methods
 
+#if WINDOWS
         /// <summary>
         /// Checks if the mouse button was pressed more than once, equaling a double click
         /// </summary>
@@ -132,7 +133,8 @@ namespace Input
 
             return false;
         }
-
+        
+#endif
         #endregion
 
         #region General Mouse Methods
@@ -259,6 +261,29 @@ namespace Input
         public static bool MouseScrollDown()
         {
             return MouseState.ScrollWheelValue < LastMouseState.ScrollWheelValue;
+        }
+
+        /// <summary>
+        /// Check if the passed mouse key is currently in the passed mouse state
+        /// </summary>
+        /// <param name="mouseKeyState"></param>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        public static bool MouseCheck(Enumeration.KeyState mouseKeyState, Enumeration.MouseButtons key)
+        {
+            switch (mouseKeyState)
+            {
+                case Enumeration.KeyState.KeyUp:
+                    return MouseButtonUp(key);
+                case Enumeration.KeyState.KeyDown:
+                    return MouseButtonDown(key);
+                case Enumeration.KeyState.KeyReleased:
+                    return MouseButtonReleased(key);
+                case Enumeration.KeyState.KeyPressed:
+                    return MouseButtonPressed(key);
+            }
+
+            return false;
         }
 
         #endregion
@@ -434,30 +459,44 @@ namespace Input
         }
 
         #endregion
+
+        #region Area Checks
         
         /// <summary>
-        /// Check if the passed mouse key is currently in the passed mouse state
+        /// Determines if the area was clicked by the passed mouse button
         /// </summary>
-        /// <param name="mouseKeyState"></param>
-        /// <param name="key"></param>
+        /// <param name="area"></param>
+        /// <param name="button"></param>
         /// <returns></returns>
-        public static bool MouseCheck(Enumeration.KeyState mouseKeyState, Enumeration.MouseButtons key)
+        public static bool Clicked(Rectangle area, Enumeration.MouseButtons button)
         {
-            switch (mouseKeyState)
-            {
-                case Enumeration.KeyState.KeyUp:
-                    return MouseButtonUp(key);
-                case Enumeration.KeyState.KeyDown:
-                    return MouseButtonDown(key);
-                case Enumeration.KeyState.KeyReleased:
-                    return MouseButtonReleased(key);
-                case Enumeration.KeyState.KeyPressed:
-                    return MouseButtonPressed(key);
-            }
-
-            return false;
+            return MousePresent(area) && MouseButtonReleased(button);
         }
-      
+
+        /// <summary>
+        /// Determines if the passed mouse button was released in the passed area
+        /// </summary>
+        /// <param name="area"></param>
+        /// <param name="button"></param>
+        /// <returns></returns>
+        public static bool Released(Rectangle area, Enumeration.MouseButtons button)
+        {
+            return MousePresent(area) && MouseButtonReleased(button);
+        }
+
+        /// <summary>
+        /// Determines if the passed mouse button was pressed in the passed area
+        /// </summary>
+        /// <param name="area"></param>
+        /// <param name="button"></param>
+        /// <returns></returns>
+        public static bool Pressed(Rectangle area, Enumeration.MouseButtons button)
+        {
+            return MousePresent(area) && MouseButtonPressed(button);
+        }
+        
+        #endregion
+
         #endregion
 
         #region Xna Methods
@@ -468,6 +507,7 @@ namespace Input
         /// <param name="gameTime"></param>
         static void UpdateMouseButtons(GameTime gameTime)
         {
+#if WINDOWS
             _updateTimer += gameTime.ElapsedGameTime.TotalMilliseconds;
 
             if (_updateTimer >= Constant.MouseDoubleClickStandard)
@@ -490,10 +530,10 @@ namespace Input
                         MouseButtonsCurrentlyDown[(int)Enumeration.MouseButtons.Right]++;
                         break;
                 }
+
+#endif
         }
 
         #endregion
     }
 }
-
-#endif

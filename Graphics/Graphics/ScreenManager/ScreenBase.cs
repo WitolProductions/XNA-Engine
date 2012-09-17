@@ -85,7 +85,7 @@ namespace Graphics.ScreenManager
         /// <summary>
         /// Method is intended to Dispose uneeded items when a screen hides to help improve performance
         /// </summary>
-        public new abstract void DisposeOnHide();
+        public abstract void DisposeOnHide();
 
         public override void Update(GameTime gameTime)
         {

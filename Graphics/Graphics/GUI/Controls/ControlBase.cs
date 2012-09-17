@@ -39,11 +39,6 @@ namespace Graphics.GUI.Controls
         /// Controls Current State
         /// </summary>
         public Enumerationcs.ControlState State = Enumerationcs.ControlState.Normal;
-
-        /// <summary>
-        /// Completly disables the control if marked true, Control will still draw however
-        /// </summary>
-        public bool Disabled = false;
         
         #endregion
 

@@ -9,28 +9,32 @@
 //       use it you please mention my website and or name.
 // Document Name: Phone.cs Version: 1.0 Last Edited: 6/29/2012
 // ------------------------------------------------------------------------
-#if WINDOWS_PHONE
+
 
 using System;
+using Microsoft.Xna.Framework;
+
+#if WINDOWS_PHONE
+using System.Collections.Generic;
+using Microsoft.Xna.Framework.GamerServices;
 using System.Linq;
 using System.Windows;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Devices.Sensors;
 using Microsoft.Xna.Framework.Input.Touch;
+#endif
 
 namespace Input
 {
     public partial class InputHandler
     {
-        #region Fields
+#region Fields
 
         
 
         #endregion
         
-        #region Properties
-
+#region Properties
+#if WINDOWS_PHONE
         public static TouchCollection Touch { get; set; }
         public static int MaxTouchCount { get; set; }
         public static bool TouchEnabled { get; set; }
@@ -43,18 +47,18 @@ namespace Input
         public static float Roll { get; set; }
 
         public static Vector3 Acceleration { get; set; }
-
+#endif
 
         #endregion
 
         #region Motion Sensor Methods
         
-
         /// <summary>
         /// Enables our Motion sensor if the device supports it
         /// </summary>
         public static void EnableMotion()
         {
+#if WINDOWS_PHONE
             if (!Motion.IsSupported)
                 Motion.Stop();
             else
@@ -75,6 +79,7 @@ namespace Input
                     MessageBox.Show(e.Message);
                 }
             }
+#endif
         }
 
         /// <summary>
@@ -82,45 +87,39 @@ namespace Input
         /// </summary>
         public static void DisableMotion()
         {
+#if WINDOWS_PHONE
             if (Motion == null) return;
             Motion.Stop();
             Motion = null;
             MotionEnabled = false;
-        }
-
-        /// <summary>
-        /// Used to update our Reading data
-        /// </summary>
-        /// <param name="e"></param>
-        static void CurrentValueChanged(MotionReading e)
-        {
-            //Get Yaw, Pitch, and Roll
-            Yaw = MathHelper.ToDegrees(e.Attitude.Yaw);
-            Pitch = MathHelper.ToDegrees(e.Attitude.Pitch);
-            Roll = MathHelper.ToDegrees(e.Attitude.Roll);
-            //Get the Acceleration on all 3 vectors
-            Acceleration = new Vector3(e.DeviceAcceleration.X, e.DeviceAcceleration.Y, e.DeviceAcceleration.Z);
+#endif
         }
 
         #endregion
 
-        #region Touch Sensor Methods
-        
+        #region Touch Screen Methods
+
         /// <summary>
         /// Enables all touch capabilities that our device supports
         /// </summary>
         public static void EnableTouch()
         {
+#if WINDOWS_PHONE
             var capabilities = TouchPanel.GetCapabilities();
             if (capabilities.IsConnected)
             {
+                //Set our Max touch counts to the devices maximum capabilities
                 MaxTouchCount = capabilities.MaximumTouchCount;
+                //Enable the Tap Gesture
+                TouchPanel.EnabledGestures = GestureType.Tap;
+
                 TouchEnabled = true;
             }
             else
             {
                 DisableTouch();
             }
+#endif
         }
 
         /// <summary>
@@ -128,39 +127,11 @@ namespace Input
         /// </summary>
         public static void DisableTouch()
         {
+#if WINDOWS_PHONE
             Touch.Clear();
             MaxTouchCount = 0;
             TouchEnabled = false;
-        }
-
-        /// <summary>
-        /// Returns a bool determining if an area is being touched
-        /// </summary>
-        /// <param name="area"></param>
-        /// <returns></returns>
-        public static bool AreaTouched(Rectangle area)
-        {
-            return Touch.IsConnected && Touch.Where(tl => (tl.State == TouchLocationState.Pressed) || (tl.State == TouchLocationState.Moved)).Any(tl => area.Contains((int) tl.Position.X, (int) tl.Position.Y));
-        }
-
-        /// <summary>
-        /// Returns a bool determining if an area is pressed
-        /// </summary>
-        /// <param name="area"></param>
-        /// <returns></returns>
-        public static bool AreaPressed(Rectangle area)
-        {
-            return Touch.IsConnected && Touch.Where(tl => tl.State == TouchLocationState.Pressed).Any(tl => area.Contains((int)tl.Position.X, (int)tl.Position.Y));
-        }
-
-        /// <summary>
-        /// Returns a bool determining if an area is moved into while pressing is already done
-        /// </summary>
-        /// <param name="area"></param>
-        /// <returns></returns>
-        public static bool AreaMoved(Rectangle area)
-        {
-            return Touch.IsConnected && Touch.Where(tl => tl.State == TouchLocationState.Moved).Any(tl => area.Contains((int)tl.Position.X, (int)tl.Position.Y));
+#endif
         }
 
         #endregion
@@ -177,9 +148,11 @@ namespace Input
         /// <param name="endCallback">Method that will be called when user closes the software keyboard, text will be sent here</param>
         public static void BeginShowKeyboard(PlayerIndex player, string title, string description, string defualt, AsyncCallback endCallback)
         {
+#if WINDOWS_PHONE
             //If our Keyboard is already shown do not worry about showing it again
             if (!Guide.IsVisible)
                 Guide.BeginShowKeyboardInput(player, title, description, defualt, endCallback, null);
+#endif
         }
 
         /// <summary>
@@ -189,7 +162,73 @@ namespace Input
         /// <returns></returns>
         public static string EndShowKeyboard(IAsyncResult ar)
         {
+#if WINDOWS_PHONE
             return Guide.EndShowKeyboardInput(ar);
+#endif
+            return string.Empty;
+        }
+
+        #region Touch Sensor Methods
+
+
+        /// <summary>
+        /// Returns a bool determining if an area was pressed
+        /// </summary>
+        /// <param name="area"></param>
+        /// <returns></returns>
+        public static bool Pressed(Rectangle area)
+        {
+#if WINDOWS_PHONE
+            return Touch.IsConnected && Touch.Where(tl => tl.State == TouchLocationState.Pressed).Any(tl => area.Contains((int)tl.Position.X, (int)tl.Position.Y));
+#endif
+            return false;
+        }
+
+        /// <summary>
+        /// Returns a bool determining if an area was released
+        /// </summary>
+        /// <param name="area"></param>
+        /// <returns></returns>
+        public static bool Released(Rectangle area)
+        {
+#if WINDOWS_PHONE
+            return Touch.IsConnected && Touch.Where(tl => tl.State == TouchLocationState.Released).Any(tl => area.Contains((int)tl.Position.X, (int)tl.Position.Y));
+#endif
+            return false;
+        }
+
+        #endregion
+
+        #endregion
+
+#if WINDOWS_PHONE
+        #region Windows Phone Specific Methods
+
+        /// <summary>
+        /// Used to update our Reading data
+        /// </summary>
+        /// <param name="e"></param>
+        static void CurrentValueChanged(MotionReading e)
+        {
+            //Get Yaw, Pitch, and Roll
+            Yaw = MathHelper.ToDegrees(e.Attitude.Yaw);
+            Pitch = MathHelper.ToDegrees(e.Attitude.Pitch);
+            Roll = MathHelper.ToDegrees(e.Attitude.Roll);
+            //Get the Acceleration on all 3 vectors
+            Acceleration = new Vector3(e.DeviceAcceleration.X, e.DeviceAcceleration.Y, e.DeviceAcceleration.Z);
+        }
+        
+        #region MessageBox Methods
+
+        /// <summary>
+        /// Very simple implementation of showing a Message Box using minimal information
+        /// </summary>
+        /// <param name="title">Title of Message Box</param>
+        /// <param name="message">Message inside the Message Box</param>
+        /// <param name="icon">Icon used for the Message Box</param>
+        public static void ShowMessageBox(string title, string message, MessageBoxIcon icon)
+        {
+            Guide.BeginShowMessageBox(title, message, new List<string> {"OK"}, 0, icon, null, null);
         }
 
         #endregion
@@ -208,7 +247,10 @@ namespace Input
 
         #endregion
 
+        #endregion
+
+#endif
+
     }
 }
 
-#endif

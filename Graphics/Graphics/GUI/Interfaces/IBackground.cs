@@ -92,7 +92,19 @@ namespace Graphics.GUI.Interfaces
     public static class Background
     {
         /// <summary>
-        /// Updater our IBackground Interface in conjunction with the passed control
+        /// Initializes our Control with base information needed
+        /// </summary>
+        /// <param name="controlBase"></param>
+        public static void Initialize(object controlBase)
+        {
+            GuiHandler.SetPropertyValue(controlBase, "BackgroundNormalAlpha", 1f);
+            GuiHandler.SetPropertyValue(controlBase, "BackgroundClickedAlpha", 1f);
+            GuiHandler.SetPropertyValue(controlBase, "BackgroundHoverAlpha", 1f);
+            GuiHandler.SetPropertyValue(controlBase, "BackgroundDisabledAlpha", 1f);
+        }
+        
+        /// <summary>
+        /// Update our IBackground Interface in conjunction with the passed control
         /// </summary>
         public static void Update(object controlBase, GameTime gameTime)
         {
@@ -107,11 +119,32 @@ namespace Graphics.GUI.Interfaces
         {
             var control = (ControlBase)controlBase;
 
+            #region Control States - Background Color
+
             var color = Color.Transparent;
-            if (control.State == Enumerationcs.ControlState.Normal)
-                color = GuiHandler.GetPropertyValue(control, "BackgroundNormalColor") is Color ? (Color)GuiHandler.GetPropertyValue(control, "BackgroundNormalColor") : Color.Transparent;
-            else if (control.State == Enumerationcs.ControlState.Clicked)
-                color = GuiHandler.GetPropertyValue(control, "BackgroundClickedColor") is Color ? (Color)GuiHandler.GetPropertyValue(control, "BackgroundClickedColor") : Color.Transparent;
+            switch (control.State)
+            {
+                case Enumerationcs.ControlState.Normal:
+                    color = GuiHandler.GetPropertyValue(control, "BackgroundNormalColor") is Color ? (Color)GuiHandler.GetPropertyValue(control, "BackgroundNormalColor") * (float) GuiHandler.GetPropertyValue(control, "BackgroundNormalAlpha")
+                        : Color.Transparent;
+                    break;
+                case Enumerationcs.ControlState.Clicked:
+                    color = GuiHandler.GetPropertyValue(control, "BackgroundClickedColor") is Color ? (Color)GuiHandler.GetPropertyValue(control, "BackgroundClickedColor") * (float)GuiHandler.GetPropertyValue(control, "BackgroundClickedAlpha") 
+                        : Color.Transparent;
+                    break;
+                case Enumerationcs.ControlState.Hover:
+                    color = GuiHandler.GetPropertyValue(control, "BackgroundHoverColor") is Color ? (Color)GuiHandler.GetPropertyValue(control, "BackgroundHoverColor") * (float)GuiHandler.GetPropertyValue(control, "BackgroundHoverAlpha") 
+                        : Color.Transparent;
+                    break;
+                case Enumerationcs.ControlState.Disabled:
+                    color = GuiHandler.GetPropertyValue(control, "BackgroundDisabledColor") is Color ? (Color)GuiHandler.GetPropertyValue(control, "BackgroundDisabledColor") * (float)GuiHandler.GetPropertyValue(control, "BackgroundDisabledAlpha") 
+                        : Color.Transparent;
+                    break;
+            }
+
+            #endregion
+
+
             GraphicsHandler.DrawFillRectangle(control.Bounds, color);
 
         }

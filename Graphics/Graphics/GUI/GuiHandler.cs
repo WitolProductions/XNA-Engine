@@ -19,6 +19,29 @@ namespace Graphics.GUI
 {
     public static class GuiHandler
     {
+        #region Initialize
+
+        public static void Initialize(ControlBase control)
+        {
+            foreach (var i in control.GetType().GetInterfaces())
+            {
+                switch (i.Name)
+                {
+                    case "IEvents": Events.Initialize(control); break;
+                    case "IText": Text.Initialize(control); break;
+                    case "IIndex": Index.Initialize(control); break;
+                    case "IChecked": Checked.Initialize(control); break;
+                    case "IBorder": Border.Initialize(control); break;
+                    case "IBackground": Background.Initialize(control); break;
+                    case "IPanel": Panel.Initialize(control); break;
+                    case "IPicture": Picture.Initialize(control); break;
+                    default: break; //If anything else simply break because its not needed
+                }
+            }
+        }
+
+        #endregion
+
         #region Update
 
         /// <summary>
@@ -33,6 +56,15 @@ namespace Graphics.GUI
                 switch (i.Name)
                 {
                     case "IEvents": Events.Update(control, gameTime); break;
+                    case "IText": Text.Update(control, gameTime); break;
+                    case "IIndex": Index.Update(control, gameTime); break;
+                    case "IChecked": Checked.Update(control, gameTime); break;
+                    case "IFont": Font.Update(control, gameTime); break;
+                    case "ITyping": Typing.Update(control, gameTime); break;
+                    case "IBorder": Border.Update(control, gameTime); break;
+                    case "IBackground": Background.Update(control, gameTime); break;
+                    case "IPanel": Panel.Update(control, gameTime); break;
+                    case "IPicture": Picture.Update(control, gameTime); break;
                     default: break; //If anything else simply break because its not needed
                 }
             }
@@ -86,6 +118,11 @@ namespace Graphics.GUI
         public static object GetPropertyValue(object control, string name)
         {
             return control.GetType().GetProperty(name).GetValue(control, null);
+        }
+
+        public static void SetPropertyValue(object control, string name, object data)
+        {
+            control.GetType().GetProperty(name).SetValue(control, data, null);
         }
 
         /// <summary>

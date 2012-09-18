@@ -51,7 +51,7 @@ namespace Graphics.GUI.Interfaces
 
         #endregion
 
-        #region Abstract Methods
+        #region Abstract Events
 
         /// <summary>
         /// Fires On Disabled
@@ -99,12 +99,21 @@ namespace Graphics.GUI.Interfaces
     public delegate void ControlEvent(object sender, object args);
 
     /// <summary>
-    /// Handles Updating and Drawing our Event Interface
+    /// Handles Updating our Event Interface
     /// </summary>
     public static class Events
     {
         /// <summary>
-        /// Updater our IEvent Interface in conjunction with the passed control
+        /// Initializes our Control with base information needed
+        /// </summary>
+        /// <param name="controlBase"></param>
+        public static void Initialize(object controlBase)
+        {
+
+        }
+
+        /// <summary>
+        /// Update our IEvent Interface in conjunction with the passed control
         /// </summary>
         public static void Update(object controlBase, GameTime gameTime)
         {
@@ -121,8 +130,13 @@ namespace Graphics.GUI.Interfaces
                     GuiHandler.FireEvent(controlBase, "OnDisabled", null);
                 }
             }
+            else if (InputHandler.Down(control.Bounds))
+            {//Simulate a click if we are holding it down
+                if (control.State != Enumerationcs.ControlState.Clicked)
+                    control.State = Enumerationcs.ControlState.Clicked;
+            }
             else if (InputHandler.Clicked(control.Bounds))
-            {//Else we might be clicking
+            {//But actually fire click event if we complete the click
                 if (control.State != Enumerationcs.ControlState.Clicked)
                 {
                     control.State = Enumerationcs.ControlState.Clicked;

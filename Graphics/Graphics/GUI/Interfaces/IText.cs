@@ -26,6 +26,11 @@ namespace Graphics.GUI.Interfaces
         /// Text to be Written 
         /// </summary>
         string Text { get; set; }
+
+        /// <summary>
+        /// Text offset, set automatically to ensure we don't draw text on a border
+        /// </summary>
+        Vector2 TextOffset { get; set; }
         
         #endregion
 
@@ -51,12 +56,20 @@ namespace Graphics.GUI.Interfaces
     }
 
     /// <summary>
-    /// Handles Drawing and Updating our Text Interface
+    /// Handles Drawing and Updating our IText Interface
     /// </summary>
     public static class Text
     {
         /// <summary>
-        /// Updater our IText Interface in conjunction with the passed control
+        /// Initializes our Control with base information needed
+        /// </summary>
+        /// <param name="controlBase"></param>
+        public static void Initialize(object controlBase)
+        {
+        }
+
+        /// <summary>
+        /// Update our IText Interface in conjunction with the passed control
         /// </summary>
         public static void Update(object controlBase, GameTime gameTime)
         {
@@ -73,7 +86,7 @@ namespace Graphics.GUI.Interfaces
             var control = (ControlBase)controlBase;
             var font = GuiHandler.GetPropertyValue(control, "Font") as string;
             var text = GuiHandler.GetPropertyValue(control, "Text") as string;
-            var location = control.Location;
+            var location = control.Location + (Vector2) GuiHandler.GetPropertyValue(control, "TextOffset");
             var color = GuiHandler.GetPropertyValue(control, "FontColor") is Color ? (Color)GuiHandler.GetPropertyValue(control, "FontColor") : Color.Transparent;
             GraphicsHandler.DrawString(font, text, location, color);
         }

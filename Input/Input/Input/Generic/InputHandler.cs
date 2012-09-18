@@ -10,6 +10,7 @@
 // Document Name: InputHandler.cs Version: 1.1 Last Edited: 6/26/2012
 // ------------------------------------------------------------------------
 
+using System;
 using Input.Input.Actions;
 using Microsoft.Xna.Framework;
 
@@ -235,6 +236,20 @@ namespace Input
             return false;
 #elif WINDOWS || XBOX
             return MousePresent(area) && GetMouseButtonsPressed().Length > 0;
+#endif
+        }
+
+        /// <summary>
+        /// Returns a bool determining if an area is held down currently
+        /// </summary>
+        /// <param name="area"></param>
+        /// <returns></returns>
+        public static bool Down(Rectangle area)
+        {
+#if WINDOWS_PHONE
+            return Hover(area);
+#elif WINDOWS || XBOX
+            return MousePresent(area) && GetMouseButtonsDown().Length > 0;
 #endif
         }
 

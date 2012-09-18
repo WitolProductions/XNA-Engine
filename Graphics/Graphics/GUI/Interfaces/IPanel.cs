@@ -66,7 +66,15 @@ namespace Graphics.GUI.Interfaces
     public static class Panel
     {
         /// <summary>
-        /// Updater our IPanel Interface in conjunction with the passed control
+        /// Initializes our Control with base information needed
+        /// </summary>
+        /// <param name="controlBase"></param>
+        public static void Initialize(object controlBase)
+        {
+        }
+
+        /// <summary>
+        /// Update our IPanel Interface in conjunction with the passed control
         /// </summary>
         public static void Update(object controlBase, GameTime gameTime)
         {

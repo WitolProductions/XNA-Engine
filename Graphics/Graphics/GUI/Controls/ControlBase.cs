@@ -64,6 +64,7 @@ namespace Graphics.GUI.Controls
         /// <param name="game"></param>
         protected ControlBase(Game game) : base(game)
         {
+            GuiHandler.Initialize(this); //Automatically Initializes ALL interfaces attached to any method that inherits from this one
             DrawOrder = ScreenHandler.DrawLevel + 200;
         }
 

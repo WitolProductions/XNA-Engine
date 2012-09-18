@@ -49,12 +49,14 @@
     <Compile Include="GUI\Controls\GuiForm.cs" />
     <Compile Include="GUI\Controls\Label.cs" />
     <Compile Include="GUI\GuiHandler.cs" />
+    <Compile Include="GUI\Interfaces\Checked.cs" />
     <Compile Include="GUI\Interfaces\IBackground.cs" />
     <Compile Include="GUI\Interfaces\IBorder.cs" />
     <Compile Include="GUI\Interfaces\IEvents.cs" />
     <Compile Include="GUI\Interfaces\IFont.cs" />
+    <Compile Include="GUI\Interfaces\IIndex.cs" />
     <Compile Include="GUI\Interfaces\IPanel.cs" />
-    <Compile Include="GUI\Interfaces\IPictureBox.cs" />
+    <Compile Include="GUI\Interfaces\IPicture.cs" />
     <Compile Include="GUI\Interfaces\IText.cs" />
     <Compile Include="GUI\Interfaces\ITyping.cs" />
     <Compile Include="Misc\Constants.cs" />

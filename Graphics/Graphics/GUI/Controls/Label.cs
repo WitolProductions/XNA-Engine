@@ -10,6 +10,7 @@
 // Document Name: Label.cs Version: 1.0 Last Edited: 9/13/2012
 // ------------------------------------------------------------------------
 
+using System;
 using Graphics.GUI.Interfaces;
 using Microsoft.Xna.Framework;
 
@@ -33,7 +34,9 @@ namespace Graphics.GUI.Controls
                 _text = value;
                 OnTextChanged(this, null);
             } }
-        
+
+        public Vector2 TextOffset { get; set; }
+
         public string Font { get; set; }
 
         public Color FontColor { get; set; }
@@ -76,6 +79,8 @@ namespace Graphics.GUI.Controls
         public float BorderClickedAlpha { get; set; }
 
         public float BorderDisabledAlpha { get; set; }
+
+        public int BorderWidth { get; set; }
 
         #endregion
 

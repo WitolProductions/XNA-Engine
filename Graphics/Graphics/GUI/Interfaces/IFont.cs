@@ -36,14 +36,12 @@ namespace Graphics.GUI.Interfaces
     }
 
     /// <summary>
-    /// Handles Drawing and Updating our Font Interface
+    /// Handles Updating our Font Interface
     /// </summary>
     public static class Font
     {
-        
-
         /// <summary>
-        /// Updater our IFont Interface in conjunction with the passed control
+        /// Update our IFont Interface in conjunction with the passed control
         /// </summary>
         public static void Update(object controlBase, GameTime gameTime)
         {

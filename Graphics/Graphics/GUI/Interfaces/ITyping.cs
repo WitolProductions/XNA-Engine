@@ -1,4 +1,4 @@
-﻿// -----------------------------------------------------------------------
+// -----------------------------------------------------------------------
 //                       Created By: Justin Witol
 //                       www.WitolProductions.com
 // If you add or alter any code please include your name below if you wish.
@@ -7,7 +7,7 @@
 // 
 // You are free to use this code in any way you want. I only ask if you do
 //       use it you please mention my website and or name.
-// Document Name: IFont.cs Version: 1.0 Last Edited: 9/18/2012
+// Document Name: ITyping.cs Version: 1.0 Last Edited: 9/18/2012
 // ------------------------------------------------------------------------
 
 using Graphics.GUI.Controls;
@@ -15,35 +15,26 @@ using Microsoft.Xna.Framework;
 
 namespace Graphics.GUI.Interfaces
 {
-    /// <summary>
-    /// Provides font for support for controls
-    /// </summary>
-    public interface IFont
+    public interface ITyping : IFont
     {
         #region Properties
 
         /// <summary>
-        /// Font's Name
+        /// Gets and Sets if our Control is currently accepting input from the StringCreator
         /// </summary>
-        string Font { get; set; }
-
-        /// <summary>
-        /// Color of font
-        /// </summary>
-        Color FontColor { get; set; }
+        bool IsTyping { get; set; }
 
         #endregion
     }
 
-    /// <summary>
-    /// Handles Drawing and Updating our Font Interface
-    /// </summary>
-    public static class Font
-    {
-        
 
+    /// <summary>
+    /// Handles Drawing and Updating our Typing Interface
+    /// </summary>
+    public static class Typing
+    {
         /// <summary>
-        /// Updater our IFont Interface in conjunction with the passed control
+        /// Updater our ITyping Interface in conjunction with the passed control
         /// </summary>
         public static void Update(object controlBase, GameTime gameTime)
         {

@@ -53,7 +53,10 @@
     <Compile Include="GUI\Interfaces\IBorder.cs" />
     <Compile Include="GUI\Interfaces\IEvents.cs" />
     <Compile Include="GUI\Interfaces\IFont.cs" />
-    <Compile Include="GUI\Interfaces\IString.cs" />
+    <Compile Include="GUI\Interfaces\IPanel.cs" />
+    <Compile Include="GUI\Interfaces\IPictureBox.cs" />
+    <Compile Include="GUI\Interfaces\IText.cs" />
+    <Compile Include="GUI\Interfaces\ITyping.cs" />
     <Compile Include="Misc\Constants.cs" />
     <Compile Include="Misc\Enumerationcs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

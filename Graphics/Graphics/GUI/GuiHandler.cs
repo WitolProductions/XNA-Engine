@@ -1,6 +1,18 @@
-﻿using Graphics.GUI.Controls;
+﻿// -----------------------------------------------------------------------
+//                       Created By: Justin Witol
+//                       www.WitolProductions.com
+// If you add or alter any code please include your name below if you wish.
+//                             Special Thanks: 
+// 
+// 
+// You are free to use this code in any way you want. I only ask if you do
+//       use it you please mention my website and or name.
+// Document Name: GuiHandler.cs Version: 1.0 Last Edited: 9/18/2012
+// ------------------------------------------------------------------------
+
+using System.Linq;
+using Graphics.GUI.Controls;
 using Graphics.GUI.Interfaces;
-using Graphics.Misc;
 using Microsoft.Xna.Framework;
 
 namespace Graphics.GUI
@@ -10,7 +22,7 @@ namespace Graphics.GUI
         #region Update
 
         /// <summary>
-        /// Update a control if it needs to be updated
+        /// Updates the passed control
         /// </summary>
         /// <param name="control"></param>
         /// <param name="gameTime"></param>
@@ -20,13 +32,8 @@ namespace Graphics.GUI
             {
                 switch (i.Name)
                 {
-                    case "IEvents":
-                        {
-                            Events.Update(control, gameTime);
-                        }
-                        break;
-                    default: //If anything else simply break because its not needed
-                        break;
+                    case "IEvents": Events.Update(control, gameTime); break;
+                    default: break; //If anything else simply break because its not needed
                 }
             }
         }
@@ -35,38 +42,34 @@ namespace Graphics.GUI
 
         #region Draw
 
+        /// <summary>
+        /// Draws the passed control
+        /// </summary>
+        /// <param name="control">Control</param>
+        /// <param name="gameTime">GameTime</param>
         public static void Draw(ControlBase control, GameTime gameTime)
         {
             GraphicsHandler.Begin();
-            var controlBase = control;
-            foreach(var i in control.GetType().GetInterfaces())
-            {
-                switch (i.Name)
-                {
-                    case "IString":
-                        {
-                            var font = GetPropertyValue(control, "Font") as string;
-                            var text = GetPropertyValue(control, "Text") as string;
-                            var location = controlBase.Location;
-                            var color = GetPropertyValue(control, "FontColor") is Color ? (Color) GetPropertyValue(control, "FontColor") : Color.Transparent;
-                            GraphicsHandler.DrawString(font, text, location, color);
-                        }
-                        break;
-                    case "IBackground":
-                        {
-                            var color = Color.Transparent;
-                            if (controlBase.State == Enumerationcs.ControlState.Normal)
-                                color = GetPropertyValue(control, "BackgroundNormalColor") is Color ? (Color)GetPropertyValue(control, "BackgroundNormalColor") : Color.Transparent;
-                            else if (controlBase.State == Enumerationcs.ControlState.Clicked)
-                                color = GetPropertyValue(control, "BackgroundClickedColor") is Color ? (Color)GetPropertyValue(control, "BackgroundClickedColor") : Color.Transparent;
-                            GraphicsHandler.DrawFillRectangle(controlBase.Bounds, color);
-                        }
-                        break;
-                    default: //If anything else simply break because its not needed
-                        break;
-                }
-            }
 
+            //Get a list of Interfaces available and draw those that need to be drawn in the correct order
+            var list = control.GetType().GetInterfaces();
+            
+            //Drawn First
+            if (list.Contains(typeof(IBackground)))
+                Background.Draw(control, gameTime);
+
+            //Drawn Second
+            if (list.Contains(typeof(IBorder)))
+                Border.Draw(control, gameTime);
+
+            //Drawn Third
+            if (list.Contains(typeof(IPicture)))
+                Picture.Draw(control, gameTime);
+
+            //Drawn Last
+            if (list.Contains(typeof(IText)))
+                Text.Draw(control, gameTime);
+           
             GraphicsHandler.End();
         }
 

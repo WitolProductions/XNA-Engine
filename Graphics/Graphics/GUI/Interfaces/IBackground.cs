@@ -10,6 +10,8 @@
 // Document Name: IBackground.cs Version: 1.0 Last Edited: 9/13/2012
 // ------------------------------------------------------------------------
 
+using Graphics.GUI.Controls;
+using Graphics.Misc;
 using Microsoft.Xna.Framework;
 
 namespace Graphics.GUI.Interfaces
@@ -17,7 +19,7 @@ namespace Graphics.GUI.Interfaces
     /// <summary>
     /// Provides support for a control to contain a background Image and/or Color, requires IEvents in order to function properly
     /// </summary>
-    interface IBackground : IEvents
+    public interface IBackground : IEvents
     {
         #region Properties
 
@@ -82,5 +84,36 @@ namespace Graphics.GUI.Interfaces
         float BackgroundDisabledAlpha { get; set; }
         
         #endregion
+    }
+
+    /// <summary>
+    /// Handles Drawing and Updating our Background Interface
+    /// </summary>
+    public static class Background
+    {
+        /// <summary>
+        /// Updater our IBackground Interface in conjunction with the passed control
+        /// </summary>
+        public static void Update(object controlBase, GameTime gameTime)
+        {
+            var control = (ControlBase)controlBase;
+
+        }
+
+        /// <summary>
+        /// Draw our IBackground Interface in conjunction with the passed control
+        /// </summary>
+        public static void Draw(object controlBase, GameTime gameTime)
+        {
+            var control = (ControlBase)controlBase;
+
+            var color = Color.Transparent;
+            if (control.State == Enumerationcs.ControlState.Normal)
+                color = GuiHandler.GetPropertyValue(control, "BackgroundNormalColor") is Color ? (Color)GuiHandler.GetPropertyValue(control, "BackgroundNormalColor") : Color.Transparent;
+            else if (control.State == Enumerationcs.ControlState.Clicked)
+                color = GuiHandler.GetPropertyValue(control, "BackgroundClickedColor") is Color ? (Color)GuiHandler.GetPropertyValue(control, "BackgroundClickedColor") : Color.Transparent;
+            GraphicsHandler.DrawFillRectangle(control.Bounds, color);
+
+        }
     }
 }

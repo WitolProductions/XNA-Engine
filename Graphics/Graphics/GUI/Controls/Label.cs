@@ -10,13 +10,12 @@
 // Document Name: Label.cs Version: 1.0 Last Edited: 9/13/2012
 // ------------------------------------------------------------------------
 
-using System;
 using Graphics.GUI.Interfaces;
 using Microsoft.Xna.Framework;
 
 namespace Graphics.GUI.Controls
 {
-    public class Label : ControlBase, IBackground, IString, IBorder
+    public class Label : ControlBase, IBackground, IText, IBorder
     {
         #region Fields
 
@@ -48,6 +47,7 @@ namespace Graphics.GUI.Controls
         public event ControlEvent Leave;
         public event ControlEvent Disabled;
         public event ControlEvent TextChanged;
+        public event ControlEvent TabStop;
 
         #endregion
 
@@ -148,6 +148,11 @@ namespace Graphics.GUI.Controls
         public void OnTextChanged(object sender, object eventArgs)
         {
             Size = GraphicsHandler.MesureString(Font, Text);
+        }
+
+        public void OnTabStop(object sender, object eventArgs)
+        {
+            
         }
 
         public void OnEnter(object sender, object eventArgs)

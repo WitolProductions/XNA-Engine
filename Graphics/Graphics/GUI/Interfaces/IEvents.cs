@@ -18,7 +18,7 @@ using Microsoft.Xna.Framework;
 namespace Graphics.GUI.Interfaces
 {
     /// <summary>
-    /// Grants a control full access to responding to events
+    /// Grants a control access to responding to events that appear in all controls
     /// </summary>
     public interface IEvents
     {
@@ -43,11 +43,11 @@ namespace Graphics.GUI.Interfaces
         /// Occurs when a control enters into a disabled state
         /// </summary>
         event ControlEvent Disabled;
-
+        
         /// <summary>
-        /// Text was changed
+        /// The attched Control was stopped on
         /// </summary>
-        event ControlEvent TextChanged;
+        event ControlEvent TabStop;
 
         #endregion
 
@@ -82,11 +82,11 @@ namespace Graphics.GUI.Interfaces
         void OnClicked(object sender, object eventArgs);
         
         /// <summary>
-        /// On Text Changed
+        /// On Tab Stop
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="eventArgs"></param>
-        void OnTextChanged(object sender, object eventArgs);
+        void OnTabStop(object sender, object eventArgs);
 
         #endregion
     }
@@ -98,6 +98,9 @@ namespace Graphics.GUI.Interfaces
     /// <param name="args">Information about even that fired</param>
     public delegate void ControlEvent(object sender, object args);
 
+    /// <summary>
+    /// Handles Updating and Drawing our Event Interface
+    /// </summary>
     public static class Events
     {
         /// <summary>
@@ -105,9 +108,11 @@ namespace Graphics.GUI.Interfaces
         /// </summary>
         public static void Update(object controlBase, GameTime gameTime)
         {
+
+            var control = (ControlBase)controlBase;
+
             #region Handle Switching States
 
-            var control = (ControlBase) controlBase;
             if (!control.Enabled)
             {//Set to Disabled if needed
                 if (control.State != Enumerationcs.ControlState.Disabled)
@@ -142,14 +147,6 @@ namespace Graphics.GUI.Interfaces
             }
 
             #endregion
-        }
-
-        /// <summary>
-        /// Draw our Ievent Interface in conjunction with the passed control
-        /// </summary>
-        public static void Draw(ControlBase control, GameTime gameTime)
-        {
-
         }
     }
 }

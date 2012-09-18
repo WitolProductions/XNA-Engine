@@ -10,6 +10,7 @@
 // Document Name: IBorder.cs Version: 1.0 Last Edited: 9/13/2012
 // ------------------------------------------------------------------------
 
+using Graphics.GUI.Controls;
 using Microsoft.Xna.Framework;
 
 namespace Graphics.GUI.Interfaces
@@ -17,7 +18,7 @@ namespace Graphics.GUI.Interfaces
     /// <summary>
     /// Provides support for a control to contain a border Image and/or Color, requires IEvents in order to function properly
     /// </summary>
-    interface IBorder : IEvents
+    public interface IBorder : IEvents
     {
         #region Properties
         
@@ -82,5 +83,29 @@ namespace Graphics.GUI.Interfaces
         float BorderDisabledAlpha { get; set; }
 
         #endregion
+    }
+    
+    /// <summary>
+    /// Handles Drawing and Updating our Border Interface
+    /// </summary>
+    public static class Border
+    {
+        /// <summary>
+        /// Updater our IBorder Interface in conjunction with the passed control
+        /// </summary>
+        public static void Update(object controlBase, GameTime gameTime)
+        {
+            var control = (ControlBase)controlBase;
+
+        }
+
+        /// <summary>
+        /// Draw our IBorder Interface in conjunction with the passed control
+        /// </summary>
+        public static void Draw(object controlBase, GameTime gameTime)
+        {
+            var control = (ControlBase)controlBase;
+
+        }
     }
 }

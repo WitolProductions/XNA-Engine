@@ -10,8 +10,8 @@
 // Document Name: Label.cs Version: 1.0 Last Edited: 9/13/2012
 // ------------------------------------------------------------------------
 
-using System;
 using Graphics.GUI.Interfaces;
+using Graphics.Misc;
 using Microsoft.Xna.Framework;
 
 namespace Graphics.GUI.Controls
@@ -37,10 +37,14 @@ namespace Graphics.GUI.Controls
 
         public Vector2 TextOffset { get; set; }
 
+        public Enumerationcs.ContentAlignment TextAlign { get; set; }
+
         public string Font { get; set; }
 
         public Color FontColor { get; set; }
-        
+
+        public float FontAlpha { get; set; }
+
         #endregion
 
         #region Implementation of IEvents
@@ -48,6 +52,7 @@ namespace Graphics.GUI.Controls
         public event ControlEvent Clicked;
         public event ControlEvent Enter;
         public event ControlEvent Leave;
+        public event ControlEvent Down;
         public event ControlEvent Disabled;
         public event ControlEvent TextChanged;
         public event ControlEvent TabStop;
@@ -118,10 +123,7 @@ namespace Graphics.GUI.Controls
 
         public Label(Game game) : base(game)
         {
-            TextChanged += OnTextChanged;
-            Enter += OnEnter;
-            Leave += OnLeave;
-            Clicked += OnClicked;
+            
         }
 
         #endregion
@@ -153,6 +155,11 @@ namespace Graphics.GUI.Controls
         public void OnTextChanged(object sender, object eventArgs)
         {
             Size = GraphicsHandler.MesureString(Font, Text);
+        }
+
+        public void OnDown(object sender, object eventArgs)
+        {
+            Text = "Down!";
         }
 
         public void OnTabStop(object sender, object eventArgs)

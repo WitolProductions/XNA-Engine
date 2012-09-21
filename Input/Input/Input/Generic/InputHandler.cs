@@ -235,7 +235,7 @@ namespace Input
 
             return false;
 #elif WINDOWS || XBOX
-            return MousePresent(area) && GetMouseButtonsPressed().Length > 0;
+            return MousePresent(area) && GetMouseButtonsReleased().Length > 0;
 #endif
         }
 
@@ -249,7 +249,7 @@ namespace Input
 #if WINDOWS_PHONE
             return Hover(area);
 #elif WINDOWS || XBOX
-            return MousePresent(area) && GetMouseButtonsDown().Length > 0;
+            return MousePresent(area) && (GetMouseButtonsDown().Length > 0 || GetMouseButtonsPressed().Length > 0);
 #endif
         }
 

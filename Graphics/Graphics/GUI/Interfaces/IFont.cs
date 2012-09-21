@@ -16,7 +16,7 @@ using Microsoft.Xna.Framework;
 namespace Graphics.GUI.Interfaces
 {
     /// <summary>
-    /// Provides font for support for controls
+    /// Provides font support for controls
     /// </summary>
     public interface IFont
     {
@@ -32,6 +32,11 @@ namespace Graphics.GUI.Interfaces
         /// </summary>
         Color FontColor { get; set; }
 
+        /// <summary>
+        /// Alpha of Font
+        /// </summary>
+        float FontAlpha { get; set; }
+
         #endregion
     }
 
@@ -40,6 +45,16 @@ namespace Graphics.GUI.Interfaces
     /// </summary>
     public static class Font
     {
+        /// <summary>
+        /// Initializes our Control with base information needed
+        /// </summary>
+        /// <param name="controlBase"></param>
+        public static void Initialize(object controlBase)
+        {
+            GuiHandler.SetPropertyValue(controlBase, "FontAlpha", 1f);
+            //GuiHandler.SetPropertyValue(controlBase, "Font", "Defualt");  TODO: Define a defualt font thats always available
+        }
+
         /// <summary>
         /// Update our IFont Interface in conjunction with the passed control
         /// </summary>

@@ -11,6 +11,7 @@
 // ------------------------------------------------------------------------
 
 using Graphics.GUI.Controls;
+using Graphics.Misc;
 using Microsoft.Xna.Framework;
 
 namespace Graphics.GUI.Interfaces
@@ -31,6 +32,11 @@ namespace Graphics.GUI.Interfaces
         /// Text offset, set automatically to ensure we don't draw text on a border
         /// </summary>
         Vector2 TextOffset { get; set; }
+
+        /// <summary>
+        /// Alignment of Text relitive to Control
+        /// </summary>
+        Enumerationcs.ContentAlignment TextAlign { get; set; }
         
         #endregion
 
@@ -66,6 +72,7 @@ namespace Graphics.GUI.Interfaces
         /// <param name="controlBase"></param>
         public static void Initialize(object controlBase)
         {
+            GuiHandler.AddEvent(controlBase, "TextChanged", "OnTextChanged");
         }
 
         /// <summary>
@@ -87,7 +94,8 @@ namespace Graphics.GUI.Interfaces
             var font = GuiHandler.GetPropertyValue(control, "Font") as string;
             var text = GuiHandler.GetPropertyValue(control, "Text") as string;
             var location = control.Location + (Vector2) GuiHandler.GetPropertyValue(control, "TextOffset");
-            var color = GuiHandler.GetPropertyValue(control, "FontColor") is Color ? (Color)GuiHandler.GetPropertyValue(control, "FontColor") : Color.Transparent;
+            var color = GuiHandler.GetPropertyValue(control, "FontColor") is Color ? 
+                (Color)GuiHandler.GetPropertyValue(control, "FontColor") * (float)GuiHandler.GetPropertyValue(control, "FontAlpha") : Color.Transparent;
             GraphicsHandler.DrawString(font, text, location, color);
         }
     }

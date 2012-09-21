@@ -12,14 +12,28 @@
 
 namespace Graphics.Misc
 {
-    public class Enumerationcs
+    public static class Enumerationcs
     {
         public enum ControlState
         {
             Normal = 0,
             Hover = 1,
             Clicked = 2,
-            Disabled = 3
+            Disabled = 3,
+            Down = 4
+        }
+
+        public enum ContentAlignment
+        {
+            TopLeft = 0,
+            TopCenter = 1,
+            TopRight = 2,
+            MiddleLeft = 3, //Defualt
+            MiddleCenter = 4, 
+            MiddleRight = 5,
+            BottomLeft = 6,
+            BottomCenter = 7,
+            BottomRight =8
         }
     }
 }

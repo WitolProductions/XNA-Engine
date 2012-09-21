@@ -40,6 +40,11 @@ namespace Graphics.GUI.Interfaces
         event ControlEvent Leave;
 
         /// <summary>
+        /// Occurs when a control is held down via mouse or touch
+        /// </summary>
+        event ControlEvent Down;
+
+        /// <summary>
         /// Occurs when a control enters into a disabled state
         /// </summary>
         event ControlEvent Disabled;
@@ -80,7 +85,14 @@ namespace Graphics.GUI.Interfaces
         /// <param name="sender"></param>
         /// <param name="eventArgs"></param>
         void OnClicked(object sender, object eventArgs);
-        
+
+        /// <summary>
+        /// Fires On Down
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="eventArgs"></param>
+        void OnDown(object sender, object eventArgs);
+
         /// <summary>
         /// On Tab Stop
         /// </summary>
@@ -109,7 +121,12 @@ namespace Graphics.GUI.Interfaces
         /// <param name="controlBase"></param>
         public static void Initialize(object controlBase)
         {
-
+            GuiHandler.AddEvent(controlBase, "Clicked", "OnClicked");
+            GuiHandler.AddEvent(controlBase, "Leave", "OnLeave");
+            GuiHandler.AddEvent(controlBase, "Enter", "OnEnter");
+            GuiHandler.AddEvent(controlBase, "Down", "OnDown");
+            GuiHandler.AddEvent(controlBase, "Disabled", "OnDisabled");
+            GuiHandler.AddEvent(controlBase, "TabStop", "OnTabStop");
         }
 
         /// <summary>
@@ -117,7 +134,6 @@ namespace Graphics.GUI.Interfaces
         /// </summary>
         public static void Update(object controlBase, GameTime gameTime)
         {
-
             var control = (ControlBase)controlBase;
 
             #region Handle Switching States
@@ -130,17 +146,16 @@ namespace Graphics.GUI.Interfaces
                     GuiHandler.FireEvent(controlBase, "OnDisabled", null);
                 }
             }
+            else if (InputHandler.Clicked(control.Bounds))
+            {//Fire click event if we complete the click
+                GuiHandler.FireEvent(controlBase, "OnClicked", null);
+            }
             else if (InputHandler.Down(control.Bounds))
             {//Simulate a click if we are holding it down
-                if (control.State != Enumerationcs.ControlState.Clicked)
-                    control.State = Enumerationcs.ControlState.Clicked;
-            }
-            else if (InputHandler.Clicked(control.Bounds))
-            {//But actually fire click event if we complete the click
-                if (control.State != Enumerationcs.ControlState.Clicked)
+                if (control.State != Enumerationcs.ControlState.Down)
                 {
-                    control.State = Enumerationcs.ControlState.Clicked;
-                    GuiHandler.FireEvent(controlBase, "OnClicked", null);
+                    control.State = Enumerationcs.ControlState.Down;
+                    GuiHandler.FireEvent(controlBase, "OnDown", null);
                 }
             }
             else if (InputHandler.Hover(control.Bounds))

@@ -68,11 +68,16 @@
       <Name>Content</Name>
     </ProjectReference>
     <ProjectReference Include="..\ContentPipeline\ContentPipeline.csproj">
-      <Project>{28B98396-C621-48C2-A484-2866BD9C04A5}</Project>
+      <Project>{285DDADF-CDB9-4A05-8849-83F6968814F8}</Project>
       <Name>ContentPipeline</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

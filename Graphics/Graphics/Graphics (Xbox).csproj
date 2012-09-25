@@ -60,7 +60,7 @@
     <Compile Include="GUI\Interfaces\IText.cs" />
     <Compile Include="GUI\Interfaces\ITyping.cs" />
     <Compile Include="Misc\Constants.cs" />
-    <Compile Include="Misc\Enumerationcs.cs" />
+    <Compile Include="Misc\Enumerations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScreenManager\ScreenBase.cs" />
     <Compile Include="ScreenManager\ScreenHandler.cs" />

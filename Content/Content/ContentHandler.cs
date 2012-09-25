@@ -17,6 +17,10 @@ using Content.Misc;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
+#if WINDOWS
+using System.Windows.Forms;
+#endif
+
 namespace Content
 {
     public class ContentHandler : DrawableGameComponent
@@ -48,6 +52,21 @@ namespace Content
 
         #endregion
 
+        #region Methods
+
+        /// <summary>
+        /// Change our Cursor into another based on the name passed
+        /// </summary>
+        /// <param name="name"></param>
+        public void ChangeCursor(string name)
+        {
+#if WINDOWS
+            Control.FromHandle(Game.Window.Handle).Cursor = Textures.GetCursor(name);
+#endif
+        }
+        
+        #endregion
+
         #region XNA Methods
 
         public override void Initialize()
@@ -56,7 +75,11 @@ namespace Content
             Files.FilesList = Content.Load<Dictionary<string, string>>(Content.RootDirectory);
 
             //return if our File List is null
-            if (Files.FilesList == null) return;
+            if (Files.FilesList == null)
+            {
+                Game.Exit();
+                return;
+            }
 
             foreach(var f in Files.FilesList)
             {
@@ -89,6 +112,18 @@ namespace Content
                             {
                                 font.Loaded = true;
                                 font.SpriteFont = loadedFont;
+                            }
+                        } break;
+                    case "GameCursor":
+                        {
+                            var content = Content.Load<GameCursor>(f.Key);
+                            if(content != null)
+                            {
+                                content.Path = f.Key;
+#if WINDOWS
+                                if (content.Cursor != null)
+                                    Textures.Add(content);
+#endif
                             }
                         } break;
                 }

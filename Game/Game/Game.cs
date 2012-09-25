@@ -17,16 +17,20 @@ using Input;
 using Input.Input.Actions;
 using Microsoft.Xna.Framework;
 
+#if WINDOWS
+using System.Windows.Forms;
+#endif
+
 namespace Engine
 {
     public abstract class TheGame : Game
     {
         #region Fields
-        
+
         /// <summary>
         /// Grants access to the Graphics Device Manager
         /// </summary>
-        public static GraphicsDeviceManager GraphicsDeviceManager;
+        public static GraphicsDeviceManager GraphicsDeviceManager = null;
 
         /// <summary>
         /// Shortcut to our Content Manager
@@ -42,6 +46,11 @@ namespace Engine
         /// Shortcut to our Screen Handler
         /// </summary>
         public static ScreenHandler Screen = null;
+
+        /// <summary>
+        /// Shortcut to our Content Handler
+        /// </summary>
+        public static ContentHandler ContentHandler = null;
 
         #endregion
 
@@ -73,8 +82,10 @@ namespace Engine
         /// </summary>
         protected override void Initialize()
         {
+            ContentHandler = new ContentHandler(this, Services, "Content");
+
             Components.Add(new InputHandler(this));
-            Components.Add(new ContentHandler(this, Services, "Content"));
+            Components.Add(ContentHandler);
             Components.Add(new ScreenHandler(this));
 
             Content = ContentHandler.Content;

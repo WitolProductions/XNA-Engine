@@ -130,19 +130,19 @@ namespace Graphics.GUI.Interfaces
             var color = Color.Transparent;
             switch (control.State)
             {
-                case Enumerationcs.ControlState.Normal:
+                case Enumerations.ControlState.Normal:
                     color = GuiHandler.GetPropertyValue(control, "BorderNormalColor") is Color ? (Color)GuiHandler.GetPropertyValue(control, "BorderNormalColor") * (float)GuiHandler.GetPropertyValue(control, "BorderNormalAlpha")
                         : Color.Transparent;
                     break;
-                case Enumerationcs.ControlState.Clicked:
+                case Enumerations.ControlState.Clicked:
                     color = GuiHandler.GetPropertyValue(control, "BorderClickedColor") is Color ? (Color)GuiHandler.GetPropertyValue(control, "BorderClickedColor") * (float)GuiHandler.GetPropertyValue(control, "BorderClickedAlpha")
                         : Color.Transparent;
                     break;
-                case Enumerationcs.ControlState.Hover:
+                case Enumerations.ControlState.Hover:
                     color = GuiHandler.GetPropertyValue(control, "BorderHoverColor") is Color ? (Color)GuiHandler.GetPropertyValue(control, "BorderHoverColor") * (float)GuiHandler.GetPropertyValue(control, "BorderHoverAlpha")
                         : Color.Transparent;
                     break;
-                case Enumerationcs.ControlState.Disabled:
+                case Enumerations.ControlState.Disabled:
                     color = GuiHandler.GetPropertyValue(control, "BorderDisabledColor") is Color ? (Color)GuiHandler.GetPropertyValue(control, "BorderDisabledColor") * (float)GuiHandler.GetPropertyValue(control, "BorderDisabledAlpha")
                         : Color.Transparent;
                     break;

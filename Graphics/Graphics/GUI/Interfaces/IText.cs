@@ -10,6 +10,9 @@
 // Document Name: IText.cs Version: 1.0 Last Edited: 9/18/2012
 // ------------------------------------------------------------------------
 
+using System.Linq;
+using Content;
+using Content.ContentHolders;
 using Graphics.GUI.Controls;
 using Graphics.Misc;
 using Microsoft.Xna.Framework;
@@ -36,7 +39,7 @@ namespace Graphics.GUI.Interfaces
         /// <summary>
         /// Alignment of Text relitive to Control
         /// </summary>
-        Enumerationcs.ContentAlignment TextAlign { get; set; }
+        Enumerations.ContentAlignment TextAlign { get; set; }
         
         #endregion
 
@@ -73,6 +76,7 @@ namespace Graphics.GUI.Interfaces
         public static void Initialize(object controlBase)
         {
             GuiHandler.AddEvent(controlBase, "TextChanged", "OnTextChanged");
+            GuiHandler.SetPropertyValue(controlBase, "TextAlign", Enumerations.ContentAlignment.MiddleLeft);
         }
 
         /// <summary>
@@ -93,10 +97,70 @@ namespace Graphics.GUI.Interfaces
             var control = (ControlBase)controlBase;
             var font = GuiHandler.GetPropertyValue(control, "Font") as string;
             var text = GuiHandler.GetPropertyValue(control, "Text") as string;
-            var location = control.Location + (Vector2) GuiHandler.GetPropertyValue(control, "TextOffset");
+            var fontSize = GraphicsHandler.MesureString((string) GuiHandler.GetPropertyValue(controlBase, "Font"), (string) GuiHandler.GetPropertyValue(controlBase, "Text"));
+
+            var location = GetPosition((ControlBase) controlBase,
+                                       (Enumerations.ContentAlignment) GuiHandler.GetPropertyValue(controlBase, "TextAlign"),
+                                       new Rectangle((int) control.Location.X, (int) control.Location.Y, (int) fontSize.X, (int) fontSize.Y));
+
             var color = GuiHandler.GetPropertyValue(control, "FontColor") is Color ? 
                 (Color)GuiHandler.GetPropertyValue(control, "FontColor") * (float)GuiHandler.GetPropertyValue(control, "FontAlpha") : Color.Transparent;
+
+
             GraphicsHandler.DrawString(font, text, location, color);
+        }
+
+
+        static Vector2 GetPosition(ControlBase control, Enumerations.ContentAlignment align, Rectangle area)
+        {
+            var borderWidth = 0;
+
+            //If our Control uses the Border Interface than we need to 
+            if (control.GetType().GetInterfaces().Where(e => e.Name == "IBorder").Count() > 0)
+                borderWidth = (int)GuiHandler.GetPropertyValue(control, "BorderWidth");
+
+            var width = control.Size.X - borderWidth;
+            var height = control.Size.Y - borderWidth;
+
+            var x = 0;
+            var y = 0;
+
+            switch(align)
+            {
+                case Enumerations.ContentAlignment.BottomCenter:
+
+                    break;
+                case Enumerations.ContentAlignment.BottomLeft:
+                    x = (int) control.Location.X;
+                    y = (int)(control.Location.Y + height - area.Height);
+                    break;
+                case Enumerations.ContentAlignment.BottomRight:
+                    break;
+                case Enumerations.ContentAlignment.MiddleCenter:
+                    break;
+                case Enumerations.ContentAlignment.MiddleLeft:
+                    x = (int) control.Location.X;
+                    y = (int) (control.Location.Y + height/2 - area.Height/2);
+                    break;
+                case Enumerations.ContentAlignment.MiddleRight:
+                    break;
+                case Enumerations.ContentAlignment.TopCenter:
+                    break;
+                case Enumerations.ContentAlignment.TopLeft:
+                    x = (int) control.Location.X;
+                    y = (int) control.Location.Y;
+                    break;
+                case Enumerations.ContentAlignment.TopRight:
+                    break;
+            }
+            //If the Interface Border is detected add border width into our calculations
+            if (control.GetType().GetInterfaces().Where(e => e.Name == "IBorder").Count() > 0)
+            {
+                x += borderWidth;
+                y += borderWidth;
+            }
+
+            return new Vector2(x, y);
         }
     }
 }

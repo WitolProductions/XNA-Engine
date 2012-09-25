@@ -38,7 +38,7 @@ namespace Graphics.GUI.Controls
         /// <summary>
         /// Controls Current State
         /// </summary>
-        public Enumerationcs.ControlState State = Enumerationcs.ControlState.Normal;
+        public Enumerations.ControlState State = Enumerations.ControlState.Normal;
 
         /// <summary>
         /// Gets and Sets if this control will run the TabStop event when it is focused

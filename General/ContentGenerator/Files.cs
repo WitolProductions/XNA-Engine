@@ -143,9 +143,6 @@ namespace ContentGenerator
                     Console.WriteLine("Writting Windows Phone Version: " + new FileInfo("..\\..\\xbox\\" + buildPath + "\\Content\\" + Content + ".xnb").FullName);
                     Write(_filesList, null, "..\\..\\xbox\\" + buildPath + "\\Content\\", Content, TargetPlatform.Xbox360);
                 }
-
-                Console.WriteLine("Press Any Key To Exit");
-                Console.ReadKey();
             }
             else
             {
@@ -187,7 +184,7 @@ namespace ContentGenerator
                 var testFile = _content.Load<object>(k);
                 tempList.Add(k, testFile.GetType().Name);
 
-                //Unload content because there is a 9
+                //Unload content because ther eis a 90 MB limit of data usage in XNA
                 _content.Unload();
 
                 //Update our Percent and write it out

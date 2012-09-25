@@ -10,6 +10,7 @@
 // Document Name: Label.cs Version: 1.0 Last Edited: 9/13/2012
 // ------------------------------------------------------------------------
 
+using System;
 using Graphics.GUI.Interfaces;
 using Graphics.Misc;
 using Microsoft.Xna.Framework;
@@ -37,7 +38,7 @@ namespace Graphics.GUI.Controls
 
         public Vector2 TextOffset { get; set; }
 
-        public Enumerationcs.ContentAlignment TextAlign { get; set; }
+        public Enumerations.ContentAlignment TextAlign { get; set; }
 
         public string Font { get; set; }
 
@@ -55,7 +56,7 @@ namespace Graphics.GUI.Controls
         public event ControlEvent Down;
         public event ControlEvent Disabled;
         public event ControlEvent TextChanged;
-        public event ControlEvent TabStop;
+        public event ControlEvent TabStoped;
 
         #endregion
 
@@ -154,7 +155,7 @@ namespace Graphics.GUI.Controls
 
         public void OnTextChanged(object sender, object eventArgs)
         {
-            Size = GraphicsHandler.MesureString(Font, Text);
+            Size = GraphicsHandler.MesureString(Font, Text) + new Vector2(BorderWidth, BorderWidth);
         }
 
         public void OnDown(object sender, object eventArgs)
@@ -162,9 +163,8 @@ namespace Graphics.GUI.Controls
             Text = "Down!";
         }
 
-        public void OnTabStop(object sender, object eventArgs)
+        public void OnTabStoped(object sender, object eventArgs)
         {
-            
         }
 
         public void OnEnter(object sender, object eventArgs)

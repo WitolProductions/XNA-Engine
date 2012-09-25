@@ -10,6 +10,7 @@
 // Document Name: IEvents.cs Version: 1.0 Last Edited: 9/13/2012
 // ------------------------------------------------------------------------
 
+using System.Linq;
 using Graphics.GUI.Controls;
 using Graphics.Misc;
 using Input;
@@ -52,7 +53,7 @@ namespace Graphics.GUI.Interfaces
         /// <summary>
         /// The attched Control was stopped on
         /// </summary>
-        event ControlEvent TabStop;
+        event ControlEvent TabStoped;
 
         #endregion
 
@@ -98,7 +99,7 @@ namespace Graphics.GUI.Interfaces
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="eventArgs"></param>
-        void OnTabStop(object sender, object eventArgs);
+        void OnTabStoped(object sender, object eventArgs);
 
         #endregion
     }
@@ -126,7 +127,7 @@ namespace Graphics.GUI.Interfaces
             GuiHandler.AddEvent(controlBase, "Enter", "OnEnter");
             GuiHandler.AddEvent(controlBase, "Down", "OnDown");
             GuiHandler.AddEvent(controlBase, "Disabled", "OnDisabled");
-            GuiHandler.AddEvent(controlBase, "TabStop", "OnTabStop");
+            GuiHandler.AddEvent(controlBase, "TabStoped", "OnTabStoped");
         }
 
         /// <summary>
@@ -135,42 +136,51 @@ namespace Graphics.GUI.Interfaces
         public static void Update(object controlBase, GameTime gameTime)
         {
             var control = (ControlBase)controlBase;
+            var bounds = control.Bounds;
+
+            //If the Interface Border is detected add border width into our calculations
+            if (control.GetType().GetInterfaces().Where(e => e.Name == "IBorder").Count() > 0)
+            {
+                var borderWidth = (int)GuiHandler.GetPropertyValue(control, "BorderWidth");
+                bounds = new Rectangle((int)control.Location.X + borderWidth, (int)control.Location.Y + borderWidth, (int)control.Size.X - borderWidth, (int)control.Size.Y - borderWidth);
+            }
+
 
             #region Handle Switching States
 
             if (!control.Enabled)
             {//Set to Disabled if needed
-                if (control.State != Enumerationcs.ControlState.Disabled)
+                if (control.State != Enumerations.ControlState.Disabled)
                 {
-                    control.State = Enumerationcs.ControlState.Disabled;
+                    control.State = Enumerations.ControlState.Disabled;
                     GuiHandler.FireEvent(controlBase, "OnDisabled", null);
                 }
             }
-            else if (InputHandler.Clicked(control.Bounds))
+            else if (InputHandler.Clicked(bounds))
             {//Fire click event if we complete the click
                 GuiHandler.FireEvent(controlBase, "OnClicked", null);
             }
-            else if (InputHandler.Down(control.Bounds))
+            else if (InputHandler.Down(bounds))
             {//Simulate a click if we are holding it down
-                if (control.State != Enumerationcs.ControlState.Down)
+                if (control.State != Enumerations.ControlState.Down)
                 {
-                    control.State = Enumerationcs.ControlState.Down;
+                    control.State = Enumerations.ControlState.Down;
                     GuiHandler.FireEvent(controlBase, "OnDown", null);
                 }
             }
-            else if (InputHandler.Hover(control.Bounds))
+            else if (InputHandler.Hover(bounds))
             {//Else maybe we are just hovering
-                if (control.State != Enumerationcs.ControlState.Hover)
+                if (control.State != Enumerations.ControlState.Hover)
                 {
-                    control.State = Enumerationcs.ControlState.Hover;
+                    control.State = Enumerations.ControlState.Hover;
                     GuiHandler.FireEvent(controlBase, "OnEnter", null);
                 }
             }
             else
             {//Else we are doing nothing
-                if (control.State != Enumerationcs.ControlState.Normal)
+                if (control.State != Enumerations.ControlState.Normal)
                 {
-                    control.State = Enumerationcs.ControlState.Normal;
+                    control.State = Enumerations.ControlState.Normal;
                     GuiHandler.FireEvent(controlBase, "OnLeave", null);
                 }
             }

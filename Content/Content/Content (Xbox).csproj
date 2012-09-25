@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="ContentHandler.cs" />
     <Compile Include="ContentHolders\Textures.cs" />
+    <Compile Include="ContentTypes\GameCursor.cs" />
     <Compile Include="ContentTypes\Files.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -54,6 +55,7 @@
     <Compile Include="ContentTypes\SpriteSheet.cs" />
     <Compile Include="CustomContentManager.cs" />
     <Compile Include="Misc\Constants.cs" />
+    <Compile Include="Misc\NativeMethods.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

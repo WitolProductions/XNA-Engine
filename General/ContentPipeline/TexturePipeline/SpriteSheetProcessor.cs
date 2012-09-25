@@ -23,7 +23,7 @@ namespace ContentPipeline.TexturePipeline
     /// arranges them onto a single larger texture, and returns the resulting sprite
     /// sheet object.
     /// </summary>
-    [ContentProcessor]
+    [ContentProcessor(DisplayName = "Sprite Sheet Processor - Engine")]
     public class SpriteSheetProcessor : ContentProcessor<string[], SpriteSheetContent>
     {
         /// <summary>

@@ -17,6 +17,10 @@ using Content.ContentTypes;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
+#if WINDOWS
+using System.Windows.Forms;
+#endif
+
 namespace Content.ContentHolders
 {
     public static class Textures
@@ -38,6 +42,20 @@ namespace Content.ContentHolders
         /// </summary>
         static List<Font> _fonts = null;
         
+        /// <summary>
+        /// List of our Cursors
+        /// </summary>
+        static List<GameCursor> _cursors = null;
+        
+        #endregion
+
+        #region Properties
+        
+        /// <summary>
+        /// Cursor currently being displayed
+        /// </summary>
+        static string CurrentCursor { get; set; }
+        
         #endregion
 
         #region XNA Methods
@@ -47,6 +65,7 @@ namespace Content.ContentHolders
             _spriteSheets = new List<SpriteSheet>();
             _textures = new List<GameTexture2D>();
             _fonts = new List<Font>();
+            _cursors = new List<GameCursor>();
         }
 
         public static void Update(GameTime gameTime)
@@ -61,6 +80,35 @@ namespace Content.ContentHolders
                 ContentHandler.Unload<SpriteSheet>(spriteSheet);
             }
         }
+
+        #endregion
+
+        #region Game Cursor Methods
+
+        /// <summary>
+        /// Add the passed Cursor
+        /// </summary>
+        /// <param name="gameCursor"></param>
+        public static void Add(GameCursor gameCursor)
+        {
+            _cursors.Add(gameCursor);
+        }
+
+#if WINDOWS
+        /// <summary>
+        /// Get a cursor based on the name sent
+        /// </summary>
+        /// <param name="name"></param>
+        public static Cursor GetCursor(string name)
+        {
+            foreach (var c in _cursors.Where(c => c.Path == name))
+                return c.Cursor;
+
+            throw new Exception("Could not locate Cursor: " + name);
+        }
+
+
+#endif
 
         #endregion
 
@@ -241,7 +289,6 @@ namespace Content.ContentHolders
         }
 
         #endregion
-
 
     }
 }

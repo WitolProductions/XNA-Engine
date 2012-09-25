@@ -14,7 +14,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Content.ContentTypes
 {
-    public class Font
+    public class Font 
     {
         /// <summary>
         /// Our Sprite Font

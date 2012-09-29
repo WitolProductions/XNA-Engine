@@ -102,11 +102,11 @@ namespace Graphics.GUI.Interfaces
         /// <param name="controlBase"></param>
         public static void Initialize(object controlBase)
         {
-            GuiHandler.SetPropertyValue(controlBase, "BorderNormalAlpha", 1f);
-            GuiHandler.SetPropertyValue(controlBase, "BorderClickedAlpha", 1f);
-            GuiHandler.SetPropertyValue(controlBase, "BorderHoverAlpha", 1f);
-            GuiHandler.SetPropertyValue(controlBase, "BorderDisabledAlpha", 1f);
-            GuiHandler.SetPropertyValue(controlBase, "BorderWidth", 1);
+            ReflectionHelper.SetPropertyValue(controlBase, "BorderNormalAlpha", 1f);
+            ReflectionHelper.SetPropertyValue(controlBase, "BorderClickedAlpha", 1f);
+            ReflectionHelper.SetPropertyValue(controlBase, "BorderHoverAlpha", 1f);
+            ReflectionHelper.SetPropertyValue(controlBase, "BorderDisabledAlpha", 1f);
+            ReflectionHelper.SetPropertyValue(controlBase, "BorderWidth", 1);
         }
 
         /// <summary>
@@ -131,19 +131,19 @@ namespace Graphics.GUI.Interfaces
             switch (control.State)
             {
                 case Enumerations.ControlState.Normal:
-                    color = GuiHandler.GetPropertyValue(control, "BorderNormalColor") is Color ? (Color)GuiHandler.GetPropertyValue(control, "BorderNormalColor") * (float)GuiHandler.GetPropertyValue(control, "BorderNormalAlpha")
+                    color = ReflectionHelper.GetPropertyValue(control, "BorderNormalColor") is Color ? (Color)ReflectionHelper.GetPropertyValue(control, "BorderNormalColor") * (float)ReflectionHelper.GetPropertyValue(control, "BorderNormalAlpha")
                         : Color.Transparent;
                     break;
                 case Enumerations.ControlState.Clicked:
-                    color = GuiHandler.GetPropertyValue(control, "BorderClickedColor") is Color ? (Color)GuiHandler.GetPropertyValue(control, "BorderClickedColor") * (float)GuiHandler.GetPropertyValue(control, "BorderClickedAlpha")
+                    color = ReflectionHelper.GetPropertyValue(control, "BorderClickedColor") is Color ? (Color)ReflectionHelper.GetPropertyValue(control, "BorderClickedColor") * (float)ReflectionHelper.GetPropertyValue(control, "BorderClickedAlpha")
                         : Color.Transparent;
                     break;
                 case Enumerations.ControlState.Hover:
-                    color = GuiHandler.GetPropertyValue(control, "BorderHoverColor") is Color ? (Color)GuiHandler.GetPropertyValue(control, "BorderHoverColor") * (float)GuiHandler.GetPropertyValue(control, "BorderHoverAlpha")
+                    color = ReflectionHelper.GetPropertyValue(control, "BorderHoverColor") is Color ? (Color)ReflectionHelper.GetPropertyValue(control, "BorderHoverColor") * (float)ReflectionHelper.GetPropertyValue(control, "BorderHoverAlpha")
                         : Color.Transparent;
                     break;
                 case Enumerations.ControlState.Disabled:
-                    color = GuiHandler.GetPropertyValue(control, "BorderDisabledColor") is Color ? (Color)GuiHandler.GetPropertyValue(control, "BorderDisabledColor") * (float)GuiHandler.GetPropertyValue(control, "BorderDisabledAlpha")
+                    color = ReflectionHelper.GetPropertyValue(control, "BorderDisabledColor") is Color ? (Color)ReflectionHelper.GetPropertyValue(control, "BorderDisabledColor") * (float)ReflectionHelper.GetPropertyValue(control, "BorderDisabledAlpha")
                         : Color.Transparent;
                     break;
             }
@@ -151,7 +151,7 @@ namespace Graphics.GUI.Interfaces
             #endregion
 
 
-            GraphicsHandler.DrawRectangle(control.Bounds, color, (int) GuiHandler.GetPropertyValue(control, "BorderWidth"));
+            GraphicsHandler.DrawRectangle(control.Bounds, color, (int)ReflectionHelper.GetPropertyValue(control, "BorderWidth"));
 
 
         }

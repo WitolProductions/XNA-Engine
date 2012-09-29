@@ -11,8 +11,6 @@
 // ------------------------------------------------------------------------
 
 using System.Linq;
-using Content;
-using Content.ContentHolders;
 using Graphics.GUI.Controls;
 using Graphics.Misc;
 using Microsoft.Xna.Framework;
@@ -32,6 +30,11 @@ namespace Graphics.GUI.Interfaces
         string Text { get; set; }
 
         /// <summary>
+        /// Temp text used to detect a change in Text
+        /// </summary>
+        string TempText { get; set; }
+
+        /// <summary>
         /// Text offset, set automatically to ensure we don't draw text on a border
         /// </summary>
         Vector2 TextOffset { get; set; }
@@ -48,7 +51,7 @@ namespace Graphics.GUI.Interfaces
         /// <summary>
         /// Text was changed
         /// </summary>
-        event ControlEvent TextChanged;
+        event EventHelper.ControlEvent TextChanged;
 
         #endregion
 
@@ -75,8 +78,8 @@ namespace Graphics.GUI.Interfaces
         /// <param name="controlBase"></param>
         public static void Initialize(object controlBase)
         {
-            GuiHandler.AddEvent(controlBase, "TextChanged", "OnTextChanged");
-            GuiHandler.SetPropertyValue(controlBase, "TextAlign", Enumerations.ContentAlignment.MiddleLeft);
+            EventHelper.AddEvent(controlBase, "TextChanged", typeof(IText), "OnTextChanged");
+            ReflectionHelper.SetPropertyValue(controlBase, "TextAlign", Enumerations.ContentAlignment.MiddleLeft);
         }
 
         /// <summary>
@@ -86,6 +89,15 @@ namespace Graphics.GUI.Interfaces
         {
             var control = (ControlBase)controlBase;
 
+            var tempText = ReflectionHelper.GetPropertyValue(control, "TempText") as string;
+            var text = ReflectionHelper.GetPropertyValue(control, "Text") as string;
+
+            if (text != null) 
+                if (!text.Equals(tempText))
+                {
+                    ReflectionHelper.SetPropertyValue(control, "TempText", text);
+                    EventHelper.FireEvent(controlBase, "TextChanged", null);
+                }
         }
 
         /// <summary>
@@ -95,16 +107,16 @@ namespace Graphics.GUI.Interfaces
         {
             //Gather information on Font, Color, Text, etc. and then draw it
             var control = (ControlBase)controlBase;
-            var font = GuiHandler.GetPropertyValue(control, "Font") as string;
-            var text = GuiHandler.GetPropertyValue(control, "Text") as string;
-            var fontSize = GraphicsHandler.MesureString((string) GuiHandler.GetPropertyValue(controlBase, "Font"), (string) GuiHandler.GetPropertyValue(controlBase, "Text"));
+            var font = ReflectionHelper.GetPropertyValue(control, "Font") as string;
+            var text = ReflectionHelper.GetPropertyValue(control, "Text") as string;
+            var fontSize = GraphicsHandler.MesureString((string)ReflectionHelper.GetPropertyValue(controlBase, "Font"), (string)ReflectionHelper.GetPropertyValue(controlBase, "Text"));
 
             var location = GetPosition((ControlBase) controlBase,
-                                       (Enumerations.ContentAlignment) GuiHandler.GetPropertyValue(controlBase, "TextAlign"),
+                                       (Enumerations.ContentAlignment) ReflectionHelper.GetPropertyValue(controlBase, "TextAlign"),
                                        new Rectangle((int) control.Location.X, (int) control.Location.Y, (int) fontSize.X, (int) fontSize.Y));
 
-            var color = GuiHandler.GetPropertyValue(control, "FontColor") is Color ? 
-                (Color)GuiHandler.GetPropertyValue(control, "FontColor") * (float)GuiHandler.GetPropertyValue(control, "FontAlpha") : Color.Transparent;
+            var color = ReflectionHelper.GetPropertyValue(control, "FontColor") is Color ?
+                (Color)ReflectionHelper.GetPropertyValue(control, "FontColor") * (float)ReflectionHelper.GetPropertyValue(control, "FontAlpha") : Color.Transparent;
 
 
             GraphicsHandler.DrawString(font, text, location, color);
@@ -117,7 +129,7 @@ namespace Graphics.GUI.Interfaces
 
             //If our Control uses the Border Interface than we need to 
             if (control.GetType().GetInterfaces().Where(e => e.Name == "IBorder").Count() > 0)
-                borderWidth = (int)GuiHandler.GetPropertyValue(control, "BorderWidth");
+                borderWidth = (int)ReflectionHelper.GetPropertyValue(control, "BorderWidth");
 
             var width = control.Size.X - borderWidth;
             var height = control.Size.Y - borderWidth;

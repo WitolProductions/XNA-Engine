@@ -32,12 +32,12 @@ namespace Graphics.GUI.Interfaces
         /// <summary>
         /// Control was added to the control
         /// </summary>
-        event ControlEvent ControlAdded;
+        event EventHelper.ControlEvent ControlAdded;
 
         /// <summary>
         /// Control was removed from the control
         /// </summary>
-        event ControlEvent ControlRemoved;
+        event EventHelper.ControlEvent ControlRemoved;
         
         #endregion
 

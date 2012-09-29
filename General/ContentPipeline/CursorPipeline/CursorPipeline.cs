@@ -62,6 +62,11 @@ namespace ContentPipeline.CursorPipeline
     {
         #region Overrides of ContentTypeWriter
 
+        /// <summary>
+        /// Returns information on what class it should attempt to load this File into
+        ///  </summary>
+        /// <param name="targetPlatform"></param>
+        /// <returns></returns>
         public override string GetRuntimeReader(TargetPlatform targetPlatform)
         {
             return "Content.ContentTypes.GameCursorReader, Content";
@@ -71,11 +76,16 @@ namespace ContentPipeline.CursorPipeline
 
         #region Overrides of ContentTypeWriter<Cursor>
 
+        /// <summary>
+        /// Write out the data of our CursorContent into our xnb file
+        /// </summary>
+        /// <param name="output"></param>
+        /// <param name="value"></param>
         protected override void Write(ContentWriter output, CursorContent value)
         {
-            output.Write(value.Extension);
-            output.Write(value.Data.Length);
-            output.Write(value.Data);
+            output.Write(value.Extension); //Write our files original extension
+            output.Write(value.Data.Length); //Write the length of our file
+            output.Write(value.Data); //And finally write our file to the ouput xnb file
         }
 
         #endregion

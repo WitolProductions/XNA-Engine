@@ -34,7 +34,7 @@ namespace Graphics.GUI.Interfaces
         /// <summary>
         /// Selected Index Changed
         /// </summary>
-        event ControlEvent SelectedIndexChanged;
+        event EventHelper.ControlEvent SelectedIndexChanged;
 
         #endregion
 

@@ -31,7 +31,7 @@ namespace Graphics.GUI.Interfaces
         /// <summary>
         /// Check State Changed
         /// </summary>
-        event ControlEvent CheckStateChanged;
+        event EventHelper.ControlEvent CheckStateChanged;
         
         #endregion
 

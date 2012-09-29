@@ -98,10 +98,10 @@ namespace Graphics.GUI.Interfaces
         /// <param name="controlBase"></param>
         public static void Initialize(object controlBase)
         {
-            GuiHandler.SetPropertyValue(controlBase, "BackgroundNormalAlpha", 1f);
-            GuiHandler.SetPropertyValue(controlBase, "BackgroundClickedAlpha", 1f);
-            GuiHandler.SetPropertyValue(controlBase, "BackgroundHoverAlpha", 1f);
-            GuiHandler.SetPropertyValue(controlBase, "BackgroundDisabledAlpha", 1f);
+            ReflectionHelper.SetPropertyValue(controlBase, "BackgroundNormalAlpha", 1f);
+            ReflectionHelper.SetPropertyValue(controlBase, "BackgroundClickedAlpha", 1f);
+            ReflectionHelper.SetPropertyValue(controlBase, "BackgroundHoverAlpha", 1f);
+            ReflectionHelper.SetPropertyValue(controlBase, "BackgroundDisabledAlpha", 1f);
         }
         
         /// <summary>
@@ -126,19 +126,19 @@ namespace Graphics.GUI.Interfaces
             switch (control.State)
             {
                 case Enumerations.ControlState.Normal:
-                    color = GuiHandler.GetPropertyValue(control, "BackgroundNormalColor") is Color ? (Color)GuiHandler.GetPropertyValue(control, "BackgroundNormalColor") * (float) GuiHandler.GetPropertyValue(control, "BackgroundNormalAlpha")
+                    color = ReflectionHelper.GetPropertyValue(control, "BackgroundNormalColor") is Color ? (Color)ReflectionHelper.GetPropertyValue(control, "BackgroundNormalColor") * (float)ReflectionHelper.GetPropertyValue(control, "BackgroundNormalAlpha")
                         : Color.Transparent;
                     break;
                 case Enumerations.ControlState.Clicked:
-                    color = GuiHandler.GetPropertyValue(control, "BackgroundClickedColor") is Color ? (Color)GuiHandler.GetPropertyValue(control, "BackgroundClickedColor") * (float)GuiHandler.GetPropertyValue(control, "BackgroundClickedAlpha") 
+                    color = ReflectionHelper.GetPropertyValue(control, "BackgroundClickedColor") is Color ? (Color)ReflectionHelper.GetPropertyValue(control, "BackgroundClickedColor") * (float)ReflectionHelper.GetPropertyValue(control, "BackgroundClickedAlpha") 
                         : Color.Transparent;
                     break;
                 case Enumerations.ControlState.Hover:
-                    color = GuiHandler.GetPropertyValue(control, "BackgroundHoverColor") is Color ? (Color)GuiHandler.GetPropertyValue(control, "BackgroundHoverColor") * (float)GuiHandler.GetPropertyValue(control, "BackgroundHoverAlpha") 
+                    color = ReflectionHelper.GetPropertyValue(control, "BackgroundHoverColor") is Color ? (Color)ReflectionHelper.GetPropertyValue(control, "BackgroundHoverColor") * (float)ReflectionHelper.GetPropertyValue(control, "BackgroundHoverAlpha") 
                         : Color.Transparent;
                     break;
                 case Enumerations.ControlState.Disabled:
-                    color = GuiHandler.GetPropertyValue(control, "BackgroundDisabledColor") is Color ? (Color)GuiHandler.GetPropertyValue(control, "BackgroundDisabledColor") * (float)GuiHandler.GetPropertyValue(control, "BackgroundDisabledAlpha") 
+                    color = ReflectionHelper.GetPropertyValue(control, "BackgroundDisabledColor") is Color ? (Color)ReflectionHelper.GetPropertyValue(control, "BackgroundDisabledColor") * (float)ReflectionHelper.GetPropertyValue(control, "BackgroundDisabledAlpha") 
                         : Color.Transparent;
                     break;
             }
@@ -150,7 +150,7 @@ namespace Graphics.GUI.Interfaces
             //If border is used with this control we need to alter the bounds a bit
             if (control.GetType().GetInterfaces().Where(e => e.Name == "IBorder").Count() > 0)
             {
-                var borderWidth = (int)GuiHandler.GetPropertyValue(control, "BorderWidth");
+                var borderWidth = (int)ReflectionHelper.GetPropertyValue(control, "BorderWidth");
                 var x = (int) control.Location.X + borderWidth;
                 var y = (int) control.Location.Y + borderWidth;
                 var width =  (int)control.Size.X - borderWidth;

@@ -28,32 +28,32 @@ namespace Graphics.GUI.Interfaces
         /// <summary>
         /// Occurs when a control is clicked via mouse or touch
         /// </summary>
-        event ControlEvent Clicked;
+        event EventHelper.ControlEvent Clicked;
 
         /// <summary>
         /// Occurs when a control is entered either with the mouse o touch
         /// </summary>
-        event ControlEvent Enter;
+        event EventHelper.ControlEvent Enter;
         
         /// <summary>
         /// Occurs when a control is left either with the mouse or touch
         /// </summary>
-        event ControlEvent Leave;
+        event EventHelper.ControlEvent Leave;
 
         /// <summary>
         /// Occurs when a control is held down via mouse or touch
         /// </summary>
-        event ControlEvent Down;
+        event EventHelper.ControlEvent Down;
 
         /// <summary>
         /// Occurs when a control enters into a disabled state
         /// </summary>
-        event ControlEvent Disabled;
+        event EventHelper.ControlEvent Disabled;
         
         /// <summary>
         /// The attched Control was stopped on
         /// </summary>
-        event ControlEvent TabStoped;
+        event EventHelper.ControlEvent TabStoped;
 
         #endregion
 
@@ -104,13 +104,8 @@ namespace Graphics.GUI.Interfaces
         #endregion
     }
 
-    /// <summary>
-    /// Control Event Delegate, handles passing information about an event that fires
-    /// </summary>
-    /// <param name="sender">Control event fired from</param>
-    /// <param name="args">Information about even that fired</param>
-    public delegate void ControlEvent(object sender, object args);
-
+    
+    
     /// <summary>
     /// Handles Updating our Event Interface
     /// </summary>
@@ -122,12 +117,12 @@ namespace Graphics.GUI.Interfaces
         /// <param name="controlBase"></param>
         public static void Initialize(object controlBase)
         {
-            GuiHandler.AddEvent(controlBase, "Clicked", "OnClicked");
-            GuiHandler.AddEvent(controlBase, "Leave", "OnLeave");
-            GuiHandler.AddEvent(controlBase, "Enter", "OnEnter");
-            GuiHandler.AddEvent(controlBase, "Down", "OnDown");
-            GuiHandler.AddEvent(controlBase, "Disabled", "OnDisabled");
-            GuiHandler.AddEvent(controlBase, "TabStoped", "OnTabStoped");
+            EventHelper.AddEvent(controlBase, "Clicked", typeof(IEvents), "OnClicked");
+            EventHelper.AddEvent(controlBase, "Leave", typeof(IEvents), "OnLeave");
+            EventHelper.AddEvent(controlBase, "Enter", typeof(IEvents), "OnEnter");
+            EventHelper.AddEvent(controlBase, "Down", typeof(IEvents), "OnDown");
+            EventHelper.AddEvent(controlBase, "Disabled", typeof(IEvents), "OnDisabled");
+            EventHelper.AddEvent(controlBase, "TabStoped", typeof(IEvents), "OnTabStoped");
         }
 
         /// <summary>
@@ -141,7 +136,7 @@ namespace Graphics.GUI.Interfaces
             //If the Interface Border is detected add border width into our calculations
             if (control.GetType().GetInterfaces().Where(e => e.Name == "IBorder").Count() > 0)
             {
-                var borderWidth = (int)GuiHandler.GetPropertyValue(control, "BorderWidth");
+                var borderWidth = (int)ReflectionHelper.GetPropertyValue(control, "BorderWidth");
                 bounds = new Rectangle((int)control.Location.X + borderWidth, (int)control.Location.Y + borderWidth, (int)control.Size.X - borderWidth, (int)control.Size.Y - borderWidth);
             }
 
@@ -153,19 +148,19 @@ namespace Graphics.GUI.Interfaces
                 if (control.State != Enumerations.ControlState.Disabled)
                 {
                     control.State = Enumerations.ControlState.Disabled;
-                    GuiHandler.FireEvent(controlBase, "OnDisabled", null);
+                    EventHelper.FireEvent(controlBase, "Disabled", null);
                 }
             }
             else if (InputHandler.Clicked(bounds))
             {//Fire click event if we complete the click
-                GuiHandler.FireEvent(controlBase, "OnClicked", null);
+                EventHelper.FireEvent(control, "Clicked", null);
             }
             else if (InputHandler.Down(bounds))
             {//Simulate a click if we are holding it down
                 if (control.State != Enumerations.ControlState.Down)
                 {
                     control.State = Enumerations.ControlState.Down;
-                    GuiHandler.FireEvent(controlBase, "OnDown", null);
+                    EventHelper.FireEvent(controlBase, "Down", null);
                 }
             }
             else if (InputHandler.Hover(bounds))
@@ -173,7 +168,7 @@ namespace Graphics.GUI.Interfaces
                 if (control.State != Enumerations.ControlState.Hover)
                 {
                     control.State = Enumerations.ControlState.Hover;
-                    GuiHandler.FireEvent(controlBase, "OnEnter", null);
+                    EventHelper.FireEvent(controlBase, "Enter", null);
                 }
             }
             else
@@ -181,7 +176,7 @@ namespace Graphics.GUI.Interfaces
                 if (control.State != Enumerations.ControlState.Normal)
                 {
                     control.State = Enumerations.ControlState.Normal;
-                    GuiHandler.FireEvent(controlBase, "OnLeave", null);
+                    EventHelper.FireEvent(controlBase, "Leave", null);
                 }
             }
 

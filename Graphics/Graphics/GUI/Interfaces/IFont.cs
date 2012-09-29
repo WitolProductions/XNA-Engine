@@ -51,7 +51,7 @@ namespace Graphics.GUI.Interfaces
         /// <param name="controlBase"></param>
         public static void Initialize(object controlBase)
         {
-            GuiHandler.SetPropertyValue(controlBase, "FontAlpha", 1f);
+            ReflectionHelper.SetPropertyValue(controlBase, "FontAlpha", 1f);
             //GuiHandler.SetPropertyValue(controlBase, "Font", "Defualt");  TODO: Define a defualt font thats always available
         }
 

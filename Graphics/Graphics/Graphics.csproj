@@ -65,6 +65,7 @@
     <Compile Include="GUI\Controls\ControlBase.cs" />
     <Compile Include="GUI\Controls\GuiForm.cs" />
     <Compile Include="GUI\Controls\Label.cs" />
+    <Compile Include="GUI\EventHelper.cs" />
     <Compile Include="GUI\GuiHandler.cs" />
     <Compile Include="GUI\Interfaces\Checked.cs" />
     <Compile Include="GUI\Interfaces\IBackground.cs" />
@@ -76,6 +77,7 @@
     <Compile Include="GUI\Interfaces\IPicture.cs" />
     <Compile Include="GUI\Interfaces\IText.cs" />
     <Compile Include="GUI\Interfaces\ITyping.cs" />
+    <Compile Include="GUI\ReflectionHelper.cs" />
     <Compile Include="Misc\Constants.cs" />
     <Compile Include="Misc\Enumerations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

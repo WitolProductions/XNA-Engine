@@ -10,7 +10,6 @@
 // Document Name: Label.cs Version: 1.0 Last Edited: 9/13/2012
 // ------------------------------------------------------------------------
 
-using System;
 using Graphics.GUI.Interfaces;
 using Graphics.Misc;
 using Microsoft.Xna.Framework;
@@ -21,20 +20,15 @@ namespace Graphics.GUI.Controls
     {
         #region Fields
 
-        string _text = null;
-
         #endregion
 
         #region Inherited Properties
 
         #region Implementation of IFont
 
-        public string Text { get { return _text; } 
-            set
-            {
-                _text = value;
-                OnTextChanged(this, null);
-            } }
+        public string Text { get; set; }
+
+        public string TempText { get; set; }
 
         public Vector2 TextOffset { get; set; }
 
@@ -50,13 +44,13 @@ namespace Graphics.GUI.Controls
 
         #region Implementation of IEvents
         
-        public event ControlEvent Clicked;
-        public event ControlEvent Enter;
-        public event ControlEvent Leave;
-        public event ControlEvent Down;
-        public event ControlEvent Disabled;
-        public event ControlEvent TextChanged;
-        public event ControlEvent TabStoped;
+        public event EventHelper.ControlEvent Clicked;
+        public event EventHelper.ControlEvent Enter;
+        public event EventHelper.ControlEvent Leave;
+        public event EventHelper.ControlEvent Down;
+        public event EventHelper.ControlEvent Disabled;
+        public event EventHelper.ControlEvent TextChanged;
+        public event EventHelper.ControlEvent TabStoped;
 
         #endregion
 
@@ -124,7 +118,7 @@ namespace Graphics.GUI.Controls
 
         public Label(Game game) : base(game)
         {
-            
+            Text = null;
         }
 
         #endregion
@@ -185,7 +179,7 @@ namespace Graphics.GUI.Controls
         {
             Text = "Clicked!";
         }
-
+    
         #endregion
     }
 }
